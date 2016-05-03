@@ -1,0 +1,76 @@
+@import "compass";
+@import "partials/variables";
+@import "partials/deleteThis";
+@import "features/feedbackCard";
+@import "compass/css3";
+@import "compass/css3/box-sizing";
+@import "compass/css3/border-radius";
+
+*{
+	@include box-sizing(border-box);
+}
+
+body{
+	font-family: calibri, 'Open Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size:$appFontSize;
+	line-height:$appLineHeight;
+	font-weight:$normalFontWeight;
+}
+
+.perdiff{
+	display:inline-block;
+	font-size:$perFontSize;
+	font-weight:$normalFontWeight;
+	padding-top:$h3lineHeight - $perFontSize - 1;
+	width:$perSpanWidth;
+}
+
+#container{
+	background-image : url("../images/Pattern.png");
+}
+
+#locationName{
+	font-weight:normal;
+}
+
+.whiteText{
+	color:$white;
+}
+
+.darkGreenTextColor{
+	color:$darkGreen;
+}
+
+.totalRating{
+	display:inline-block;
+}
+
+.highlight{
+	background-color: rgba($white, 0.45);
+	height:$highlightBoxHeight;
+	border:1px solid $transparent;
+	@include border-radius(2px);
+}
+
+.leftHighlight{
+	width:50%;
+	margin-left:5%;
+	margin-right:5%;
+
+	& div h3{
+		padding-left:$perSpanWidth;
+	}
+}
+
+.rightHighlight{
+	width:30%;
+	marigin-right:5%;
+	margin-left:5%;
+}
+
+
+
+
+
+
+

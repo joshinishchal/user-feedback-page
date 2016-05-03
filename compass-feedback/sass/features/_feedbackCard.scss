@@ -1,0 +1,17 @@
+.npComplainCard{
+	width:80%;
+	margin-left:10%;
+	margin-right:10%;
+
+	& .card-header .customer{
+		color:$black;
+		font-weight:$userNameFontWeight;
+	}
+}
+
+.card-blockquote{
+	span{
+		color:$lightgrey;
+	}
+}
+
