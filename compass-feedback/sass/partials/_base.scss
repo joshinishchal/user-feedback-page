@@ -2,10 +2,24 @@
 
 .container{
 	width:$containerWidth;
+	margin-top:0;
 }
 
 *.row{
 	width:$containerWidth;
 	padding-left:inherit;
 	padding-right:inherit;
+}
+
+.pullRight{
+	float:right;
+}
+
+.pullLeft{
+	float:left;
+}
+
+.feedbackAppButton{
+	background-color:$lightBlue;
+	@include opacity(0.9);
 }

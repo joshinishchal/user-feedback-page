@@ -30,9 +30,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
 
     <div id="container" class="container">
-    	<div class="row">
+    	<div class="row locationName-row">
     		<!--// name of the club-->
-    		<div class="col-xs-12">
+    		<div class="col-xs-12 locationName-col">
     			<h4 id="locationName" class="whiteText text-xs-center">California Avenue</h4>
     		</div>
     	</div>
@@ -46,28 +46,26 @@
     				<h3 class="card-title darkGreenTextColor">3.1<span class="card-text whiteText pull-xs-right pull-sm-right pull-md-right pull-lg-right perdiff">+2.3%</span></h3>
     			</div>
 				<p class="card-text whiteText">from 2 reviews</p>
-<!-- 				<a href="#" class="card-link">Card link</a>
-				<a href="#" class="card-link">Another link</a> -->
 			</div>
 
 			<div class="col-xs-4 card text-xs-center highlight rightHighlight">
     			<p class="card-text whiteText">All-Time</p>
 				<h3 class="card-title whiteText">2.8</h3>
 				<p class="card-text whiteText">from 342 reviews</p>
-<!-- 				<a href="#" class="card-link">Card link</a>
-				<a href="#" class="card-link">Another link</a> -->
 			</div>
 
     	</div>
 
-    	<div class="row">
-    		<!-- div that shows feedback-->
+    	<div class="row feedBack">
+            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"><hr class=""></div>
+            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2 whiteText text-xs-center">Feedback</div>
+            <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5"><hr class=""></div>
     	</div>
 
-    	<div class="row">
-    		<div class="col-xs-6">Yesterday</div>
-    		<div class="col-xs-6"></div>
-    	</div>
+        <div class="row dateButtons">
+            <div class="col-xs-6"><button type="button" class="btn pullLeft whiteText feedbackAppButton">Yesterday</button></div>
+            <div class="col-xs-6"><button type="button" class="btn pullRight whiteText feedbackAppButton">Tomorrow</button></div>
+        </div>
 
     	<div class="row npComplainCard">
 			<div class="card col-xs-12">
@@ -84,19 +82,20 @@
 				<div class="card-block">
 					<blockquote class="card-blockquote">
 						<p>The showers were gross and the hot water wasn't working!! This is three days in a row now!!!!</p>
-						<!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
 					</blockquote>
-                    <p class="pull-xs-right pull-sm-right pull-md-right pull--right">Open for 5h</p>
+                    <p class="ticketDuration text-xs-center">Open for 5h</p>
                     <hr class="divider">
-                    <p><a href="#" class="card-link">mnajjar@netpulse.com</a><a href="#" class="card-link">(914) 216-1960</a></p>
+                    <button type="button" class="btn btn-secondary pullLeft text-muted">Call</button>
+                    <button type="button" class="btn btn-secondary pullRight text-muted">Email</button>
 				</div>
 			</div>
 
 		</div>
 
 
-
-
+        <div class="row loadmoreButton">
+            <div class="col-xs-12 text-xs-center"><button type="button" class="btn whiteText feedbackAppButton">Load More</button></div>
+        </div>
 
     </div>
 

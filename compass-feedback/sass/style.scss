@@ -1,12 +1,13 @@
 @import "compass";
 @import "partials/variables";
-@import "partials/base";
-@import "partials/deleteThis";
-@import "features/feedbackCard";
 @import "compass/css3";
 @import "compass/css3/box-sizing";
 @import "compass/css3/border-radius";
 @import "compass/css3/font-face";
+@import "compass/css3/opacity";
+@import "partials/base";
+@import "partials/deleteThis";
+@import "features/feedbackCard";
 
 *{
 	@include box-sizing(border-box);
@@ -17,6 +18,11 @@ body{
 	font-size:$appFontSize;
 	line-height:$appLineHeight;
 	font-weight:$normalFontWeight;
+}
+
+.locationName-row, .dateButtons{
+	padding-top:15px;
+	padding-bottom:15px;
 }
 
 .perdiff{
@@ -68,6 +74,12 @@ body{
 	width:$rightHighlightWidth;
 	margin-left:$rightHighlightLeftMargin;
 	margin-right:$rightHighlightRightMargin;
+}
+
+.feedBack hr{
+	margin-top:$appFontSize / 2;
+	margin-bottom:$appFontSize / 2;
+	background-color:$white;
 }
 
 

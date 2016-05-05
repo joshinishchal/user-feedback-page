@@ -43,6 +43,21 @@
 			padding-top:20px;
 		}
 	}
+
+	& .ticketDuration{
+		color:$lightgrey;
+		margin-bottom:0;
+	}
+}
+
+.card-block{
+	&  hr{
+		margin-top:0;
+	}
+
+	& button{
+		margin-bottom:20px;
+	}
 }
 
 .card-blockquote{
@@ -57,8 +72,5 @@
     	font-weight: bold;
 	}
 
-	span{
-		color:$lightgrey;
-	}
 }
 
