@@ -9,10 +9,23 @@ $skyBlue:#00bfff;
 $white:#FFFFFF;
 $transparent:transparent;
 
+//Container
+$containerWidth:1110px;
+
 
 //highlight-box
 $highlightBoxHeight:125px;
 $perFontSize:12px;
+
+//leftHighlight
+$leftHighlightWidth:50%;
+$leftHighlightLeftMargin:5%;
+$leftHighlightRightMargin:5%;
+
+//rightHighlight
+$rightHighlightWidth:30%;
+$rightHighlightLeftMargin:5%;
+$rightHighlightRightMargin:5%;
 
 //percentage Difference
 $perSpanWidth:45px;
@@ -25,3 +38,6 @@ $h3lineHeight:30px;
 
 //npComplainCard
 $userNameFontWeight:400;
+$npComplainCardWidth:$leftHighlightWidth + $rightHighlightWidth + $leftHighlightRightMargin + $rightHighlightLeftMargin;
+$npComplainCardLeftMargin: (100% - $npComplainCardWidth) / 2;
+$npComplainCardRightMargin: 100% - $npComplainCardWidth - $npComplainCardLeftMargin;

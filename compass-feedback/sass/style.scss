@@ -1,10 +1,12 @@
 @import "compass";
 @import "partials/variables";
+@import "partials/base";
 @import "partials/deleteThis";
 @import "features/feedbackCard";
 @import "compass/css3";
 @import "compass/css3/box-sizing";
 @import "compass/css3/border-radius";
+@import "compass/css3/font-face";
 
 *{
 	@include box-sizing(border-box);
@@ -53,9 +55,9 @@ body{
 }
 
 .leftHighlight{
-	width:50%;
-	margin-left:5%;
-	margin-right:5%;
+	width:$leftHighlightWidth;
+	margin-left:$leftHighlightLeftMargin;
+	margin-right:$leftHighlightRightMargin;
 
 	& div h3{
 		padding-left:$perSpanWidth;
@@ -63,9 +65,9 @@ body{
 }
 
 .rightHighlight{
-	width:30%;
-	marigin-right:5%;
-	margin-left:5%;
+	width:$rightHighlightWidth;
+	margin-left:$rightHighlightLeftMargin;
+	margin-right:$rightHighlightRightMargin;
 }
 
 

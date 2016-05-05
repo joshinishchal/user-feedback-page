@@ -1,3 +1,15 @@
+/* line 3, ../sass/partials/_base.scss */
+.container {
+  width: 1110px;
+}
+
+/* line 7, ../sass/partials/_base.scss */
+*.row {
+  width: 1110px;
+  padding-left: inherit;
+  padding-right: inherit;
+}
+
 /* line 1, ../sass/partials/_deleteThis.scss */
 .bgred {
   background-color: #FF0000;
@@ -8,31 +20,87 @@
   background-color: #80ff00;
 }
 
+/* line 9, ../sass/partials/_deleteThis.scss */
+.bggreen {
+  background-color: #80ff00;
+}
+
+/* line 13, ../sass/partials/_deleteThis.scss */
+.bgblue {
+  background-color: #001eff;
+}
+
 /* line 1, ../sass/features/_feedbackCard.scss */
 .npComplainCard {
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 /* line 6, ../sass/features/_feedbackCard.scss */
-.npComplainCard .card-header .customer {
+.npComplainCard .card {
+  border: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 12, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card-header {
+  height: 80px;
+  padding: 0;
+}
+/* line 17, ../sass/features/_feedbackCard.scss */
+.npComplainCard .customerName {
   color: #000000;
   font-weight: 400;
 }
+/* line 22, ../sass/features/_feedbackCard.scss */
+.npComplainCard .customer {
+  padding-top: 10px;
+  padding-left: 10px;
+}
+/* line 27, ../sass/features/_feedbackCard.scss */
+.npComplainCard .visitRating {
+  width: 80px;
+}
+/* line 31, ../sass/features/_feedbackCard.scss */
+.npComplainCard .customer, .npComplainCard .visitRating {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 0px;
+  height: 100%;
+}
+/* line 37, ../sass/features/_feedbackCard.scss */
+.npComplainCard .customer span, .npComplainCard .visitRating span {
+  display: block;
+  height: 50%;
+}
+/* line 42, ../sass/features/_feedbackCard.scss */
+.npComplainCard .customer .star, .npComplainCard .visitRating .star {
+  padding-top: 20px;
+}
 
-/* line 13, ../sass/features/_feedbackCard.scss */
+/* line 50, ../sass/features/_feedbackCard.scss */
+.card-blockquote p:before {
+  content: open-quote;
+  font-weight: bold;
+}
+/* line 55, ../sass/features/_feedbackCard.scss */
+.card-blockquote p:after {
+  content: close-quote;
+  font-weight: bold;
+}
+/* line 60, ../sass/features/_feedbackCard.scss */
 .card-blockquote span {
   color: #808080;
 }
 
-/* line 9, ../sass/style.scss */
+/* line 11, ../sass/style.scss */
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-/* line 13, ../sass/style.scss */
+/* line 15, ../sass/style.scss */
 body {
   font-family: calibri, 'Open Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -40,7 +108,7 @@ body {
   font-weight: 300;
 }
 
-/* line 20, ../sass/style.scss */
+/* line 22, ../sass/style.scss */
 .perdiff {
   display: inline-block;
   font-size: 12px;
@@ -49,32 +117,32 @@ body {
   width: 45px;
 }
 
-/* line 28, ../sass/style.scss */
+/* line 30, ../sass/style.scss */
 #container {
   background-image: url("../images/Pattern.png");
 }
 
-/* line 32, ../sass/style.scss */
+/* line 34, ../sass/style.scss */
 #locationName {
   font-weight: normal;
 }
 
-/* line 36, ../sass/style.scss */
+/* line 38, ../sass/style.scss */
 .whiteText {
   color: #FFFFFF;
 }
 
-/* line 40, ../sass/style.scss */
+/* line 42, ../sass/style.scss */
 .darkGreenTextColor {
   color: #80ff00;
 }
 
-/* line 44, ../sass/style.scss */
+/* line 46, ../sass/style.scss */
 .totalRating {
   display: inline-block;
 }
 
-/* line 48, ../sass/style.scss */
+/* line 50, ../sass/style.scss */
 .highlight {
   background-color: rgba(255, 255, 255, 0.45);
   height: 125px;
@@ -84,20 +152,20 @@ body {
   border-radius: 2px;
 }
 
-/* line 55, ../sass/style.scss */
+/* line 57, ../sass/style.scss */
 .leftHighlight {
   width: 50%;
   margin-left: 5%;
   margin-right: 5%;
 }
-/* line 60, ../sass/style.scss */
+/* line 62, ../sass/style.scss */
 .leftHighlight div h3 {
   padding-left: 45px;
 }
 
-/* line 65, ../sass/style.scss */
+/* line 67, ../sass/style.scss */
 .rightHighlight {
   width: 30%;
-  marigin-right: 5%;
   margin-left: 5%;
+  margin-right: 5%;
 }
