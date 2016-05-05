@@ -62,6 +62,8 @@
 
 .card-blockquote{
 
+	color:$black;
+
 	& p:before { 
     	content: open-quote;
     	font-weight: bold;

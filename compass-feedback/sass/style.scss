@@ -22,10 +22,6 @@
 	width:$perSpanWidth;
 }
 
-#container{
-	background-image : url("../images/Pattern.png");
-}
-
 #locationName{
 	font-weight:normal;
 }
@@ -45,10 +41,10 @@
 .highlight{
 	padding-top:1.5%;
 	padding-bottom:1%;
-	background-color: rgba($white, 0.45);
+	background-color: rgba($white, 0.25);
 	height:$highlightBoxHeight;
 	border:1px solid $transparent;
-	@include border-radius(2px);
+	@include border-radius(3px);
 }
 
 .leftHighlight{
