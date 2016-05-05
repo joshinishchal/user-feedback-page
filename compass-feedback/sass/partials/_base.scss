@@ -1,5 +1,17 @@
 //@include font-face("Blooming Grove", font-files("examples/bgrove.ttf", "examples/bgrove.otf"));
 
+*{
+	@include box-sizing(border-box);
+}
+
+body{
+	@include font-face("Avenir Next", font-files("../fonts/Avenir Next.ttf", "../fonts/Avenir Next.otf"));
+	font-family: Avenir Next, calibri, 'Open Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size:$appFontSize;
+	line-height:$appLineHeight;
+	font-weight:$normalFontWeight;
+}
+
 .container{
 	width:$containerWidth;
 	margin-top:0;

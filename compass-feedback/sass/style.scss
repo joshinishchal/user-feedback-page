@@ -9,17 +9,6 @@
 @import "partials/deleteThis";
 @import "features/feedbackCard";
 
-*{
-	@include box-sizing(border-box);
-}
-
-body{
-	font-family: calibri, 'Open Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size:$appFontSize;
-	line-height:$appLineHeight;
-	font-weight:$normalFontWeight;
-}
-
 .locationName-row, .dateButtons{
 	padding-top:15px;
 	padding-bottom:15px;
@@ -54,6 +43,8 @@ body{
 }
 
 .highlight{
+	padding-top:1.5%;
+	padding-bottom:1%;
 	background-color: rgba($white, 0.45);
 	height:$highlightBoxHeight;
 	border:1px solid $transparent;
