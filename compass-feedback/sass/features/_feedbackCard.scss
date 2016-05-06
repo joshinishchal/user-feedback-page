@@ -1,13 +1,10 @@
-.npComplainCard{
+.npComplainCard .card{
 	width:$npComplainCardWidth;
 	margin-left:$npComplainCardLeftMargin;
 	margin-right:$npComplainCardRightMargin;
-
-	& .card{
-		border:0;
-		padding-left:0;
-		padding-right:0;
-	}
+	border:0;
+	padding-left:0;
+	padding-right:0;
 
 	& .card-header{
 		height:80px;

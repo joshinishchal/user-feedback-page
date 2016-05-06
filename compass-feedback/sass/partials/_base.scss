@@ -14,12 +14,11 @@ body{
 }
 
 .container{
-	width:$containerWidth;
 	margin-top:0;
 }
 
 *.row{
-	width:$containerWidth;
+	width:100%;
 	padding-left:inherit;
 	padding-right:inherit;
 }
@@ -34,4 +33,25 @@ body{
 
 .feedbackAppButton{
 	background-color: rgba($white, 0.25);
+}
+
+@media(min-width:34em){
+		.container{
+			width:$containerWidth-xs;
+		}
+}
+@media(min-width:48em){
+	.container{
+		width:$containerWidth-sm;
+	}
+}
+@media(min-width:62em){
+	.container{
+		width:$containerWidth-md;
+	}
+}
+@media(min-width:75em){
+	.container{
+		width:$containerWidth-lg;
+	}
 }

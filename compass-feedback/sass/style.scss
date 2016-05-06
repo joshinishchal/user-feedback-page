@@ -14,6 +14,19 @@
 	padding-bottom:15px;
 }
 
+.dateButtons{
+	width:100%;
+
+	& div:first-child{
+		margin-left:2.5%;
+	}
+
+	& div:last-child{
+		width: (100% / 2) - (($npComplainCardLeftMargin + $npComplainCardRightMargin) / 2);
+		margin-right:0%;
+	}
+}
+
 .perdiff{
 	display:inline-block;
 	font-size:$perFontSize;
@@ -68,9 +81,6 @@
 	margin-bottom:$appFontSize / 2;
 	background-color:$white;
 }
-
-
-
 
 
 

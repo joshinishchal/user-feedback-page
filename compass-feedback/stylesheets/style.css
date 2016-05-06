@@ -7,10 +7,11 @@
 
 /* line 7, ../sass/partials/_base.scss */
 body {
+  background-image: url("../images/Pattern.png");
   font-family: Avenir Next, calibri, 'Open Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1;
-  font-weight: 300;
+  font-weight: 400;
 }
 @font-face {
   /* line 7, ../sass/partials/_base.scss */
@@ -19,9 +20,8 @@ body {
     src: url('/fonts/../fonts/Avenir Next.ttf') format('truetype'), url('/fonts/../fonts/Avenir Next.otf?1441112146') format('opentype');
   }
 }
-/* line 15, ../sass/partials/_base.scss */
+/* line 16, ../sass/partials/_base.scss */
 .container {
-  width: 100%;
   margin-top: 0;
 }
 
@@ -44,11 +44,33 @@ body {
 
 /* line 34, ../sass/partials/_base.scss */
 .feedbackAppButton {
-  background-color: #02ACC1;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
-  opacity: 0.9;
+  background-color: rgba(255, 255, 255, 0.25);
 }
 
+@media (min-width: 34em) {
+  /* line 39, ../sass/partials/_base.scss */
+  .container {
+    width: 100%;
+  }
+}
+@media (min-width: 48em) {
+  /* line 44, ../sass/partials/_base.scss */
+  .container {
+    width: 65%;
+  }
+}
+@media (min-width: 62em) {
+  /* line 49, ../sass/partials/_base.scss */
+  .container {
+    width: 546px;
+  }
+}
+@media (min-width: 75em) {
+  /* line 54, ../sass/partials/_base.scss */
+  .container {
+    width: 546px;
+  }
+}
 /* line 1, ../sass/partials/_deleteThis.scss */
 .bgred {
   background-color: #FF0000;
@@ -70,73 +92,74 @@ body {
 }
 
 /* line 1, ../sass/features/_feedbackCard.scss */
-.npComplainCard {
+.npComplainCard .card {
   width: 90%;
   margin-left: 5%;
   margin-right: 5%;
-}
-/* line 6, ../sass/features/_feedbackCard.scss */
-.npComplainCard .card {
   border: 0;
   padding-left: 0;
   padding-right: 0;
 }
-/* line 12, ../sass/features/_feedbackCard.scss */
-.npComplainCard .card-header {
+/* line 9, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .card-header {
   height: 80px;
   padding: 0;
 }
-/* line 17, ../sass/features/_feedbackCard.scss */
-.npComplainCard .customerName {
+/* line 14, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .customerName {
   color: #000000;
   font-weight: 400;
 }
-/* line 22, ../sass/features/_feedbackCard.scss */
-.npComplainCard .customer {
+/* line 19, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .customer {
   padding-top: 10px;
   padding-left: 10px;
 }
-/* line 27, ../sass/features/_feedbackCard.scss */
-.npComplainCard .visitRating {
+/* line 24, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .visitRating {
   width: 80px;
 }
-/* line 31, ../sass/features/_feedbackCard.scss */
-.npComplainCard .customer, .npComplainCard .visitRating {
+/* line 28, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .customer, .npComplainCard .card .visitRating {
   position: relative;
   display: inline-block;
   margin-bottom: 0px;
   height: 100%;
 }
-/* line 37, ../sass/features/_feedbackCard.scss */
-.npComplainCard .customer span, .npComplainCard .visitRating span {
+/* line 34, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .customer span, .npComplainCard .card .visitRating span {
   display: block;
   height: 50%;
 }
-/* line 42, ../sass/features/_feedbackCard.scss */
-.npComplainCard .customer .star, .npComplainCard .visitRating .star {
+/* line 39, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .customer .star, .npComplainCard .card .visitRating .star {
   padding-top: 20px;
 }
-/* line 47, ../sass/features/_feedbackCard.scss */
-.npComplainCard .ticketDuration {
+/* line 44, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .ticketDuration {
   color: #808080;
   margin-bottom: 0;
 }
 
-/* line 54, ../sass/features/_feedbackCard.scss */
+/* line 51, ../sass/features/_feedbackCard.scss */
 .card-block hr {
   margin-top: 0;
 }
-/* line 58, ../sass/features/_feedbackCard.scss */
+/* line 55, ../sass/features/_feedbackCard.scss */
 .card-block button {
   margin-bottom: 20px;
 }
 
-/* line 65, ../sass/features/_feedbackCard.scss */
+/* line 60, ../sass/features/_feedbackCard.scss */
+.card-blockquote {
+  color: #000000;
+}
+/* line 64, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:before {
   content: open-quote;
   font-weight: bold;
 }
-/* line 70, ../sass/features/_feedbackCard.scss */
+/* line 69, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:after {
   content: close-quote;
   font-weight: bold;
@@ -149,70 +172,79 @@ body {
 }
 
 /* line 17, ../sass/style.scss */
+.dateButtons {
+  width: 100%;
+}
+/* line 20, ../sass/style.scss */
+.dateButtons div:first-child {
+  margin-left: 2.5%;
+}
+/* line 24, ../sass/style.scss */
+.dateButtons div:last-child {
+  width: 45%;
+  margin-right: 0%;
+}
+
+/* line 30, ../sass/style.scss */
 .perdiff {
   display: inline-block;
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   padding-top: 17px;
   width: 45px;
 }
 
-/* line 25, ../sass/style.scss */
-#container {
-  background-image: url("../images/Pattern.png");
-}
-
-/* line 29, ../sass/style.scss */
+/* line 38, ../sass/style.scss */
 #locationName {
   font-weight: normal;
 }
 
-/* line 33, ../sass/style.scss */
+/* line 42, ../sass/style.scss */
 .whiteText {
   color: #FFFFFF;
 }
 
-/* line 37, ../sass/style.scss */
+/* line 46, ../sass/style.scss */
 .darkGreenTextColor {
   color: #80ff00;
 }
 
-/* line 41, ../sass/style.scss */
+/* line 50, ../sass/style.scss */
 .totalRating {
   display: inline-block;
 }
 
-/* line 45, ../sass/style.scss */
+/* line 54, ../sass/style.scss */
 .highlight {
   padding-top: 1.5%;
   padding-bottom: 1%;
-  background-color: rgba(255, 255, 255, 0.45);
+  background-color: rgba(255, 255, 255, 0.25);
   height: 125px;
   border: 1px solid transparent;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
 }
 
-/* line 54, ../sass/style.scss */
+/* line 63, ../sass/style.scss */
 .leftHighlight {
   width: 50%;
   margin-left: 5%;
   margin-right: 5%;
 }
-/* line 59, ../sass/style.scss */
+/* line 68, ../sass/style.scss */
 .leftHighlight div h3 {
   padding-left: 45px;
 }
 
-/* line 64, ../sass/style.scss */
+/* line 73, ../sass/style.scss */
 .rightHighlight {
   width: 30%;
   margin-left: 5%;
   margin-right: 5%;
 }
 
-/* line 70, ../sass/style.scss */
+/* line 79, ../sass/style.scss */
 .feedBack hr {
   margin-top: 8px;
   margin-bottom: 8px;
