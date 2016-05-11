@@ -11,14 +11,23 @@ feedbackApp.constant("OverViewKey", "0000");
 feedbackApp.service("rootRef", ["FirebaseUrl", Firebase]);
 
 feedbackApp.service("club", function club(rootRef, $firebaseObject, ChainName, ClubId, OverViewKey) {
-	var overView = rootRef.child(ChainName).child(ClubId).child(OverViewKey);
-	this.overView = $firebaseObject(overView);
+	var clubId = rootRef.child(ChainName).child(ClubId);
+	var overView = clubId.child(OverViewKey);
+	//var feedBack = 
+	this.getOverView = function() {
+		return $firebaseObject(overView);
+	};
+	this.getFeedbackData = function(){
+		return $firebaseObject(clubId);
+	};
 })
 
 
 feedbackApp.controller("feedbackController", function($scope, club){
 
-	$scope.overView = club.overView;
+	$scope.overView = club.getOverView();
+
+	$scope.feedbackData = club.getFeedbackData();
 
 	$scope.clubInfo = {
 		clubName : "California Avenue"
