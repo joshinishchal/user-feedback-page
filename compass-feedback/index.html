@@ -25,7 +25,7 @@
     	<div class="row locationName-row">
     		<!--// name of the club-->
     		<div class="col-xs-12 locationName-col">
-    			<h4 id="locationName" class="whiteText text-xs-center">{{clubInfo.clubName}}</h4>
+    			<h4 id="locationName" class="whiteText text-xs-center">{{overView.locationName}}</h4>
     		</div>
     	</div>
 
@@ -57,7 +57,7 @@
         <div data-ng-repeat="(date,feedbacks) in allData" data-ng-if="date != OverViewKey">
 
             <div class="row dateButtons">
-                <div class="col-xs-6"><button type="button" class="btn pullLeft whiteText feedbackAppButton">{{date}}</button></div>
+                <div class="col-xs-6"><button type="button" class="btn pullLeft whiteText feedbackAppButton">{{getDateObject(date) | date:"MMMM dd"}}</button></div>
             </div>
 
             <div class="row npComplainCard" data-ng-repeat="feedback in feedbacks" data-ng-init="">
@@ -65,7 +65,7 @@
                     <div class="card-header">
                         <p class="customer pull-xs-left pull-sm-left pull-md-left pull-lg-left">
                             <span class="customerName">{{feedback.user_first_name}} {{feedback.user_last_name}}</span>
-                            <span class="visitDate text-danger">Visited: Tuesday, March 2</span>
+                            <span class="visitDate text-danger">Visited: {{getVisitedDateObject(feedback.visit_date_mil_time_in_pst) | date : 'EEEE, MMMM d'}}</span>
                         </p>
                         <p class="visitRating pull-xs-right pull-sm-right pull-md-right pull-lg-right bg-danger">
                             <span class="star text-xs-center text-sm-center text-md-center text-lg-center vertical">{{feedback.rating}}<img class="imgStar" alt="star" src="images/Star.svg"></span>
@@ -78,8 +78,11 @@
                         </blockquote>
                         <p class="ticketDuration text-xs-center" data-ng-hide="true">Open for 5h</p>
                         <hr class="divider" data-ng-hide="isThereNoComment(feedback.comment.length)">
-                        <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="callText = getPhoneText(feedback.user_phone, callText)">{{callText}}</button>
-                        <button type="button" class="btn btn-secondary pullRight text-muted" data-ng-click="emailText = getEmailText(feedback.user_email,emailText)">{{emailText}}</button>
+                        <button type="button" class="btn btn-secondary pullLeft text-muted" ngclipboard data-ng-click="callText = getPhoneText(feedback.user_phone, callText)" data-clipboard-text={{getPhoneText(feedback.user_phone,callText)}} uib-tooltip="Copied!" tooltip-trigger="click" tooltip-placement="left" tooltip-animation="false">{{callText}}</button>
+                        <button type="button" class="btn btn-secondary pullRight text-muted" ngclipboard data-ng-click="emailText = getEmailText(feedback.user_email,emailText)" data-clipboard-text={{getEmailText(feedback.user_email,emailText)}} uib-tooltip="Copied!" tooltip-trigger="click" tooltip-placement="right" tooltip-animation="false">{{emailText}}</button>
+                        <!--//data-trigger="hover" data-toggle="tooltip" data-placement="right" data-title="Copied!"-->
+                        <!--//data-trigger="hover" data-toggle="tooltip" data-placement="right" data-title="Copied!"-->
+                        <!--//title="Copied!" tooltip="Copied!" tooltip-placement="left"-->
                     </div>
                 </div>
 
@@ -99,20 +102,46 @@
     <!-- <script src="../compass-feedback/extras/jquery.2.1.min.js"></script> -->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- <script src="../compass-feedback/extras/bootstrap.4.0.min.js"></script> -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-resource.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-cookies.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap-tpls.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.2/ui-bootstrap.min.js"></script> -->
     <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
     <script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+    <script src="https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/clipboard.min.js"></script>
+
+
+    <!-- 3rd Party Modules-->
+    <script type="text/javascript" src="js/lib/ngclipboard.min.js"></script>
 
     <!-- Application -->
     <!-- <script src="./js/app.js"></script> -->
 
     <!-- Controllers-->
     <script type="text/javascript" src="js/controllers/feedbackController.js"></script>
+
+    <script type="text/javascript">
+        /*jquery(function () {
+            alert("hi");
+            jquery("[data-toggle='tooltip']").tooltip();
+        })*/
+
+        /*$.noConflict();
+
+        jQuery(function(){
+            jQuery('[data-toggle="tooltip"]').tooltip();
+        });*/
+
+        /*$(document).on('change','button',function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });*/
+
+    </script>
 
   </body>
 </html>

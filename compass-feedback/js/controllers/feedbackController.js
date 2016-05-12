@@ -1,4 +1,4 @@
-var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase"]);
+var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase", "ngclipboard", "ui.bootstrap"]);
 
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 
@@ -88,6 +88,20 @@ feedbackApp.controller("feedbackController", function($scope, club, OverViewKey)
 		}else{
 			return true;
 		}
+	};
+
+	$scope.getVisitedDateObject = function(str){
+		//"04/27/2016 15:32:53 PDT"
+		//new Date(year, month, day, hours, minutes, seconds, milliseconds)
+		//fullDate or EEEE, MMMM d
+		var date = str.split(" ")[0].split("/");
+
+		return new Date(date[2], date[0] - 1, date[1]);
+	};
+
+	$scope.getDateObject = function(str){
+		var dateArray = str.split("-");
+		return new Date(dateArray[0],dateArray[1]-1,dateArray[2]);
 	};
 
 	$scope.clubInfo = {
