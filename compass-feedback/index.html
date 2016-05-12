@@ -42,11 +42,11 @@
 
 			<div class="col-xs-4 card text-xs-center highlight rightHighlight">
     			<p class="card-text whiteText">All-Time</p>
-				<h3 class="card-title whiteText">{{overView.totalRating / overView.totalReviews}}</h3>
+				<h3 class="card-title whiteText">{{(overView.totalRating / overView.totalReviews) | number:1}}</h3>
 				<p class="card-text whiteText">from {{overView.totalReviews}} reviews</p>
 			</div>
 
-    	</div>
+    	</div>    
 
     	<div class="row feedBack">
             <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"><hr class=""></div>
@@ -54,39 +54,42 @@
             <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5"><hr class=""></div>
     	</div>
 
-        <div class="row dateButtons">
-            <div class="col-xs-6"><button type="button" class="btn pullLeft whiteText feedbackAppButton">Yesterday</button></div>
-            <div class="col-xs-6"><button type="button" class="btn pullRight whiteText feedbackAppButton">Tomorrow</button></div>
+        <div data-ng-repeat="(date,feedbacks) in allData" data-ng-if="date != OverViewKey">
+
+            <div class="row dateButtons">
+                <div class="col-xs-6"><button type="button" class="btn pullLeft whiteText feedbackAppButton">{{date}}</button></div>
+            </div>
+
+            <div class="row npComplainCard" data-ng-repeat="feedback in feedbacks" data-ng-init="">
+                <div class="card col-xs-12">
+                    <div class="card-header">
+                        <p class="customer pull-xs-left pull-sm-left pull-md-left pull-lg-left">
+                            <span class="customerName">{{feedback.user_first_name}} {{feedback.user_last_name}}</span>
+                            <span class="visitDate text-danger">Visited: Tuesday, March 2</span>
+                        </p>
+                        <p class="visitRating pull-xs-right pull-sm-right pull-md-right pull-lg-right bg-danger">
+                            <span class="star text-xs-center text-sm-center text-md-center text-lg-center vertical">{{feedback.rating}}<img class="imgStar" alt="star" src="images/Star.svg"></span>
+                            <span class="service text-xs-center text-sm-center text-md-center text-lg-center">{{getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6)}}</span>
+                        </p>
+                    </div>
+                    <div class="card-block">
+                        <blockquote class="card-blockquote">
+                            <p>{{feedback.comment}}</p>
+                        </blockquote>
+                        <p class="ticketDuration text-xs-center" data-ng-hide="true">Open for 5h</p>
+                        <hr class="divider">
+                        <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="callText = getPhoneText(feedback.user_phone, callText)">{{callText}}</button>
+                        <button type="button" class="btn btn-secondary pullRight text-muted" data-ng-click="emailText = getEmailText(feedback.user_email,emailText)">{{emailText}}</button>
+                    </div>
+                </div>
+
+            </div>
+            
         </div>
-
-    	<div class="row npComplainCard">
-			<div class="card col-xs-12">
-				<div class="card-header">
-					<p class="customer pull-xs-left pull-sm-left pull-md-left pull-lg-left">
-						<span class="customerName">Tony z.</span>
-						<span class="visitDate text-danger">Visited: Tuesday, March 2</span>
-					</p>
-					<p class="visitRating pull-xs-right pull-sm-right pull-md-right pull-lg-right bg-danger">
-						<span class="star text-xs-center text-sm-center text-md-center text-lg-center vertical">1<img class="imgStar" alt="star" src="images/Star.svg"></span>
-						<span class="service text-xs-center text-sm-center text-md-center text-lg-center">Facilities</span>
-					</p>
-				</div>
-				<div class="card-block">
-					<blockquote class="card-blockquote">
-						<p>The showers were gross and the hot water wasn't working!! This is three days in a row now!!!!</p>
-					</blockquote>
-                    <p class="ticketDuration text-xs-center">Open for 5h</p>
-                    <hr class="divider">
-                    <button type="button" class="btn btn-secondary pullLeft text-muted">Call</button>
-                    <button type="button" class="btn btn-secondary pullRight text-muted">Email</button>
-				</div>
-			</div>
-
-		</div>
 
 
         <div class="row loadmoreButton">
-            <div class="col-xs-12 text-xs-center"><button type="button" class="btn whiteText feedbackAppButton">Load More</button></div>
+            <div class="col-xs-12 text-xs-center"><button type="button" class="btn whiteText feedbackAppButton" data-ng-click="getMoreData()">Load More</button></div>
         </div>
 
     </div>
