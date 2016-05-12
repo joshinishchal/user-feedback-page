@@ -82,7 +82,13 @@ feedbackApp.controller("feedbackController", function($scope, club, OverViewKey)
 		}
 	}
 
-
+	$scope.isThereNoComment = function(length){
+		if (length > 0) {
+			return false;
+		}else{
+			return true;
+		}
+	};
 
 	$scope.clubInfo = {
 		clubName : "California Avenue"

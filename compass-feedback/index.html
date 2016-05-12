@@ -73,11 +73,11 @@
                         </p>
                     </div>
                     <div class="card-block">
-                        <blockquote class="card-blockquote">
+                        <blockquote class="card-blockquote" data-ng-hide="isThereNoComment(feedback.comment.length)">
                             <p>{{feedback.comment}}</p>
                         </blockquote>
                         <p class="ticketDuration text-xs-center" data-ng-hide="true">Open for 5h</p>
-                        <hr class="divider">
+                        <hr class="divider" data-ng-hide="isThereNoComment(feedback.comment.length)">
                         <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="callText = getPhoneText(feedback.user_phone, callText)">{{callText}}</button>
                         <button type="button" class="btn btn-secondary pullRight text-muted" data-ng-click="emailText = getEmailText(feedback.user_email,emailText)">{{emailText}}</button>
                     </div>
