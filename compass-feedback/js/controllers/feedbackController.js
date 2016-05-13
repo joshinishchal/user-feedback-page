@@ -13,34 +13,17 @@ feedbackApp.service("rootRef", ["FirebaseUrl", Firebase]);
 feedbackApp.service("club", function club(rootRef, $firebaseObject, ChainName, ClubId, OverViewKey) {
 	var clubId = rootRef.child(ChainName).child(ClubId);
 	var overView = clubId.child(OverViewKey);
-	//var feedBack = 
 	this.getOverView = function() {
 		return $firebaseObject(overView);
 	};
 	this.getAllData = function(index){
 		return $firebaseObject(clubId.limitToLast(index));
 	};
-})
+}]);
 
+feedbackApp.service("fbhelper", function fbhelper(){
 
-feedbackApp.controller("feedbackController", function($scope, club, OverViewKey){
-
-	$scope.OverViewKey = OverViewKey;
-	$scope.daysTobeViewed = 1;
-
-	$scope.overView = club.getOverView();
-
-	$scope.allData = club.getAllData($scope.daysTobeViewed);
-
-	$scope.getMoreData = function(){
-		$scope.daysTobeViewed++;
-		$scope.allData = club.getAllData($scope.daysTobeViewed);
-	};
-
-	$scope.callText = "Call";
-	$scope.emailText = "Email";
-
-	$scope.getPhoneText = function(feedbackPhone, defaultPhoneText){
+	this.getPhoneText = function(feedbackPhone, defaultPhoneText){
 		var phoneText = defaultPhoneText;
 		if(feedbackPhone && feedbackPhone != ""){
 			phoneText = feedbackPhone;
@@ -48,7 +31,7 @@ feedbackApp.controller("feedbackController", function($scope, club, OverViewKey)
 		return phoneText;
 	};
 
-	$scope.getEmailText = function(feedbackEmail, defaultEmailText){
+	this.getEmailText = function(feedbackEmail, defaultEmailText){
 		var emailText = defaultEmailText;
 		if(feedbackEmail && feedbackEmail != ""){
 			emailText = feedbackEmail;
@@ -56,7 +39,7 @@ feedbackApp.controller("feedbackController", function($scope, club, OverViewKey)
 		return emailText;
 	};
 
-	$scope.getReasons = function(reason1,reason2,reason3,reason4,reason5,reason6){
+	this.getReasons = function(reason1,reason2,reason3,reason4,reason5,reason6){
 
 		var reasons = reason1;
 		reasons = addReasons(reasons,reason2);
@@ -82,7 +65,7 @@ feedbackApp.controller("feedbackController", function($scope, club, OverViewKey)
 		}
 	}
 
-	$scope.isThereNoComment = function(length){
+	this.isThereNoComment = function(length){
 		if (length > 0) {
 			return false;
 		}else{
@@ -90,7 +73,7 @@ feedbackApp.controller("feedbackController", function($scope, club, OverViewKey)
 		}
 	};
 
-	$scope.getVisitedDateObject = function(str){
+	this.getVisitedDateObject = function(str){
 		//"04/27/2016 15:32:53 PDT"
 		//new Date(year, month, day, hours, minutes, seconds, milliseconds)
 		//fullDate or EEEE, MMMM d
@@ -99,12 +82,32 @@ feedbackApp.controller("feedbackController", function($scope, club, OverViewKey)
 		return new Date(date[2], date[0] - 1, date[1]);
 	};
 
-	$scope.getDateObject = function(str){
+	this.getDateObject = function(str){
 		var dateArray = str.split("-");
 		return new Date(dateArray[0],dateArray[1]-1,dateArray[2]);
 	};
-
-	$scope.clubInfo = {
-		clubName : "California Avenue"
-	};
 });
+
+feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "OverViewKey", function($scope, club, fbhelper, OverViewKey){
+	$scope.OverViewKey = OverViewKey;
+	$scope.daysTobeViewed = 1;
+
+	$scope.overView = club.getOverView();
+
+	$scope.allData = club.getAllData($scope.daysTobeViewed);
+
+	$scope.getMoreData = function(){
+		$scope.daysTobeViewed++;
+		$scope.allData = club.getAllData($scope.daysTobeViewed);
+	};
+
+	$scope.callText = "Call";
+	$scope.emailText = "Email";
+
+	$scope.getPhoneText = fbhelper.getPhoneText;
+	$scope.getEmailText = fbhelper.getEmailText;
+	$scope.getReasons = fbhelper.getReasons;
+	$scope.isThereNoComment = fbhelper.isThereNoComment;
+	$scope.getVisitedDateObject = fbhelper.getVisitedDateObject;
+	$scope.getDateObject = fbhelper.getDateObject;
+}]);
