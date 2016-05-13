@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
     <!-- <link rel="stylesheet" href="../compass-feedback/extras/bootstrap.4.0.min.css"> -->
 
-	<link rel="stylesheet" href="../compass-feedback/stylesheets/style.css">
+	<link rel="stylesheet" href="./stylesheets/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -78,8 +78,10 @@
                         </blockquote>
                         <p class="ticketDuration text-xs-center" data-ng-hide="true">Open for 5h</p>
                         <hr class="divider" data-ng-hide="isThereNoComment(feedback.comment.length)">
-                        <button type="button" class="btn btn-secondary pullLeft text-muted" ngclipboard data-ng-click="callText = getPhoneText(feedback.user_phone, callText)" data-clipboard-text={{getPhoneText(feedback.user_phone,callText)}} uib-tooltip="Copied!" tooltip-trigger="click" tooltip-placement="left" tooltip-animation="false">{{callText}}</button>
-                        <button type="button" class="btn btn-secondary pullRight text-muted" ngclipboard data-ng-click="emailText = getEmailText(feedback.user_email,emailText)" data-clipboard-text={{getEmailText(feedback.user_email,emailText)}} uib-tooltip="Copied!" tooltip-trigger="click" tooltip-placement="right" tooltip-animation="false">{{emailText}}</button>
+
+                        <button type="button" class="btn btn-secondary pullLeft text-muted" ngclipboard data-ng-click="callText = getPhoneText(feedback.user_phone, callText)" data-clipboard-text={{getPhoneText(feedback.user_phone,callText)}} uib-tooltip="Copied to your clipboard!" tooltip-trigger="click outsideClick" tooltip-placement="left" tooltip-animation="true">{{callText}}</button>
+
+                        <button type="button" class="btn btn-secondary pullRight text-muted" ngclipboard data-ng-click="emailText = getEmailText(feedback.user_email,emailText)" data-clipboard-text={{getEmailText(feedback.user_email,emailText)}} uib-tooltip="Copied to your clipboard!" tooltip-trigger="click outsideClick" tooltip-placement="right" tooltip-animation="true">{{emailText}}</button>
                         <!--//data-trigger="hover" data-toggle="tooltip" data-placement="right" data-title="Copied!"-->
                         <!--//data-trigger="hover" data-toggle="tooltip" data-placement="right" data-title="Copied!"-->
                         <!--//title="Copied!" tooltip="Copied!" tooltip-placement="left"-->
@@ -92,7 +94,7 @@
 
 
         <div class="row loadmoreButton">
-            <div class="col-xs-12 text-xs-center"><button type="button" class="btn whiteText feedbackAppButton" data-ng-click="getMoreData()">Load More</button></div>
+            <div class="col-xs-12 text-xs-center"><button type="button" class="btn whiteText feedbackAppButton" data-ng-click="getMoreData()">Show Previous Day</button></div>
         </div>
 
     </div>
