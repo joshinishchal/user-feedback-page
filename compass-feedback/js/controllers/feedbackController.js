@@ -10,7 +10,7 @@ feedbackApp.constant("OverViewKey", "0000");
 
 feedbackApp.service("rootRef", ["FirebaseUrl", Firebase]);
 
-feedbackApp.service("club", function club(rootRef, $firebaseObject, ChainName, ClubId, OverViewKey) {
+feedbackApp.service("club", ["rootRef", "$firebaseObject", "ChainName", "ClubId", "OverViewKey", function club(rootRef, $firebaseObject, ChainName, ClubId, OverViewKey){
 	var clubId = rootRef.child(ChainName).child(ClubId);
 	var overView = clubId.child(OverViewKey);
 	this.getOverView = function() {
@@ -86,6 +86,51 @@ feedbackApp.service("fbhelper", function fbhelper(){
 		var dateArray = str.split("-");
 		return new Date(dateArray[0],dateArray[1]-1,dateArray[2]);
 	};
+});
+
+feedbackApp.filter('tel', function(){
+    return function (tel) {
+        if (!tel) { return ''; }
+
+        var value = tel.toString().trim().replace(/^\+/, '');
+
+        if (value.match(/[^0-9]/)) {
+            return tel;
+        }
+
+        var country, city, number;
+
+        switch (value.length) {
+            case 10: // +1PPP####### -> C (PPP) ###-####
+                country = 1;
+                city = value.slice(0, 3);
+                number = value.slice(3);
+                break;
+
+            case 11: // +CPPP####### -> CCC (PP) ###-####
+                country = value[0];
+                city = value.slice(1, 4);
+                number = value.slice(4);
+                break;
+
+            case 12: // +CCCPP####### -> CCC (PP) ###-####
+                country = value.slice(0, 3);
+                city = value.slice(3, 5);
+                number = value.slice(5);
+                break;
+
+            default:
+                return tel;
+        }
+
+        if (country == 1) {
+            country = "";
+        }
+
+        number = number.slice(0, 3) + '-' + number.slice(3);
+
+        return (country + " (" + city + ") " + number).trim();
+    };
 });
 
 feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "OverViewKey", function($scope, club, fbhelper, OverViewKey){
