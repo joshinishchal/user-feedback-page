@@ -21,12 +21,12 @@ feedbackApp.service("club", ["rootRef", "$firebaseObject", "ChainName", "ClubId"
 	};
 }]);
 
-feedbackApp.service("fbhelper", function fbhelper(){
+feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 
 	this.getPhoneText = function(feedbackPhone, defaultPhoneText){
 		var phoneText = defaultPhoneText;
 		if(feedbackPhone && feedbackPhone != ""){
-			phoneText = feedbackPhone;
+			phoneText = $filter('tel')(feedbackPhone);
 		}
 		return phoneText;
 	};
@@ -86,7 +86,7 @@ feedbackApp.service("fbhelper", function fbhelper(){
 		var dateArray = str.split("-");
 		return new Date(dateArray[0],dateArray[1]-1,dateArray[2]);
 	};
-});
+}]);
 
 feedbackApp.filter('tel', function(){
     return function (tel) {
