@@ -6,7 +6,7 @@
 
 body{
 	background-image : url("../images/Pattern.png");
-	@include font-face("Avenir Next", font-files("../fonts/Avenir Next.ttf", "../fonts/Avenir Next.otf"));
+	@include font-face("Avenir Next", font-files("/fonts/Avenir-Next.otf"));
 	font-family: Avenir Next, calibri, 'Open Sans', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size:$appFontSize;
 	line-height:$appLineHeight;
