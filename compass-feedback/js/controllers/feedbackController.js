@@ -10,14 +10,14 @@ feedbackApp.constant("OverViewKey", "0000");
 
 feedbackApp.service("rootRef", ["FirebaseUrl", Firebase]);
 
-feedbackApp.service("club", ["rootRef", "$firebaseObject", "ChainName", "ClubId", "OverViewKey", function club(rootRef, $firebaseObject, ChainName, ClubId, OverViewKey){
+feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "ChainName", "ClubId", "OverViewKey", function club(rootRef, $firebaseArray, $firebaseObject, ChainName, ClubId, OverViewKey){
 	var clubId = rootRef.child(ChainName).child(ClubId);
 	var overView = clubId.child(OverViewKey);
 	this.getOverView = function() {
 		return $firebaseObject(overView);
 	};
 	this.getAllData = function(index){
-		return $firebaseObject(clubId.limitToLast(index));
+		return $firebaseArray(clubId.limitToLast(index));
 	};
 }]);
 
