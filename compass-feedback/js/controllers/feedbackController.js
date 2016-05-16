@@ -17,6 +17,9 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ch
 		return $firebaseObject(overView);
 	};
 	this.getAllData = function(index){
+		return $firebaseArray(clubId);
+	};
+	this.getSpecificData = function(index){
 		return $firebaseArray(clubId.limitToLast(index));
 	};
 }]);
@@ -143,7 +146,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 
 	$scope.getMoreData = function(){
 		$scope.daysTobeViewed++;
-		$scope.allData = club.getAllData($scope.daysTobeViewed);
+		//$scope.allData = club.getAllData($scope.daysTobeViewed);
 	};
 
 	$scope.callText = "Call";
