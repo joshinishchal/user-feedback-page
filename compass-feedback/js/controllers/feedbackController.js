@@ -26,6 +26,9 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ch
 
 feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 
+	var _totalTodaysScore = 0;
+	var _totalTodaysReviews = 0;
+
 	this.getPhoneText = function(feedbackPhone, defaultPhoneText){
 		var phoneText = defaultPhoneText;
 		if(feedbackPhone && feedbackPhone != ""){
@@ -89,6 +92,43 @@ feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 		var dateArray = str.split("-");
 		return new Date(dateArray[0],dateArray[1]-1,dateArray[2]);
 	};
+
+	this.getTodaysScore = function(obj){
+		_totalTodaysScore = 0;
+		_totalTodaysReviews = 0;
+		
+		if(obj.length >= 1 && obj[obj.length - 1].$id == $filter("date")(new Date(2016,04,13), "yyyy-MM-dd")){
+			angular.forEach(obj[obj.length - 1], function(value,key){
+				if(typeof value == "object" && value != null){
+					_totalTodaysScore = _totalTodaysScore + parseInt(value.rating,10);
+					_totalTodaysReviews = _totalTodaysReviews + 1;
+				}
+			});
+		}
+
+		if(_totalTodaysReviews == 0){
+			return "--";
+		}else{
+			return $filter("number")(_totalTodaysScore, 1);
+		}
+	};
+
+	function getDaysRevies(){
+
+	}
+
+	this.getTotalTodaysReviews = function(){
+		return _totalTodaysReviews;
+	};
+
+	this.getTotalTodaysReviewsText = function(){
+		if(_totalTodaysReviews > 0){
+			return "from " + _totalTodaysReviews + " reviews";
+		}else{
+			return "no new review";
+		}
+	};
+
 }]);
 
 feedbackApp.filter('tel', function(){
@@ -143,6 +183,10 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.overView = club.getOverView();
 
 	$scope.allData = club.getAllData($scope.daysTobeViewed);
+
+	$scope.getTodaysScore = fbhelper.getTodaysScore;
+	$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;
+	$scope.getTotalTodaysReviews = fbhelper.getTotalTodaysReviews;
 
 	$scope.getMoreData = function(){
 		$scope.daysTobeViewed++;

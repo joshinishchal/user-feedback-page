@@ -35,9 +35,9 @@
     		<div class="col-xs-5 card text-xs-center highlight leftHighlight">
     			<p class="card-text whiteText">Today's Score</p>
     			<div class="card-text">
-    				<h3 class="card-title darkGreenTextColor">3.2<span class="card-text whiteText pull-xs-right pull-sm-right pull-md-right pull-lg-right perdiff">+2.3%</span></h3>
+    				<h3 class="card-title darkGreenTextColor">{{getTodaysScore(allData)}}<span class="card-text whiteText pull-xs-right pull-sm-right pull-md-right pull-lg-right perdiff" data-ng-hide="getTotalTodaysReviews()==0">+2.3%</span></h3>
     			</div>
-				<p class="card-text whiteText">from 2 reviews</p>
+				<p class="card-text whiteText">{{getTotalTodaysReviewsText()}}</p>
 			</div>
 
 			<div class="col-xs-4 card text-xs-center highlight rightHighlight">
