@@ -94,70 +94,75 @@ body {
 }
 
 /* line 1, ../sass/features/_feedbackCard.scss */
+.npComplainCard {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 4, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card {
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
+  width: 94%;
+  margin-left: 3%;
+  margin-right: 3%;
   border: 0;
   padding-left: 0;
   padding-right: 0;
 }
-/* line 9, ../sass/features/_feedbackCard.scss */
+/* line 12, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .card-header {
   height: 80px;
   padding: 0;
 }
-/* line 14, ../sass/features/_feedbackCard.scss */
+/* line 17, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .customerName {
   color: #000000;
   font-weight: 400;
 }
-/* line 19, ../sass/features/_feedbackCard.scss */
+/* line 22, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .customer {
   padding-top: 10px;
   padding-left: 10px;
 }
-/* line 24, ../sass/features/_feedbackCard.scss */
+/* line 27, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .visitRating {
   width: 80px;
 }
-/* line 28, ../sass/features/_feedbackCard.scss */
+/* line 31, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .customer, .npComplainCard .card .visitRating {
   position: relative;
   display: inline-block;
   margin-bottom: 0px;
   height: 100%;
 }
-/* line 34, ../sass/features/_feedbackCard.scss */
+/* line 37, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .customer span, .npComplainCard .card .visitRating span {
   display: block;
   height: 50%;
 }
-/* line 39, ../sass/features/_feedbackCard.scss */
+/* line 42, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .customer .star, .npComplainCard .card .visitRating .star {
   padding-top: 20px;
 }
-/* line 44, ../sass/features/_feedbackCard.scss */
+/* line 47, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .reasons {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 48, ../sass/features/_feedbackCard.scss */
+/* line 51, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .reasons + hr {
   margin-top: 0px;
   margin-bottom: 5px;
 }
-/* line 54, ../sass/features/_feedbackCard.scss */
+/* line 57, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .ticketDuration {
   color: #808080;
   margin-bottom: 0;
 }
 
-/* line 61, ../sass/features/_feedbackCard.scss */
+/* line 65, ../sass/features/_feedbackCard.scss */
 .card-block hr {
   margin-top: 0;
 }
-/* line 65, ../sass/features/_feedbackCard.scss */
+/* line 69, ../sass/features/_feedbackCard.scss */
 .card-block button {
   margin-bottom: 20px;
   max-width: 50%;
@@ -169,16 +174,16 @@ body {
   -moz-binding: url('/stylesheets/xml/ellipsis.xml#ellipsis');
 }
 
-/* line 72, ../sass/features/_feedbackCard.scss */
+/* line 76, ../sass/features/_feedbackCard.scss */
 .card-blockquote {
   color: #000000;
 }
-/* line 76, ../sass/features/_feedbackCard.scss */
+/* line 80, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:before {
   content: open-quote;
   font-weight: bold;
 }
-/* line 81, ../sass/features/_feedbackCard.scss */
+/* line 85, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:after {
   content: close-quote;
   font-weight: bold;
@@ -200,7 +205,7 @@ body {
 }
 /* line 25, ../sass/style.scss */
 .dateButtons div:last-child {
-  width: 45%;
+  width: 47%;
   margin-right: 0%;
 }
 
@@ -247,9 +252,9 @@ body {
 
 /* line 64, ../sass/style.scss */
 .leftHighlight {
-  width: 50%;
-  margin-left: 5%;
-  margin-right: 5%;
+  width: 54.6%;
+  margin-left: 3%;
+  margin-right: 1.5%;
 }
 /* line 69, ../sass/style.scss */
 .leftHighlight div h3 {
@@ -258,9 +263,9 @@ body {
 
 /* line 74, ../sass/style.scss */
 .rightHighlight {
-  width: 30%;
-  margin-left: 5%;
-  margin-right: 5%;
+  width: 36.4%;
+  margin-left: 1.5%;
+  margin-right: 3%;
 }
 
 /* line 80, ../sass/style.scss */

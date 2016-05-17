@@ -1,59 +1,63 @@
-.npComplainCard .card{
-	width:$npComplainCardWidth;
-	margin-left:$npComplainCardLeftMargin;
-	margin-right:$npComplainCardRightMargin;
-	border:0;
-	padding-left:0;
-	padding-right:0;
+.npComplainCard{
+	padding-left:15px;
+	padding-right:15px;
+		& .card{
+		width:$npComplainCardWidth;
+		margin-left:$npComplainCardLeftMargin;
+		margin-right:$npComplainCardRightMargin;
+		border:0;
+		padding-left:0;
+		padding-right:0;
 
-	& .card-header{
-		height:80px;
-		padding:0;
-	}
-
-	& .customerName{
-		color:$black;
-		font-weight:$userNameFontWeight;
-	}
-
-	& .customer{
-		padding-top:10px;
-		padding-left:10px;
-	}
-
-	& .visitRating{
-		width:80px;
-	}
-
-	& .customer, & .visitRating{
-		position:relative;
-		display:inline-block;
-		margin-bottom:0px;
-		height:100%;
-
-		& span{
-			display:block;
-			height:50%;
+		& .card-header{
+			height:80px;
+			padding:0;
 		}
 
-		& .star{
-			padding-top:20px;
+		& .customerName{
+			color:$black;
+			font-weight:$userNameFontWeight;
 		}
-	}
 
-	& .reasons{
-		margin-top:10px;
-		margin-bottom:10px;
-
-		& +hr{
-			margin-top:0px;
-			margin-bottom:5px;
+		& .customer{
+			padding-top:10px;
+			padding-left:10px;
 		}
-	}
 
-	& .ticketDuration{
-		color:$lightgrey;
-		margin-bottom:0;
+		& .visitRating{
+			width:80px;
+		}
+
+		& .customer, & .visitRating{
+			position:relative;
+			display:inline-block;
+			margin-bottom:0px;
+			height:100%;
+
+			& span{
+				display:block;
+				height:50%;
+			}
+
+			& .star{
+				padding-top:20px;
+			}
+		}
+
+		& .reasons{
+			margin-top:10px;
+			margin-bottom:10px;
+
+			& +hr{
+				margin-top:0px;
+				margin-bottom:5px;
+			}
+		}
+
+		& .ticketDuration{
+			color:$lightgrey;
+			margin-bottom:0;
+		}
 	}
 }
 

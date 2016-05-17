@@ -23,14 +23,16 @@ $highlightBoxHeight:125px;
 $perFontSize:12px;
 
 //leftHighlight
-$leftHighlightWidth:50%;
-$leftHighlightLeftMargin:5%;
-$leftHighlightRightMargin:5%;
+$lrmargin:1.5%;
+$leftHighlightLeftMargin:3%;
+$leftHighlightRightMargin:$lrmargin;
 
 //rightHighlight
-$rightHighlightWidth:30%;
-$rightHighlightLeftMargin:5%;
-$rightHighlightRightMargin:5%;
+$rightHighlightLeftMargin:$lrmargin;
+$rightHighlightRightMargin:3%;
+
+$leftHighlightWidth:(100% - $leftHighlightLeftMargin - $rightHighlightRightMargin - $lrmargin - $lrmargin)*0.6;
+$rightHighlightWidth:100% - $leftHighlightWidth - $leftHighlightLeftMargin - $rightHighlightRightMargin - $lrmargin - $lrmargin;
 
 //percentage Difference
 $perSpanWidth:45px;
