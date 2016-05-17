@@ -136,30 +136,40 @@ body {
   padding-top: 20px;
 }
 /* line 44, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .reasons {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 48, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .reasons + hr {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+/* line 54, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .ticketDuration {
   color: #808080;
   margin-bottom: 0;
 }
 
-/* line 51, ../sass/features/_feedbackCard.scss */
+/* line 61, ../sass/features/_feedbackCard.scss */
 .card-block hr {
   margin-top: 0;
 }
-/* line 55, ../sass/features/_feedbackCard.scss */
+/* line 65, ../sass/features/_feedbackCard.scss */
 .card-block button {
   margin-bottom: 20px;
 }
 
-/* line 60, ../sass/features/_feedbackCard.scss */
+/* line 70, ../sass/features/_feedbackCard.scss */
 .card-blockquote {
   color: #000000;
 }
-/* line 64, ../sass/features/_feedbackCard.scss */
+/* line 74, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:before {
   content: open-quote;
   font-weight: bold;
 }
-/* line 69, ../sass/features/_feedbackCard.scss */
+/* line 79, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:after {
   content: close-quote;
   font-weight: bold;
@@ -249,4 +259,9 @@ body {
   margin-top: 8px;
   margin-bottom: 8px;
   background-color: #FFFFFF;
+}
+
+/* line 86, ../sass/style.scss */
+.loadmoreButton div {
+  margin-bottom: 60px;
 }

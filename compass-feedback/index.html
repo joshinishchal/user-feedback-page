@@ -35,7 +35,7 @@
     		<div class="col-xs-5 card text-xs-center highlight leftHighlight">
     			<p class="card-text whiteText">Today's Score</p>
     			<div class="card-text">
-    				<h3 class="card-title darkGreenTextColor">{{getTodaysScore(allData)}}<span class="card-text whiteText pull-xs-right pull-sm-right pull-md-right pull-lg-right perdiff" data-ng-hide="getTotalTodaysReviews()==0">+2.3%</span></h3>
+    				<h3 class="card-title darkGreenTextColor">{{getTodaysScore(allData)}}<span class="card-text whiteText pull-xs-right pull-sm-right pull-md-right pull-lg-right perdiff" data-ng-hide="getTotalTodaysReviews()==0"><!--+2.3%--></span></h3>
     			</div>
 				<p class="card-text whiteText">{{getTotalTodaysReviewsText()}}</p>
 			</div>
@@ -65,13 +65,17 @@
                     <div class="card-header">
                         <p class="customer pull-xs-left pull-sm-left pull-md-left pull-lg-left">
                             <span class="customerName">{{feedback.user_first_name}} {{feedback.user_last_name}}</span>
-                            <span class="visitDate text-danger">Visited: {{getVisitedDateObject(feedback.visit_date_mil_time_in_pst) | date : 'EEEE, MMMM d'}}</span>
+                            <span class="visitDate text-danger">Visited: {{getVisitedDateObject(feedback.visit_date_mil_time_in_pst) | date : 'EEE, MMM d'}}</span>
+                            <!--//{{getVisitedDateObject(feedback.visit_date_mil_time_in_pst) | date : 'EEEE, MMMM d'}}-->
                         </p>
                         <p class="visitRating pull-xs-right pull-sm-right pull-md-right pull-lg-right bg-danger">
                             <span class="star text-xs-center text-sm-center text-md-center text-lg-center vertical">{{feedback.rating}}<img class="imgStar" alt="star" src="images/Star.svg"></span>
-                            <span class="service text-xs-center text-sm-center text-md-center text-lg-center">{{getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6)}}</span>
                         </p>
                     </div>
+                    <p class="text-xs-center reasons" data-ng-hide="getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6).length == 0">
+                        <span class="service text-danger text-xs-center text-sm-center text-md-center text-lg-center">{{getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6)}}</span>
+                    </p>
+                    <hr class="" data-ng-hide="getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6).length == 0">
                     <div class="card-block">
                         <blockquote class="card-blockquote" data-ng-hide="isThereNoComment(feedback.comment.length)">
                             <p>{{feedback.comment}}</p>

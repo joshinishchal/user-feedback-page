@@ -41,6 +41,16 @@
 		}
 	}
 
+	& .reasons{
+		margin-top:10px;
+		margin-bottom:10px;
+
+		& +hr{
+			margin-top:0px;
+			margin-bottom:5px;
+		}
+	}
+
 	& .ticketDuration{
 		color:$lightgrey;
 		margin-bottom:0;
