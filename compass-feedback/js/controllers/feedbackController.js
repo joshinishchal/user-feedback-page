@@ -97,7 +97,7 @@ feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 		_totalTodaysScore = 0;
 		_totalTodaysReviews = 0;
 		
-		if(obj.length >= 1 && obj[obj.length - 1].$id == $filter("date")(new Date(2016,04,13), "yyyy-MM-dd")){
+		if(obj.length >= 1 && obj[obj.length - 1].$id == $filter("date")(new Date(), "yyyy-MM-dd")){
 			angular.forEach(obj[obj.length - 1], function(value,key){
 				if(typeof value == "object" && value != null){
 					_totalTodaysScore = _totalTodaysScore + parseInt(value.rating,10);
