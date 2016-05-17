@@ -45,6 +45,16 @@ feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 		return emailText;
 	};
 
+	this.isPhoneEmailAvailable = function(phoneEmail){
+		if(phoneEmail == "undefined" || phoneEmail == null || phoneEmail.replace(/ /g,"") == ""){
+			return false;
+		}else{
+			return true;
+		}
+	};
+
+
+
 	this.getReasons = function(reason1,reason2,reason3,reason4,reason5,reason6){
 
 		var reasons = reason1;
@@ -198,6 +208,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 
 	$scope.getPhoneText = fbhelper.getPhoneText;
 	$scope.getEmailText = fbhelper.getEmailText;
+	$scope.isPhoneEmailAvailable = fbhelper.isPhoneEmailAvailable;
 	$scope.getReasons = fbhelper.getReasons;
 	$scope.isThereNoComment = fbhelper.isThereNoComment;
 	$scope.getVisitedDateObject = fbhelper.getVisitedDateObject;

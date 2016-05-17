@@ -83,9 +83,9 @@
                         <p class="ticketDuration text-xs-center" data-ng-hide="true">Open for 5h</p>
                         <hr class="divider" data-ng-hide="isThereNoComment(feedback.comment.length)">
 
-                        <button type="button" class="btn btn-secondary pullLeft text-muted" ngclipboard data-ng-click="callText = getPhoneText(feedback.user_phone, callText)" data-clipboard-text={{getPhoneText(feedback.user_phone,callText)}} uib-tooltip="Copied to your clipboard!" tooltip-trigger="click outsideClick" tooltip-placement="left" tooltip-animation="true">{{callText}}</button>
-
-                        <button type="button" class="btn btn-secondary pullRight text-muted" ngclipboard data-ng-click="emailText = getEmailText(feedback.user_email,emailText)" data-clipboard-text={{getEmailText(feedback.user_email,emailText)}} uib-tooltip="Copied to your clipboard!" tooltip-trigger="click outsideClick" tooltip-placement="right" tooltip-animation="true">{{emailText}}</button>
+                        <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getPhoneText(feedback.user_phone,'');npDisplay='npDisplay';" data-ng-hide="!isPhoneEmailAvailable(feedback.user_phone)">{{callText}}</button>
+                        <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getEmailText(feedback.user_email,'');npDisplay='npDisplay';" data-ng-hide="!isPhoneEmailAvailable(feedback.user_email)">{{emailText}}</button>
+                        <p class="clearBoth {{npDisplay}}"><a><u class="text-muted">{{phoneEmailText}}</u></a></p>
                     </div>
                 </div>
 

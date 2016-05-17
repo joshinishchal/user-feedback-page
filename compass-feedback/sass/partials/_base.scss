@@ -33,6 +33,17 @@ body{
 	float:left;
 }
 
+.clearBoth{
+	display:block;
+	float:left;
+	clear:both;
+	display:none;
+}
+
+.npDisplay{
+	display:block;
+}
+
 .feedbackAppButton{
 	background-color: rgba($white, 0.25);
 }
