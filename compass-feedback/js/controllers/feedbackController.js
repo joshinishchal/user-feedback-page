@@ -1,4 +1,4 @@
-var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase", "ngclipboard", "ui.bootstrap"]);
+var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase"]);
 
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 
