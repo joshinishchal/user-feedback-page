@@ -69,7 +69,7 @@
                             <!--//{{getVisitedDateObject(feedback.visit_date_mil_time_in_pst) | date : 'EEEE, MMMM d'}}-->
                         </p>
                         <p class="visitRating pull-xs-right pull-sm-right pull-md-right pull-lg-right bg-danger">
-                            <span class="star text-xs-center text-sm-center text-md-center text-lg-center vertical">{{feedback.rating}}<img class="imgStar" alt="star" src="images/Star.svg"></span>
+                            <span class="star text-xs-center text-sm-center text-md-center text-lg-center vertical">{{feedback.rating}}</span><img class="imgStar" alt="star" src="images/Star.svg">
                         </p>
                     </div>
                     <p class="text-xs-center reasons" data-ng-hide="getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6).length == 0">

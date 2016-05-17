@@ -26,6 +26,25 @@
 
 		& .visitRating{
 			width:80px;
+			//height:79px;
+			padding-top:(79px-24px)/2;
+			padding-bottom:(79px-24px)/2;
+			padding-left:20px;
+			//padding-right:auto;
+
+			& .star{
+				//padding-top:20px;
+				display:inline-block;
+				height:100%;
+				font-size:24px;
+				line-height:24px;
+				vertical-align:middle;
+			}
+
+			& .imgStar{
+				display:inline-block;
+				height:22px;
+			}
 		}
 
 		& .customer, & .visitRating{
@@ -37,10 +56,6 @@
 			& span{
 				display:block;
 				height:50%;
-			}
-
-			& .star{
-				padding-top:20px;
 			}
 		}
 

@@ -125,44 +125,56 @@ body {
 /* line 27, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .visitRating {
   width: 80px;
+  padding-top: 27.5px;
+  padding-bottom: 27.5px;
+  padding-left: 20px;
 }
-/* line 31, ../sass/features/_feedbackCard.scss */
+/* line 35, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .visitRating .star {
+  display: inline-block;
+  height: 100%;
+  font-size: 24px;
+  line-height: 24px;
+  vertical-align: middle;
+}
+/* line 44, ../sass/features/_feedbackCard.scss */
+.npComplainCard .card .visitRating .imgStar {
+  display: inline-block;
+  height: 22px;
+}
+/* line 50, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .customer, .npComplainCard .card .visitRating {
   position: relative;
   display: inline-block;
   margin-bottom: 0px;
   height: 100%;
 }
-/* line 37, ../sass/features/_feedbackCard.scss */
+/* line 56, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .customer span, .npComplainCard .card .visitRating span {
   display: block;
   height: 50%;
 }
-/* line 42, ../sass/features/_feedbackCard.scss */
-.npComplainCard .card .customer .star, .npComplainCard .card .visitRating .star {
-  padding-top: 20px;
-}
-/* line 47, ../sass/features/_feedbackCard.scss */
+/* line 62, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .reasons {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 51, ../sass/features/_feedbackCard.scss */
+/* line 66, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .reasons + hr {
   margin-top: 0px;
   margin-bottom: 5px;
 }
-/* line 57, ../sass/features/_feedbackCard.scss */
+/* line 72, ../sass/features/_feedbackCard.scss */
 .npComplainCard .card .ticketDuration {
   color: #808080;
   margin-bottom: 0;
 }
 
-/* line 65, ../sass/features/_feedbackCard.scss */
+/* line 80, ../sass/features/_feedbackCard.scss */
 .card-block hr {
   margin-top: 0;
 }
-/* line 69, ../sass/features/_feedbackCard.scss */
+/* line 84, ../sass/features/_feedbackCard.scss */
 .card-block button {
   margin-bottom: 20px;
   max-width: 50%;
@@ -174,16 +186,16 @@ body {
   -moz-binding: url('/stylesheets/xml/ellipsis.xml#ellipsis');
 }
 
-/* line 76, ../sass/features/_feedbackCard.scss */
+/* line 91, ../sass/features/_feedbackCard.scss */
 .card-blockquote {
   color: #000000;
 }
-/* line 80, ../sass/features/_feedbackCard.scss */
+/* line 95, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:before {
   content: open-quote;
   font-weight: bold;
 }
-/* line 85, ../sass/features/_feedbackCard.scss */
+/* line 100, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:after {
   content: close-quote;
   font-weight: bold;
