@@ -46,3 +46,6 @@ $userNameFontWeight:400;
 $npComplainCardWidth:$leftHighlightWidth + $rightHighlightWidth + $leftHighlightRightMargin + $rightHighlightLeftMargin;
 $npComplainCardLeftMargin: (100% - $npComplainCardWidth) / 2;
 $npComplainCardRightMargin: 100% - $npComplainCardWidth - $npComplainCardLeftMargin;
+
+//default overwrite:
+$use-mozilla-ellipsis-binding:true;

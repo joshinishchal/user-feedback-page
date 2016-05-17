@@ -164,6 +164,7 @@ body {
   -ms-text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+  -moz-binding: url('/stylesheets/xml/ellipsis.xml#ellipsis');
 }
 
 /* line 72, ../sass/features/_feedbackCard.scss */
