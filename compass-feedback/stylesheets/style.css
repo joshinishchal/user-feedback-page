@@ -158,44 +158,50 @@ body {
 /* line 65, ../sass/features/_feedbackCard.scss */
 .card-block button {
   margin-bottom: 20px;
+  max-width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 
-/* line 70, ../sass/features/_feedbackCard.scss */
+/* line 72, ../sass/features/_feedbackCard.scss */
 .card-blockquote {
   color: #000000;
 }
-/* line 74, ../sass/features/_feedbackCard.scss */
+/* line 76, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:before {
   content: open-quote;
   font-weight: bold;
 }
-/* line 79, ../sass/features/_feedbackCard.scss */
+/* line 81, ../sass/features/_feedbackCard.scss */
 .card-blockquote p:after {
   content: close-quote;
   font-weight: bold;
 }
 
-/* line 12, ../sass/style.scss */
+/* line 13, ../sass/style.scss */
 .locationName-row, .dateButtons {
   padding-top: 15px;
   padding-bottom: 15px;
 }
 
-/* line 17, ../sass/style.scss */
+/* line 18, ../sass/style.scss */
 .dateButtons {
   width: 100%;
 }
-/* line 20, ../sass/style.scss */
+/* line 21, ../sass/style.scss */
 .dateButtons div:first-child {
   margin-left: 2.5%;
 }
-/* line 24, ../sass/style.scss */
+/* line 25, ../sass/style.scss */
 .dateButtons div:last-child {
   width: 45%;
   margin-right: 0%;
 }
 
-/* line 30, ../sass/style.scss */
+/* line 31, ../sass/style.scss */
 .perdiff {
   display: inline-block;
   font-size: 12px;
@@ -204,27 +210,27 @@ body {
   width: 45px;
 }
 
-/* line 38, ../sass/style.scss */
+/* line 39, ../sass/style.scss */
 #locationName {
   font-weight: normal;
 }
 
-/* line 42, ../sass/style.scss */
+/* line 43, ../sass/style.scss */
 .whiteText {
   color: #FFFFFF;
 }
 
-/* line 46, ../sass/style.scss */
+/* line 47, ../sass/style.scss */
 .darkGreenTextColor {
   color: #80ff00;
 }
 
-/* line 50, ../sass/style.scss */
+/* line 51, ../sass/style.scss */
 .totalRating {
   display: inline-block;
 }
 
-/* line 54, ../sass/style.scss */
+/* line 55, ../sass/style.scss */
 .highlight {
   padding-top: 1.5%;
   padding-bottom: 1%;
@@ -236,32 +242,32 @@ body {
   border-radius: 3px;
 }
 
-/* line 63, ../sass/style.scss */
+/* line 64, ../sass/style.scss */
 .leftHighlight {
   width: 50%;
   margin-left: 5%;
   margin-right: 5%;
 }
-/* line 68, ../sass/style.scss */
+/* line 69, ../sass/style.scss */
 .leftHighlight div h3 {
   padding-left: 45px;
 }
 
-/* line 73, ../sass/style.scss */
+/* line 74, ../sass/style.scss */
 .rightHighlight {
   width: 30%;
   margin-left: 5%;
   margin-right: 5%;
 }
 
-/* line 79, ../sass/style.scss */
+/* line 80, ../sass/style.scss */
 .feedBack hr {
   margin-top: 8px;
   margin-bottom: 8px;
   background-color: #FFFFFF;
 }
 
-/* line 86, ../sass/style.scss */
+/* line 87, ../sass/style.scss */
 .loadmoreButton div {
   margin-bottom: 60px;
 }
