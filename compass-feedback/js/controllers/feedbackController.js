@@ -2,9 +2,9 @@ var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase"]);
 
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 
-feedbackApp.constant("ChainName", "Three Rivers");
+feedbackApp.constant("ChainName", "Best Fit");
 
-feedbackApp.constant("ClubId" , "27b30fad-c756-4d96-afe0-6d3cb0ebc425");
+feedbackApp.constant("ClubId" , "9294a607-0ebe-4990-a1a0-f54fad7a80b7");
 
 feedbackApp.constant("OverViewKey", "0000");
 
@@ -46,6 +46,7 @@ feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 	};
 
 	this.isPhoneEmailAvailable = function(phoneEmail){
+		console.log("phoneEmail: " + phoneEmail);
 		if(phoneEmail == "undefined" || phoneEmail == null || phoneEmail.replace(/ /g,"") == ""){
 			return false;
 		}else{
