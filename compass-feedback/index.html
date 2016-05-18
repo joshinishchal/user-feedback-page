@@ -21,7 +21,7 @@
     <![endif]-->
   </head>
   <body data-ng-controller="feedbackController">
-    <div id="container" class="container">
+    <div id="container" class="container" data-ng-hide="!isPhoneEmailAvailable(allData)">
     	<div class="row locationName-row">
     		<!--// name of the club-->
     		<div class="col-xs-12 locationName-col">
