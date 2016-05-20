@@ -120,7 +120,7 @@ feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 		if(_totalTodaysReviews == 0){
 			return "--";
 		}else{
-			return $filter("number")(_totalTodaysScore, 1);
+			return $filter("number")(_totalTodaysScore/_totalTodaysReviews, 1);
 		}
 	};
 
