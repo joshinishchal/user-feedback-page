@@ -2,9 +2,9 @@ var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase"]);
 
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 
-feedbackApp.constant("ChainName", "Best Fit");
+feedbackApp.constant("ChainName", "Goodlife");
 
-feedbackApp.constant("ClubId" , "9294a607-0ebe-4990-a1a0-f54fad7a80b7");
+feedbackApp.constant("ClubId" , "32a55fb4-abb6-4dac-9cde-512c98f48245");
 
 feedbackApp.constant("OverViewKey", "0000");
 
