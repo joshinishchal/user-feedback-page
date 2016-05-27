@@ -85,7 +85,7 @@
 
                         <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getPhoneText(feedback.user_phone,'');npDisplay='npDisplay';" data-ng-hide="!isPhoneEmailAvailable(feedback.user_phone)">{{callText}}</button>
                         <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getEmailText(feedback.user_email,'');npDisplay='npDisplay';" data-ng-hide="!isPhoneEmailAvailable(feedback.user_email)">{{emailText}}</button>
-                        <p class="clearBoth {{npDisplay}}"><a><u class="text-muted">{{phoneEmailText}}</u></a></p>
+                        <p class="clearBoth {{npDisplay}}"><a href="#" class="text-muted">{{phoneEmailText}}</a></p>
                     </div>
                 </div>
 
