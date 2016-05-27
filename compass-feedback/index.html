@@ -21,7 +21,7 @@
     <![endif]-->
   </head>
   <body data-ng-controller="feedbackController">
-    <div id="container" class="container" data-ng-hide="!isPhoneEmailAvailable(allData)">
+    <div id="container" class="container" data-ng-hide="">
     	<div class="row locationName-row">
     		<!--// name of the club-->
     		<div class="col-xs-12 locationName-col">
@@ -60,7 +60,7 @@
                 <div class="col-xs-6"><button type="button" class="btn pullLeft whiteText feedbackAppButton">{{getDateObject(feedbacks.$id) | date:"MMMM dd"}}</button></div>
             </div>
 
-            <div class="row npComplainCard" data-ng-repeat="feedback in feedbacks" data-ng-init="">
+            <div class="row npComplainCard" data-ng-repeat="feedback in getFeedbacks(feedbacks.$id) | orderBy:'-'" data-ng-init="">
                 <div class="card col-xs-12">
                     <div class="card-header">
                         <p class="customer pull-xs-left pull-sm-left pull-md-left pull-lg-left">

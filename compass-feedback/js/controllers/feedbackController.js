@@ -12,15 +12,17 @@ feedbackApp.service("rootRef", ["FirebaseUrl", Firebase]);
 
 feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "ChainName", "ClubId", "OverViewKey", function club(rootRef, $firebaseArray, $firebaseObject, ChainName, ClubId, OverViewKey){
 	var clubId = rootRef.child(ChainName).child(ClubId);
-	var overView = clubId.child(OverViewKey);
 	this.getOverView = function() {
-		return $firebaseObject(overView);
+		return $firebaseObject(clubId.child(OverViewKey));
 	};
-	this.getAllData = function(index){
-		return $firebaseArray(clubId);
+	this.getAllData = function(){
+		return $firebaseArray(clubId.orderByValue());
 	};
 	this.getSpecificData = function(index){
 		return $firebaseArray(clubId.limitToLast(index));
+	};
+	this.getFeedbacks = function(date){
+		return $firebaseArray(clubId.child(date));
 	};
 }]);
 
@@ -46,8 +48,7 @@ feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 	};
 
 	this.isPhoneEmailAvailable = function(phoneEmail){
-		console.log("phoneEmail: " + phoneEmail);
-		if(phoneEmail == "undefined" || phoneEmail == null || phoneEmail.replace(/ /g,"") == ""){
+		if(phoneEmail == "undefined" || phoneEmail == null || phoneEmail == "" || phoneEmail.replace(/ /g,"") == ""){
 			return false;
 		}else{
 			return true;
@@ -190,10 +191,18 @@ feedbackApp.filter('tel', function(){
 feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "OverViewKey", function($scope, club, fbhelper, OverViewKey){
 	$scope.OverViewKey = OverViewKey;
 	$scope.daysTobeViewed = 1;
+	$scope.npFeedbacks = {};
 
 	$scope.overView = club.getOverView();
 
-	$scope.allData = club.getAllData($scope.daysTobeViewed);
+	$scope.allData = club.getAllData();
+
+	$scope.getFeedbacks = function(date){
+		if(!$scope.npFeedbacks[date]){
+			$scope.npFeedbacks[date] = club.getFeedbacks(date);
+		}
+		return $scope.npFeedbacks[date];
+	};
 
 	$scope.getTodaysScore = fbhelper.getTodaysScore;
 	$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;
