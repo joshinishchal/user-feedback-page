@@ -4,7 +4,7 @@ feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 
 feedbackApp.constant("ChainName", "Goodlife");
 
-feedbackApp.constant("ClubId" , "32a55fb4-abb6-4dac-9cde-512c98f48245");
+feedbackApp.constant("ClubId" , "dba16b7a-6430-4d98-a796-48e4d466d2c8");
 
 feedbackApp.constant("OverViewKey", "0000");
 
