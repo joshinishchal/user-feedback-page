@@ -1,17 +1,23 @@
-var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase"]);
+var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase", "ngRoute"]);
 
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
-
-feedbackApp.constant("ChainName", "Goodlife");
-
-feedbackApp.constant("ClubId" , "32a55fb4-abb6-4dac-9cde-512c98f48245");
 
 feedbackApp.constant("OverViewKey", "0000");
 
 feedbackApp.service("rootRef", ["FirebaseUrl", Firebase]);
 
-feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "ChainName", "ClubId", "OverViewKey", function club(rootRef, $firebaseArray, $firebaseObject, ChainName, ClubId, OverViewKey){
-	var clubId = rootRef.child(ChainName).child(ClubId);
+feedbackApp.factory("feedbackLocation", ["$route", "$routeParams", "$location", function feedbackLocation($route, $routeParams, $location){
+	var location = $location.$$path;
+	var arr = location.split("/");
+	return {
+		ChainName : arr[1],
+		ClubId : arr[2]
+	}
+
+}]);
+
+feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "OverViewKey", "feedbackLocation", function club(rootRef, $firebaseArray, $firebaseObject, OverViewKey, feedbackLocation){
+	var clubId = rootRef.child(feedbackLocation.ChainName).child(feedbackLocation.ClubId);
 	this.getOverView = function() {
 		return $firebaseObject(clubId.child(OverViewKey));
 	};
