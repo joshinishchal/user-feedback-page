@@ -222,6 +222,17 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 		}
 	};
 
+	this.hideShowPrevDayButton = function(daysTobeViewed, allDataObj){
+		if(allDataObj.length <= 1){
+			return true;
+		}else if(daysTobeViewed == allDataObj.length - 1){
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+
 }]);
 
 feedbackApp.filter('tel', function(){
@@ -289,6 +300,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;
 	$scope.getTotalTodaysReviews = fbhelper.getTotalTodaysReviews;
 	$scope.getTotalPrevScore = fbhelper.getTotalPrevScore;
+	$scope.hideShowPrevDayButton = fbhelper.hideShowPrevDayButton;
 
 	//All time score
 	$scope.getTotalAllTimeReview = fbhelper.getTotalAllTimeReview;
