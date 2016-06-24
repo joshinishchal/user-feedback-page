@@ -163,7 +163,7 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 		if(lastReviewDate == "" || lastReviewDate != todaysDate){
 			lastReviewDate = todaysDate;
 			angular.forEach(allDataObj, function(value,key){
-				if(value.$id != OverViewKey && value.$id != overViewObj.lastReviewDate){
+				if(value.$id != OverViewKey && value.$id != overViewObj.lastReviewDate && value.$id != todaysDate){
 					console.log("new value.$id: " + value.$id);
 					daysTotalReviewsAndTotalScore = getDaysReviesAndScore(value);
 					totalPrevScore = totalPrevScore + daysTotalReviewsAndTotalScore.totalScore;
