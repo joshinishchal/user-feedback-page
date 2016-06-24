@@ -79,7 +79,7 @@
                             <span class="visitDate text-danger">Visited: {{getVisitedDateObject(feedback.visit_date_mil_time_in_pst) | date : 'EEE, MMM d'}}</span>
                             <!--//{{getVisitedDateObject(feedback.visit_date_mil_time_in_pst) | date : 'EEEE, MMMM d'}}-->
                         </p>
-                        <p class="visitRating pull-xs-right pull-sm-right pull-md-right pull-lg-right bg-danger">
+                        <p class="visitRating pull-xs-right pull-sm-right pull-md-right pull-lg-right {{getStarBGClass(feedback.rating)}}">
                             <span class="star text-xs-center text-sm-center text-md-center text-lg-center vertical">{{feedback.rating}}</span><img class="imgStar" alt="star" src="images/Star.svg">
                         </p>
                     </div>

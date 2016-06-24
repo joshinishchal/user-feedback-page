@@ -214,6 +214,14 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 		}
 	};
 
+	this.getStarBGClass = function(numOfStars){
+		if(numOfStars >= 4){
+			return "bg-success";
+		}else{
+			return "bg-danger";
+		}
+	};
+
 }]);
 
 feedbackApp.filter('tel', function(){
@@ -301,6 +309,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.isThereNoComment = fbhelper.isThereNoComment;
 	$scope.getVisitedDateObject = fbhelper.getVisitedDateObject;
 	$scope.getDateObject = fbhelper.getDateObject;
+	$scope.getStarBGClass = fbhelper.getStarBGClass;
 
 	$scope.allData.$loaded().then(function(){
 		$scope.getTotalPrevScore($scope.overView,$scope.allData);
