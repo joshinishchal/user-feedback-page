@@ -32,7 +32,7 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ov
 	};
 }]);
 
-feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
+feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($filter, OverViewKey){
 
 	var _totalTodaysScore = 0;
 	var _totalTodaysReviews = 0;
@@ -114,14 +114,12 @@ feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 	this.getTodaysScore = function(obj){
 		_totalTodaysScore = 0;
 		_totalTodaysReviews = 0;
+		var todaysReviewsAndScore;
 		
 		if(obj.length >= 1 && obj[obj.length - 1].$id == $filter("date")(new Date(), "yyyy-MM-dd")){
-			angular.forEach(obj[obj.length - 1], function(value,key){
-				if(typeof value == "object" && value != null){
-					_totalTodaysScore = _totalTodaysScore + parseInt(value.rating,10);
-					_totalTodaysReviews = _totalTodaysReviews + 1;
-				}
-			});
+			todaysReviewsAndScore = getDaysReviesAndScore(obj[obj.length - 1]);
+			_totalTodaysScore = todaysReviewsAndScore.totalScore;
+			_totalTodaysReviews = todaysReviewsAndScore.totalReviews;
 		}
 
 		if(_totalTodaysReviews == 0){
@@ -131,8 +129,65 @@ feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 		}
 	};
 
-	function getDaysRevies(){
+	this.getTotalPrevScore = function(overViewObj, allDataObj){
 
+		var daysTotalReviewsAndTotalScore;
+		var todaysDate = $filter("date")(new Date(), "yyyy-MM-dd");
+		var lastReviewDate;
+		var totalPrevScore = 0;
+		var totalPrevReviews = 0;
+
+		if(overViewObj.lastReviewDate == todaysDate){
+			totalPrevScore = overViewObj.totalRating;
+			totalPrevReviews = overViewObj.totalReviews;
+			return;
+		}else{
+			totalPrevScore = 0;
+			totalPrevReviews = 0;
+		}
+
+		if(!overViewObj.lastReviewDate){
+			overViewObj.lastReviewDate = "";
+		}
+
+		if(!overViewObj.totalRating){
+			overViewObj.totalRating = "";
+		}
+
+		if(!overViewObj.totalReviews){
+			overViewObj.totalReviews = "";
+		}
+
+		lastReviewDate = overViewObj.lastReviewDate;
+
+		if(lastReviewDate == "" || lastReviewDate != todaysDate){
+			lastReviewDate = todaysDate;
+			angular.forEach(allDataObj, function(value,key){
+				if(value.$id != OverViewKey && value.$id != overViewObj.lastReviewDate){
+					console.log("new value.$id: " + value.$id);
+					daysTotalReviewsAndTotalScore = getDaysReviesAndScore(value);
+					totalPrevScore = totalPrevScore + daysTotalReviewsAndTotalScore.totalScore;
+					totalPrevReviews = totalPrevReviews + daysTotalReviewsAndTotalScore.totalReviews;
+					daysTotalReviewsAndTotalScore = null;
+				}
+			});
+		}
+
+		overViewObj.lastReviewDate = lastReviewDate;
+		overViewObj.totalRating = totalPrevScore;
+		overViewObj.totalReviews = totalPrevReviews;
+	}
+
+	function getDaysReviesAndScore(feedbackObj){
+		var totalScore = 0;
+		var totalReviews = 0;
+		angular.forEach(feedbackObj, function(value,key){
+			if(typeof value == "object" && value != null){
+				totalScore = totalScore + parseInt(value.rating,10);
+				totalReviews = totalReviews + 1;
+			}
+		});
+		return {"totalScore" : totalScore, "totalReviews" : totalReviews};
 	}
 
 	this.getTotalTodaysReviews = function(){
@@ -144,6 +199,18 @@ feedbackApp.service("fbhelper", ["$filter", function fbhelper($filter){
 			return "from " + _totalTodaysReviews + " reviews";
 		}else{
 			return "no new review";
+		}
+	};
+
+	this.getTotalAllTimeReview = function(overViewObj){
+		return overViewObj.totalReviews + _totalTodaysReviews;
+	};
+
+	this.getAvgAllTimeScore = function(overViewObj){
+		if(overViewObj.totalReviews + _totalTodaysReviews > 0){
+			return $filter("number")((overViewObj.totalRating + _totalTodaysScore)/(overViewObj.totalReviews + _totalTodaysReviews), 1);
+		}else{
+			return "--";
 		}
 	};
 
@@ -213,6 +280,11 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.getTodaysScore = fbhelper.getTodaysScore;
 	$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;
 	$scope.getTotalTodaysReviews = fbhelper.getTotalTodaysReviews;
+	$scope.getTotalPrevScore = fbhelper.getTotalPrevScore;
+
+	//All time score
+	$scope.getTotalAllTimeReview = fbhelper.getTotalAllTimeReview;
+	$scope.getAvgAllTimeScore = fbhelper.getAvgAllTimeScore;
 
 	$scope.getMoreData = function(){
 		$scope.daysTobeViewed++;
@@ -229,4 +301,8 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.isThereNoComment = fbhelper.isThereNoComment;
 	$scope.getVisitedDateObject = fbhelper.getVisitedDateObject;
 	$scope.getDateObject = fbhelper.getDateObject;
+
+	$scope.allData.$loaded().then(function(){
+		$scope.getTotalPrevScore($scope.overView,$scope.allData);
+	});
 }]);
