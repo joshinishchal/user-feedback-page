@@ -36,6 +36,7 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 
 	var _totalTodaysScore = 0;
 	var _totalTodaysReviews = 0;
+	var _overViewFlag = false;
 
 	this.getPhoneText = function(feedbackPhone, defaultPhoneText){
 		var phoneText = defaultPhoneText;
@@ -161,6 +162,7 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 		lastReviewDate = overViewObj.lastReviewDate;
 
 		if(lastReviewDate == "" || lastReviewDate != todaysDate){
+			_overViewFlag = true;
 			lastReviewDate = todaysDate;
 			angular.forEach(allDataObj, function(value,key){
 				if(value.$id != OverViewKey && value.$id != todaysDate){
@@ -177,6 +179,10 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 		overViewObj.totalRating = totalPrevScore;
 		overViewObj.totalReviews = totalPrevReviews;
 	}
+
+	this.hasOverViewNodeChanged = function(){
+		return _overViewFlag;
+	};
 
 	function getDaysReviesAndScore(feedbackObj){
 		var totalScore = 0;
@@ -325,5 +331,12 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 
 	$scope.allData.$loaded().then(function(){
 		$scope.getTotalPrevScore($scope.overView,$scope.allData);
+		if(fbhelper.hasOverViewNodeChanged()){
+			$scope.overView.$save().then(function(){
+				console.log("successfully updated overview node");
+			},function(error){
+				console.log("Error: Could not update overView node. ",error);
+			});
+		}
 	});
 }]);
