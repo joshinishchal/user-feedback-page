@@ -16,6 +16,18 @@ feedbackApp.factory("feedbackLocation", ["$route", "$routeParams", "$location", 
 
 }]);
 
+feedbackApp.service("gaDimensionSender",["feedbackLocation", function gaDimensionSender(feedbackLocation){
+	this.sendDimensions = function(){
+		if(ga){
+			//console.log("GA exists..");
+			ga('set', 'dimension1', feedbackLocation.ChainName);
+			ga('set', 'dimension2', feedbackLocation.ClubId);
+		}else{
+			//console.log("GA is not defined yet..");
+		}
+	};
+}]);
+
 feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "OverViewKey", "feedbackLocation", function club(rootRef, $firebaseArray, $firebaseObject, OverViewKey, feedbackLocation){
 	var clubId = rootRef.child(feedbackLocation.ChainName).child(feedbackLocation.ClubId);
 	this.getOverView = function() {
@@ -32,7 +44,7 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ov
 	};
 }]);
 
-feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($filter, OverViewKey){
+feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", function fbhelper($filter, OverViewKey, gaDimensionSender){
 
 	var _totalTodaysScore = 0;
 	var _totalTodaysReviews = 0;
@@ -54,6 +66,35 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 		return emailText;
 	};
 
+	this.reportCallClick = function(reviewTime, userUUID){
+		ga('set','userId',ga.clientId);
+		gaDimensionSender.sendDimensions();
+		ga('set', 'dimension3', userUUID);
+		//console.log("Click ResponseTime: " + getResponseTime(reviewTime));
+		ga('send','event','Web Club 360 Response', 'called-customer-from-web',ga.clientId,getResponseTime(reviewTime));
+	};
+
+	this.reportEmailClick = function(reviewTime, userUUID){
+		ga('set','userId',ga.clientId);
+		gaDimensionSender.sendDimensions();
+		ga('set', 'dimension3', userUUID);
+		ga('send','event','Web Club 360 Response', 'emailed-customer-from-web',ga.clientId,getResponseTime(reviewTime));
+	};
+
+	function getResponseTime(reviewTime){
+		//Returns time in minutes.
+		var reviewDate = getDateObjectFromMT(reviewTime);
+		var today = new Date();
+		var responseTime = today - reviewDate;
+		var minuteConversion = 60000;
+		if(responseTime <= 60000){
+			return 1
+		}else{
+			return Math.round(responseTime/minuteConversion);
+		}
+		return 10;
+	}
+
 	this.isPhoneEmailAvailable = function(phoneEmail){
 		if(phoneEmail == "undefined" || phoneEmail == null || phoneEmail == "" || phoneEmail.replace(/ /g,"") == ""){
 			return false;
@@ -73,7 +114,7 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 		reasons = addReasons(reasons,reason5);
 		reasons = addReasons(reasons,reason6);
 		return reasons;
-		
+
 	};
 
 	function addReasons(reasons,newReason){
@@ -99,13 +140,20 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 	};
 
 	this.getVisitedDateObject = function(str){
+		return getDateObjectFromMT(str);
+	};
+
+	function getDateObjectFromMT(str){
 		//"04/27/2016 15:32:53 PDT"
 		//new Date(year, month, day, hours, minutes, seconds, milliseconds)
 		//fullDate or EEEE, MMMM d
-		var date = str.split(" ")[0].split("/");
+		var dateObj = str.split(" ");
+		var date = dateObj[0].split("/");
+		var time = dateObj[1].split(":");
+		var timeZone = dateObj[2];
 
-		return new Date(date[2], date[0] - 1, date[1]);
-	};
+		return new Date(date[2], date[0] - 1, date[1], time[0], time[1], time[2]);
+	}
 
 	this.getDateObject = function(str){
 		var dateArray = str.split("-");
@@ -116,7 +164,7 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 		_totalTodaysScore = 0;
 		_totalTodaysReviews = 0;
 		var todaysReviewsAndScore;
-		
+
 		if(obj.length >= 1 && obj[obj.length - 1].$id == $filter("date")(new Date(), "yyyy-MM-dd")){
 			todaysReviewsAndScore = getDaysReviesAndScore(obj[obj.length - 1]);
 			_totalTodaysScore = todaysReviewsAndScore.totalScore;
@@ -166,7 +214,6 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", function fbhelper($fi
 			lastReviewDate = todaysDate;
 			angular.forEach(allDataObj, function(value,key){
 				if(value.$id != OverViewKey && value.$id != todaysDate){
-					console.log("new value.$id: " + value.$id);
 					daysTotalReviewsAndTotalScore = getDaysReviesAndScore(value);
 					totalPrevScore = totalPrevScore + daysTotalReviewsAndTotalScore.totalScore;
 					totalPrevReviews = totalPrevReviews + daysTotalReviewsAndTotalScore.totalReviews;
@@ -286,7 +333,7 @@ feedbackApp.filter('tel', function(){
     };
 });
 
-feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "OverViewKey", function($scope, club, fbhelper, OverViewKey){
+feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "OverViewKey", "gaDimensionSender", function($scope, club, fbhelper, OverViewKey, gaDimensionSender){
 	$scope.OverViewKey = OverViewKey;
 	$scope.daysTobeViewed = 1;
 	$scope.npFeedbacks = {};
@@ -294,6 +341,8 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.overView = club.getOverView();
 
 	$scope.allData = club.getAllData();
+
+	gaDimensionSender.sendDimensions();
 
 	$scope.getFeedbacks = function(date){
 		if(!$scope.npFeedbacks[date]){
@@ -308,11 +357,18 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.getTotalPrevScore = fbhelper.getTotalPrevScore;
 	$scope.hideShowPrevDayButton = fbhelper.hideShowPrevDayButton;
 
+	//Google Analytics
+	$scope.reportCallClick = fbhelper.reportCallClick;
+	$scope.reportEmailClick = fbhelper.reportEmailClick;
+
 	//All time score
 	$scope.getTotalAllTimeReview = fbhelper.getTotalAllTimeReview;
 	$scope.getAvgAllTimeScore = fbhelper.getAvgAllTimeScore;
 
 	$scope.getMoreData = function(){
+		ga('set','userId',ga.clientId);
+		gaDimensionSender.sendDimensions();
+		ga('send','event','Web Club 360 View Tickets', 'viewed-previous-day-from-web',ga.clientId,$scope.daysTobeViewed);
 		$scope.daysTobeViewed++;
 		//$scope.allData = club.getAllData($scope.daysTobeViewed);
 	};
@@ -333,9 +389,9 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 		$scope.getTotalPrevScore($scope.overView,$scope.allData);
 		if(fbhelper.hasOverViewNodeChanged()){
 			$scope.overView.$save().then(function(){
-				console.log("successfully updated overview node");
+				//console.log("successfully updated overview node");
 			},function(error){
-				console.log("Error: Could not update overView node. ",error);
+				//console.log("Error: Could not update overView node. ",error);
 			});
 		}
 	});

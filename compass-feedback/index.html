@@ -26,9 +26,13 @@
          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-         ga('create', 'UA-78447148-1', 'auto');
-         ga('send', 'pageview');
-
+        ga('create', 'UA-78447148-1', 'auto');
+        ga('send', 'pageview');
+        ga(function(tracker) {
+            ga.clientId = tracker.get('clientId');
+            ga('set','userId',ga.clientId);
+            ga('send','event','Web Club 360 View Tickets', 'opened-web',ga.clientId,1)
+        });
     </script>
   </head>
   <body data-ng-controller="feedbackController">
@@ -57,7 +61,7 @@
 				<p class="card-text whiteText">from {{getTotalAllTimeReview(overView)}} reviews</p>
 			</div>
 
-    	</div>    
+    	</div>
 
     	<div class="row feedBack">
             <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"><hr class=""></div>
@@ -94,14 +98,16 @@
                         <p class="ticketDuration text-xs-center" data-ng-hide="true">Open for 5h</p>
                         <hr class="divider" data-ng-hide="isThereNoComment(feedback.comment.length)">
 
-                        <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getPhoneText(feedback.user_phone,'');npDisplay='npDisplay';" data-ng-hide="!isPhoneEmailAvailable(feedback.user_phone)">{{callText}}</button>
-                        <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getEmailText(feedback.user_email,'');npDisplay='npDisplay';" data-ng-hide="!isPhoneEmailAvailable(feedback.user_email)">{{emailText}}</button>
+                        <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getPhoneText(feedback.user_phone,'');npDisplay='npDisplay';reportCallClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(feedback.user_phone)">{{callText}}</button>
+
+                        <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getEmailText(feedback.user_email,'');npDisplay='npDisplay';reportEmailClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(feedback.user_email)">{{emailText}}</button>
+
                         <p class="clearBoth {{npDisplay}}"><a class="text-muted">{{phoneEmailText}}</a></p>
                     </div>
                 </div>
 
             </div>
-            
+
         </div>
 
 
