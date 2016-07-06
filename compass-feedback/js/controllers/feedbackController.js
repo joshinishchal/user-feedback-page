@@ -1,12 +1,12 @@
 var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase", "ngRoute", "cgBusy", "ngAnimate"]);
 
 feedbackApp.value('cgBusyDefaults',{
-	message:'Please wait..',
+	message:'Loading',
 	//backdrop: false,
 	/*templateUrl: 'my_custom_template.html',*/
 	delay: 0,
-	minDuration: 700/*,
-	wrapperClass: 'my-class my-class2'*/
+	minDuration: 700,
+	wrapperClass: 'centerAbsoluteEl'
 });
 
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
