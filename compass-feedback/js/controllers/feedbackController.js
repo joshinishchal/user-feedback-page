@@ -1,4 +1,13 @@
-var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase", "ngRoute"]);
+var feedbackApp = angular.module("feedbackApp", ["ngResource", "firebase", "ngRoute", "cgBusy", "ngAnimate"]);
+
+feedbackApp.value('cgBusyDefaults',{
+	message:'Please wait..',
+	//backdrop: false,
+	/*templateUrl: 'my_custom_template.html',*/
+	delay: 0,
+	minDuration: 700/*,
+	wrapperClass: 'my-class my-class2'*/
+});
 
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 
@@ -341,6 +350,8 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.overView = club.getOverView();
 
 	$scope.allData = club.getAllData();
+
+	$scope.cgBusyPromise = [$scope.overView.$loaded(), $scope.allData.$loaded()];
 
 	gaDimensionSender.sendDimensions();
 
