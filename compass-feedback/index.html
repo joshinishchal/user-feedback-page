@@ -42,7 +42,7 @@
         	<div class="row locationName-row">
         		<!--// name of the club-->
         		<div class="col-xs-12 locationName-col">
-        			<h4 id="locationName" class="whiteText text-xs-center">{{overView.locationName}}</h4>
+        			<h4 id="locationName" class="whiteText text-xs-center" data-ng-bind="overView.locationName"></h4>
         		</div>
         	</div>
 
@@ -52,15 +52,15 @@
         		<div class="col-xs-5 card text-xs-center highlight leftHighlight">
         			<p class="card-text whiteText">Today's Score</p>
         			<div class="card-text">
-        				<h3 class="card-title darkGreenTextColor text-xs-center">{{getTodaysScore(allData)}}<!--<span class="card-text whiteText pull-xs-right pull-sm-right pull-md-right pull-lg-right perdiff" data-ng-hide="getTotalTodaysReviews()==0">+2.3%</span>--></h3>
+        				<h3 class="card-title darkGreenTextColor text-xs-center" data-ng-bind="getTodaysScore(allData)"><!--<span class="card-text whiteText pull-xs-right pull-sm-right pull-md-right pull-lg-right perdiff" data-ng-hide="getTotalTodaysReviews()==0">+2.3%</span>--></h3>
         			</div>
-    				<p class="card-text whiteText">{{getTotalTodaysReviewsText()}}</p>
+    				<p class="card-text whiteText" data-ng-bind="getTotalTodaysReviewsText()"></p>
     			</div>
 
     			<div class="col-xs-4 card text-xs-center highlight rightHighlight">
         			<p class="card-text whiteText">All-Time</p>
-    				<h3 class="card-title whiteText">{{getAvgAllTimeScore(overView)}}</h3>
-    				<p class="card-text whiteText">from {{getTotalAllTimeReview(overView)}} reviews</p>
+    				<h3 class="card-title whiteText" data-ng-bind="getAvgAllTimeScore(overView)"></h3>
+    				<p class="card-text whiteText" data-ng-bind="'from ' + getTotalAllTimeReview(overView) + ' reviews'"></p>
     			</div>
 
         	</div>
@@ -74,37 +74,37 @@
             <div data-ng-repeat="feedbacks in allData | orderBy:'-' | limitTo: daysTobeViewed as results" data-ng-if="feedbacks.$id != OverViewKey">
 
                 <div class="row dateButtons">
-                    <div class="col-xs-6"><button type="button" class="btn pullLeft whiteText feedbackAppButton">{{getDateObject(feedbacks.$id) | date:"MMMM dd"}}</button></div>
+                    <div class="col-xs-6"><button type="button" class="btn pullLeft whiteText feedbackAppButton" data-ng-bind="getDateObject(feedbacks.$id) | date:'MMMM dd'"></button></div>
                 </div>
 
                 <div class="row npComplainCard" data-ng-repeat="feedback in getFeedbacks(feedbacks.$id) | orderBy:'-'" data-ng-init="">
                     <div class="card col-xs-12">
                         <div class="card-header">
                             <p class="customer pull-xs-left pull-sm-left pull-md-left pull-lg-left">
-                                <span class="customerName">{{feedback.user_first_name}} {{feedback.user_last_name}}</span>
-                                <span class="visitDate text-danger">Visited: {{getVisitedDateObject(feedback.visit_date_mil_time_in_pst) | date : 'EEE, MMM d'}}</span>
+                                <span class="customerName" data-ng-bind="feedback.user_first_name + ' ' + feedback.user_last_name"></span>
+                                <span class="visitDate text-danger" data-ng-bind="'Visited: ' + (getVisitedDateObject(feedback.visit_date_mil_time_in_pst)|date:'EEE, MMM d')"></span>
                                 <!--//{{getVisitedDateObject(feedback.visit_date_mil_time_in_pst) | date : 'EEEE, MMMM d'}}-->
                             </p>
                             <p class="visitRating pull-xs-right pull-sm-right pull-md-right pull-lg-right {{getStarBGClass(feedback.rating)}}">
-                                <span class="star text-xs-center text-sm-center text-md-center text-lg-center vertical">{{feedback.rating}}</span><img class="imgStar" alt="star" src="images/Star.svg">
+                                <span class="star text-xs-center text-sm-center text-md-center text-lg-center vertical" data-ng-bind="feedback.rating"></span><img class="imgStar" alt="star" src="images/Star.svg">
                             </p>
                         </div>
                         <p class="text-xs-center reasons" data-ng-hide="getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6).length == 0">
-                            <span class="service text-danger text-xs-center text-sm-center text-md-center text-lg-center">{{getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6)}}</span>
+                            <span class="service text-danger text-xs-center text-sm-center text-md-center text-lg-center" data-ng-bind="getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6)"></span>
                         </p>
                         <hr class="" data-ng-hide="getReasons(feedback.reason_1,feedback.reason_2,feedback.reason_3,feedback.reason_4,feedback.reason_5,feedback.reason_6).length == 0">
                         <div class="card-block">
                             <blockquote class="card-blockquote" data-ng-hide="isThereNoComment(feedback.comment.length)">
-                                <p>{{feedback.comment}}</p>
+                                <p data-ng-bind="feedback.comment"></p>
                             </blockquote>
                             <p class="ticketDuration text-xs-center" data-ng-hide="true">Open for 5h</p>
                             <hr class="divider" data-ng-hide="isThereNoComment(feedback.comment.length)">
 
-                            <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getPhoneText(feedback.user_phone,'');npDisplay='npDisplay';reportCallClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(feedback.user_phone)">{{callText}}</button>
+                            <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getPhoneText(feedback.user_phone,'');npDisplay='npDisplay';reportCallClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(feedback.user_phone)" data-ng-bind="callText"></button>
 
-                            <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getEmailText(feedback.user_email,'');npDisplay='npDisplay';reportEmailClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(feedback.user_email)">{{emailText}}</button>
+                            <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getEmailText(feedback.user_email,'');npDisplay='npDisplay';reportEmailClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(feedback.user_email)" data-ng-bind="emailText"></button>
 
-                            <p class="clearBoth {{npDisplay}}"><a class="text-muted">{{phoneEmailText}}</a></p>
+                            <p class="clearBoth {{npDisplay}}"><a class="text-muted" data-ng-bind="phoneEmailText"></a></p>
                         </div>
                     </div>
 
