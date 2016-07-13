@@ -386,11 +386,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 		//return $scope.reportFeedbacks;
 	};
 
-	$scope.rootNode = {};
-
 	function createRootNode(brand, locationUUID){
-		console.log("brand: " + brand);
-		console.log("locationUUID: " + locationUUID);
 
 		if(!$scope.rootNode[brand]){
 			$scope.rootNode[brand] = {};
@@ -406,21 +402,23 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 
 	$scope.getReportFeedbacks();
 
-	$scope.uniqueUsers = {};
+	$scope.rootNode = {};
+
+	var uniqueUsers = {};
 
 	var latestReportId = 0;
 
-	$scope.trends = [];
-	$scope.happyCustomers = {};
-	$scope.unHappyCustomers = {};
+	var trends = [];
+	var happyCustomers = {};
+	var unHappyCustomers = {};
 
 	function publishReport(){
 		var reportId = ++latestReportId;
 		var detailedReport = {
-			trends : $scope.trends,
-			happyCustomers : $scope.happyCustomers,
-			unHappyCustomers : $scope.unHappyCustomers,
-			uniqueUsers : $scope.uniqueUsers
+			trends : trends,
+			happyCustomers : happyCustomers,
+			unHappyCustomers : unHappyCustomers,
+			uniqueUsers : uniqueUsers
 		};
 
 		var reportSummary = {
@@ -457,7 +455,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	function generateUserReport(){
 		var trend, trendType, arrSize;
 
-		angular.forEach($scope.uniqueUsers, function(ratingArray,uuid){
+		angular.forEach(uniqueUsers, function(ratingArray,uuid){
 			trend = 0;
 			trendType = null;
 			arrSize = ratingArray["ratings"].length;
@@ -481,21 +479,21 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 			}
 
 			if(trendType == "positive"){
-				if(!$scope.happyCustomers[trend]){
-					$scope.happyCustomers[trend] = [];
-					$scope.trends.push(trend);
+				if(!happyCustomers[trend]){
+					happyCustomers[trend] = [];
+					trends.push(trend);
 				}
-				$scope.happyCustomers[trend].push(uuid);
+				happyCustomers[trend].push(uuid);
 			}else{
-				if(!$scope.unHappyCustomers[trend]){
-					$scope.unHappyCustomers[trend] = [];
-					$scope.trends.push(trend);
+				if(!unHappyCustomers[trend]){
+					unHappyCustomers[trend] = [];
+					trends.push(trend);
 				}
-				$scope.unHappyCustomers[trend].push(uuid);
+				unHappyCustomers[trend].push(uuid);
 			}
 		});
 
-		$scope.trends.sort().reverse();
+		trends.sort().reverse();
 		publishReport();
 	}
 
@@ -512,12 +510,12 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 				var exerciserUUID = value["netpulse_exerciser_UUID"];
 				//console.log("uuid: " + exerciserUUID);
 
-				if(!$scope.uniqueUsers[exerciserUUID]){
-					$scope.uniqueUsers[exerciserUUID] = getUserTemplate(value["user_first_name"],value["user_last_name"],value["user_email"],value["user_phone"],value["user_gender"]);
+				if(!uniqueUsers[exerciserUUID]){
+					uniqueUsers[exerciserUUID] = getUserTemplate(value["user_first_name"],value["user_last_name"],value["user_email"],value["user_phone"],value["user_gender"]);
 				}
 
-				$scope.uniqueUsers[exerciserUUID]["ratings"].push(value.rating);
-				$scope.uniqueUsers[exerciserUUID]["feedbacks"].push(getFeedbackObj(date,feedbackId));
+				uniqueUsers[exerciserUUID]["ratings"].push(value.rating);
+				uniqueUsers[exerciserUUID]["feedbacks"].push(getFeedbackObj(date,feedbackId));
 			});
 		});
 
