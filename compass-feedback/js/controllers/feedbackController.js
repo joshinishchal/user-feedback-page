@@ -9,7 +9,11 @@ feedbackApp.value('cgBusyDefaults',{
 	wrapperClass: 'centerAbsoluteEl'
 });
 
-feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
+feedbackApp.constant("FirebaseUrl", "https://nischal-test.firebaseio.com");
+feedbackApp.constant("ReportUrl", "https://nischal-report-test.firebaseio.com");
+feedbackApp.constant("StartDate", "2016-07-02");
+feedbackApp.constant("EndDate", "2016-07-08");
+feedbackApp.constant("DatesArray",["2016-07-02","2016-07-03","2016-07-04","2016-07-05","2016-07-06","2016-07-07","2016-07-08"]);
 
 feedbackApp.constant("OverViewKey", "0000");
 
@@ -342,10 +346,12 @@ feedbackApp.filter('tel', function(){
     };
 });
 
-feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "OverViewKey", "gaDimensionSender", function($scope, club, fbhelper, OverViewKey, gaDimensionSender){
+feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "OverViewKey", "gaDimensionSender", "DatesArray", function($scope, club, fbhelper, OverViewKey, gaDimensionSender, DatesArray){
 	$scope.OverViewKey = OverViewKey;
 	$scope.daysTobeViewed = 1;
 	$scope.npFeedbacks = {};
+
+	$scope.reportFeedbacks = {};
 
 	$scope.overView = club.getOverView();
 
@@ -361,6 +367,126 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 		}
 		return $scope.npFeedbacks[date];
 	};
+
+	var totalReviewsLoaded = 0;
+
+	$scope.getReportFeedbacks = function(){
+		for(var i=0; i <= DatesArray.length-1; i++){
+			if(!$scope.reportFeedbacks[DatesArray[i]]){
+				$scope.reportFeedbacks[DatesArray[i]] = club.getFeedbacks(DatesArray[i]);
+				var date = DatesArray[i];
+				$scope.reportFeedbacks[DatesArray[i]].$loaded().then(function(){
+					totalReviewsLoaded++;
+					if(totalReviewsLoaded == DatesArray.length){
+						identifyUniqueUsers();
+					}
+				});
+			}
+		}
+		//return $scope.reportFeedbacks;
+	};
+	$scope.getReportFeedbacks();
+
+	$scope.uniqueUsers = {};
+	$scope.trends = {
+		"happyCustomers" : [],
+		"unHappyCustomers" : []
+	};
+
+	$scope.detailedReport = {};
+	$scope.reports = [];
+
+	$scope.trends = [];
+	$scope.happyCustomers = {};
+	$scope.unHappyCustomers = {};
+
+	function getUserTemplate(firstName, lastName, email, phone, gender){
+		return {
+			"user_first_name" : firstName,
+			"user_last_name" : lastName,
+			"user_email" : email,
+			"user_phone:" : phone,
+			"user_gender" : gender,
+			"ratings" : [],
+			"feedbacks" : []
+		};
+	};
+
+	function getFeedbackObj(date, feedbackId){
+		return {
+			"date" : date,
+			"feedbackId" : feedbackId
+		};
+	};
+
+	function generateUserReport(){
+		var trend, trendType, arrSize;
+
+		angular.forEach($scope.uniqueUsers, function(ratingArray,uuid){
+			trend = 0;
+			trendType = null;
+			arrSize = ratingArray["ratings"].length;
+			for(var i = arrSize-1; i >=0; i--){
+				//console.log("Ratings: " + ratingArray["ratings"][i]);
+				if(trendType == null && ratingArray["ratings"][i] >= 4){
+					trendType = "positive";
+				}else if(trendType == null && ratingArray["ratings"][i] <= 3){
+					trendType = "negative";
+				}else if(trendType == "positive" && ratingArray["ratings"][i] <= 3){
+					break;
+				}else if(trendType == "negative" && ratingArray["ratings"][i] >= 4){
+					break;
+				}
+
+				if(trendType == "positive"){
+					trend++;
+				}else{
+					trend--;
+				}
+			}
+
+			if(trendType == "positive"){
+				if(!$scope.happyCustomers[trend]){
+					$scope.happyCustomers[trend] = [];
+					$scope.trends.push(trend);
+				}
+				$scope.happyCustomers[trend].push(uuid);
+			}else{
+				if(!$scope.unHappyCustomers[trend]){
+					$scope.unHappyCustomers[trend] = [];
+					$scope.trends.push(trend);
+				}
+				$scope.unHappyCustomers[trend].push(uuid);
+			}
+		});
+
+		$scope.trends.sort().reverse();
+	}
+
+
+	function identifyUniqueUsers(){
+		angular.forEach($scope.reportFeedbacks, function(value, key){
+			var date = key;
+			//console.log("key: " + key + " , length: " + value.length);
+
+			angular.forEach(value, function(value,key){
+				var feedbackId = value.$id;
+				//console.log("key: " + key);//index: 0, 1
+				//console.log("value : " + value.$id);
+				var exerciserUUID = value["netpulse_exerciser_UUID"];
+				//console.log("uuid: " + exerciserUUID);
+
+				if(!$scope.uniqueUsers[exerciserUUID]){
+					$scope.uniqueUsers[exerciserUUID] = getUserTemplate(value["user_first_name"],value["user_last_name"],value["user_email"],value["user_phone"],value["user_gender"]);
+				}
+
+				$scope.uniqueUsers[exerciserUUID]["ratings"].push(value.rating);
+				$scope.uniqueUsers[exerciserUUID]["feedbacks"].push(getFeedbackObj(date,feedbackId));
+			});
+		});
+
+		generateUserReport();
+	}
 
 	$scope.getTodaysScore = fbhelper.getTodaysScore;
 	$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;

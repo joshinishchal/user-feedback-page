@@ -36,40 +36,41 @@
         });
     </script>
   </head>
-  <body data-ng-controller="feedbackController">
-    <div cg-busy="cgBusyPromise" class="container">
-        <div id="container" class="container" data-ng-show="!$cgBusyIsActive()">
-        	<div class="row locationName-row">
-        		<!--// name of the club-->
-        		<div class="col-xs-12 locationName-col">
-        			<h4 id="locationName" class="whiteText text-xs-center" data-ng-bind="overView.locationName"></h4>
-        		</div>
-        	</div>
+  <body>
+      <div data-ng-controller="feedbackController">
+          <div cg-busy="cgBusyPromise" class="container">
+            <div id="container" class="container" data-ng-show="!$cgBusyIsActive()">
+            <div class="row locationName-row">
+                <!--// name of the club-->
+                <div class="col-xs-12 locationName-col">
+                    <h4 id="locationName" class="whiteText text-xs-center" data-ng-bind="overView.locationName"></h4>
+                </div>
+            </div>
 
-        	<div class="row ">
-        		<!-- Div to show highlights -->
+            <div class="row ">
+                <!-- Div to show highlights -->
 
-        		<div class="col-xs-5 card text-xs-center highlight leftHighlight">
-        			<p class="card-text whiteText">Today's Score</p>
-        			<div class="card-text">
-        				<h3 class="card-title darkGreenTextColor text-xs-center" data-ng-bind="getTodaysScore(allData)"><!--<span class="card-text whiteText pull-xs-right pull-sm-right pull-md-right pull-lg-right perdiff" data-ng-hide="getTotalTodaysReviews()==0">+2.3%</span>--></h3>
-        			</div>
-    				<p class="card-text whiteText" data-ng-bind="getTotalTodaysReviewsText()"></p>
-    			</div>
+                <div class="col-xs-5 card text-xs-center highlight leftHighlight">
+                    <p class="card-text whiteText">Today's Score</p>
+                    <div class="card-text">
+                        <h3 class="card-title darkGreenTextColor text-xs-center" data-ng-bind="getTodaysScore(allData)"><!--<span class="card-text whiteText pull-xs-right pull-sm-right pull-md-right pull-lg-right perdiff" data-ng-hide="getTotalTodaysReviews()==0">+2.3%</span>--></h3>
+                    </div>
+                    <p class="card-text whiteText" data-ng-bind="getTotalTodaysReviewsText()"></p>
+                </div>
 
-    			<div class="col-xs-4 card text-xs-center highlight rightHighlight">
-        			<p class="card-text whiteText">All-Time</p>
-    				<h3 class="card-title whiteText" data-ng-bind="getAvgAllTimeScore(overView)"></h3>
-    				<p class="card-text whiteText" data-ng-bind="'from ' + getTotalAllTimeReview(overView) + ' reviews'"></p>
-    			</div>
+                <div class="col-xs-4 card text-xs-center highlight rightHighlight">
+                    <p class="card-text whiteText">All-Time</p>
+                    <h3 class="card-title whiteText" data-ng-bind="getAvgAllTimeScore(overView)"></h3>
+                    <p class="card-text whiteText" data-ng-bind="'from ' + getTotalAllTimeReview(overView) + ' reviews'"></p>
+                </div>
 
-        	</div>
+            </div>
 
-        	<div class="row feedBack">
+            <div class="row feedBack">
                 <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5"><hr class=""></div>
                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2 whiteText text-xs-center">Feedback</div>
                 <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5"><hr class=""></div>
-        	</div>
+            </div>
 
             <div data-ng-repeat="feedbacks in allData | orderBy:'-' | limitTo: daysTobeViewed as results" data-ng-if="feedbacks.$id != OverViewKey">
 
@@ -116,9 +117,11 @@
             <div class="row loadmoreButton">
                 <div class="col-xs-12 text-xs-center"><button type="button" class="btn whiteText feedbackAppButton" data-ng-click="getMoreData()" data-ng-hide="hideShowPrevDayButton(daysTobeViewed,allData)">Show Previous Day</button></div>
             </div>
+            </div>
         </div>
-    </div>
+      </div>
 
+      </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <!-- <script src="../compass-feedback/extras/jquery.2.1.min.js"></script> -->
