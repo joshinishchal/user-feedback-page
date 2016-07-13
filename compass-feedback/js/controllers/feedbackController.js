@@ -385,20 +385,55 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 		}
 		//return $scope.reportFeedbacks;
 	};
+
+	$scope.rootNode = {};
+
+	function createRootNode(brand, locationUUID){
+		console.log("brand: " + brand);
+		console.log("locationUUID: " + locationUUID);
+
+		if(!$scope.rootNode[brand]){
+			$scope.rootNode[brand] = {};
+		}
+
+		if(!$scope.rootNode[brand][locationUUID]){
+			$scope.rootNode[brand][locationUUID] = {
+														"reports" : [],
+														"detailedReports" : {}
+													};
+		}
+	}
+
 	$scope.getReportFeedbacks();
 
 	$scope.uniqueUsers = {};
-	$scope.trends = {
-		"happyCustomers" : [],
-		"unHappyCustomers" : []
-	};
 
-	$scope.detailedReport = {};
-	$scope.reports = [];
+	var latestReportId = 0;
 
 	$scope.trends = [];
 	$scope.happyCustomers = {};
 	$scope.unHappyCustomers = {};
+
+	function publishReport(){
+		var reportId = ++latestReportId;
+		var detailedReport = {
+			trends : $scope.trends,
+			happyCustomers : $scope.happyCustomers,
+			unHappyCustomers : $scope.unHappyCustomers,
+			uniqueUsers : $scope.uniqueUsers
+		};
+
+		var reportSummary = {
+			"startDate" : DatesArray[0],
+			"endDate" : DatesArray[DatesArray.length-1],
+			"reportId" : reportId
+		};
+
+		createRootNode("Goodlife","32a55fb4-abb6-4dac-9cde-512c98f48245");
+
+		$scope.rootNode["Goodlife"]["32a55fb4-abb6-4dac-9cde-512c98f48245"]["reports"].push(reportSummary);
+		$scope.rootNode["Goodlife"]["32a55fb4-abb6-4dac-9cde-512c98f48245"]["detailedReports"][reportId] = detailedReport;
+	}
 
 	function getUserTemplate(firstName, lastName, email, phone, gender){
 		return {
@@ -461,6 +496,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 		});
 
 		$scope.trends.sort().reverse();
+		publishReport();
 	}
 
 
