@@ -57,6 +57,40 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ov
 	};
 }]);
 
+feedbackApp.service("reportHelper",["$filter", function reportHelper($filter){
+	function daysinMonth(month){
+		var mdmapper = {
+			"05" : 31,
+			"06" : 30,
+			"07" : 31
+		};
+		return mdmapper[month];
+	}
+
+	this.getDatesArray = function(startDate,endDate){
+		var arr = [];
+		var date;
+		var startArray = startDate.split("-");
+		var endArray = endDate.split("-");
+
+		var startDay = parseInt(startArray[2],10);
+		var endDay = parseInt(endArray[2],10);
+
+		for(var i = startDay; i<=daysinMonth(startArray[1]); i++){
+			date = startArray[0] + "-" + startArray[1] + "-" + $filter("readableDay")(i);
+			arr.push(date);
+		}
+
+		for(var j=1; j<=endDay; j++){
+			date = endArray[0] + "-" + endArray[1] + "-" + $filter("readableDay")(j);
+			arr.push(date);
+		}
+
+		return arr;
+	};
+
+}]);
+
 feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", function fbhelper($filter, OverViewKey, gaDimensionSender){
 
 	var _totalTodaysScore = 0;
@@ -301,6 +335,16 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 
 }]);
 
+feedbackApp.filter("readableDay", function(){
+	return function(day){
+		if(day <= 9){
+			return "0" + day;
+		}else{
+			return day;
+		}
+	};
+});
+
 feedbackApp.filter('tel', function(){
     return function (tel) {
         if (!tel) { return ''; }
@@ -346,6 +390,162 @@ feedbackApp.filter('tel', function(){
     };
 });
 
+feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "reportHelper", "OverViewKey", "gaDimensionSender", function($scope, club, fbhelper, reportHelper, OverViewKey, gaDimensionSender){
+	$scope.rootNode = {};
+	var totalReviewsLoaded = 0;
+	var reportFeedbacks = {};
+	var uniqueUsers = {};
+	var latestReportId = 0;
+	var trends = [];
+	var happyCustomers = {};
+	var unHappyCustomers = {};
+	var datesArray = reportHelper.getDatesArray("2016-06-27","2016-07-12");
+
+	function getReportFeedbacks(){
+		for(var i=0; i <= datesArray.length-1; i++){
+			if(!reportFeedbacks[datesArray[i]]){
+				reportFeedbacks[datesArray[i]] = club.getFeedbacks(datesArray[i]);
+				var date = datesArray[i];
+				reportFeedbacks[datesArray[i]].$loaded().then(function(){
+					totalReviewsLoaded++;
+					if(totalReviewsLoaded == datesArray.length){
+						identifyUniqueUsers();
+					}
+				});
+			}
+		}
+	};
+
+	function createRootNode(brand, locationUUID){
+
+		if(!$scope.rootNode[brand]){
+			$scope.rootNode[brand] = {};
+		}
+
+		if(!$scope.rootNode[brand][locationUUID]){
+			$scope.rootNode[brand][locationUUID] = {
+														"reports" : [],
+														"detailedReports" : {}
+													};
+		}
+	}
+
+	getReportFeedbacks();
+
+	function publishReport(){
+		var reportId = ++latestReportId;
+		var detailedReport = {
+			trends : trends,
+			happyCustomers : happyCustomers,
+			unHappyCustomers : unHappyCustomers,
+			uniqueUsers : uniqueUsers
+		};
+
+		var reportSummary = {
+			"startDate" : datesArray[0],
+			"endDate" : datesArray[datesArray.length-1],
+			"reportId" : reportId
+		};
+
+		createRootNode("Goodlife","32a55fb4-abb6-4dac-9cde-512c98f48245");
+
+		$scope.rootNode["Goodlife"]["32a55fb4-abb6-4dac-9cde-512c98f48245"]["reports"].push(reportSummary);
+		$scope.rootNode["Goodlife"]["32a55fb4-abb6-4dac-9cde-512c98f48245"]["detailedReports"][reportId] = detailedReport;
+	}
+
+	function getUserTemplate(firstName, lastName, email, phone, gender){
+		return {
+			"user_first_name" : firstName,
+			"user_last_name" : lastName,
+			"user_email" : email,
+			"user_phone:" : phone,
+			"user_gender" : gender,
+			"ratings" : [],
+			"feedbacks" : []
+		};
+	};
+
+	function getFeedbackObj(date, feedbackId){
+		return {
+			"date" : date,
+			"feedbackId" : feedbackId
+		};
+	};
+
+	function generateUserReport(){
+		var trend, trendType, arrSize;
+
+		angular.forEach(uniqueUsers, function(ratingArray,uuid){
+			trend = 0;
+			trendType = null;
+			arrSize = ratingArray["ratings"].length;
+			for(var i = arrSize-1; i >=0; i--){
+				//console.log("Ratings: " + ratingArray["ratings"][i]);
+				if(trendType == null && ratingArray["ratings"][i] >= 4){
+					trendType = "positive";
+				}else if(trendType == null && ratingArray["ratings"][i] <= 3){
+					trendType = "negative";
+				}else if(trendType == "positive" && ratingArray["ratings"][i] <= 3){
+					break;
+				}else if(trendType == "negative" && ratingArray["ratings"][i] >= 4){
+					break;
+				}
+
+				if(trendType == "positive"){
+					trend++;
+				}else{
+					trend--;
+				}
+			}
+
+			if(trendType == "positive"){
+				if(!happyCustomers[trend]){
+					happyCustomers[trend] = [];
+					trends.push(trend);
+				}
+				happyCustomers[trend].push(uuid);
+			}else{
+				if(!unHappyCustomers[trend]){
+					unHappyCustomers[trend] = [];
+					trends.push(trend);
+				}
+				unHappyCustomers[trend].push(uuid);
+			}
+		});
+
+		trends.sort().reverse();
+		publishReport();
+	}
+
+
+	function identifyUniqueUsers(){
+		angular.forEach(reportFeedbacks, function(value, key){
+			var date = key;
+			//console.log("key: " + key + " , length: " + value.length);
+
+			angular.forEach(value, function(value,key){
+				var feedbackId = value.$id;
+				//console.log("key: " + key);//index: 0, 1
+				//console.log("value : " + value.$id);
+				var exerciserUUID = value["netpulse_exerciser_UUID"];
+				//console.log("uuid: " + exerciserUUID);
+
+				if(!uniqueUsers[exerciserUUID]){
+					uniqueUsers[exerciserUUID] = getUserTemplate(value["user_first_name"],value["user_last_name"],value["user_email"],value["user_phone"],value["user_gender"]);
+				}
+
+				uniqueUsers[exerciserUUID]["ratings"].push(value.rating);
+				uniqueUsers[exerciserUUID]["feedbacks"].push(getFeedbackObj(date,feedbackId));
+			});
+		});
+
+		generateUserReport();
+	}
+
+}]);
+
+
+
 feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "OverViewKey", "gaDimensionSender", "DatesArray", function($scope, club, fbhelper, OverViewKey, gaDimensionSender, DatesArray){
 	$scope.OverViewKey = OverViewKey;
 	$scope.daysTobeViewed = 1;
@@ -370,7 +570,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 
 	var totalReviewsLoaded = 0;
 
-	$scope.getReportFeedbacks = function(){
+	function getReportFeedbacks(){
 		for(var i=0; i <= DatesArray.length-1; i++){
 			if(!$scope.reportFeedbacks[DatesArray[i]]){
 				$scope.reportFeedbacks[DatesArray[i]] = club.getFeedbacks(DatesArray[i]);
@@ -383,7 +583,6 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 				});
 			}
 		}
-		//return $scope.reportFeedbacks;
 	};
 
 	function createRootNode(brand, locationUUID){
@@ -400,7 +599,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 		}
 	}
 
-	$scope.getReportFeedbacks();
+	getReportFeedbacks();
 
 	$scope.rootNode = {};
 
