@@ -41,7 +41,23 @@
       <div data-ng-controller="reportController">
             <div cg-busy="cgBusyPromise" class="container">
                 <div id="container" class="container" data-ng-show="!$cgBusyIsActive()">
-                    {{"testing!"}}
+                    <div>Happy Customers</div>
+                    <table class="table table-bordered table-hover table-condensed">
+                        <tr>
+                            <th>Name</th>
+                            <th>Trend</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                        </tr>
+                        <tbody data-ng-repeat="(trend, trendArr) in rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['happyCustomers']">
+                            <tr data-ng-repeat="user in trendArr">
+                                <td data-ng-bind="rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_last_name']"></td>
+                                <td data-ng-bind="trend"></td>
+                                <td data-ng-bind="rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_email']"></td>
+                                <td data-ng-bind="rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_phone']"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
       </div>

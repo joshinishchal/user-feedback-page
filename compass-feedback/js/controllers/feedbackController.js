@@ -400,6 +400,7 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	var happyCustomers = {};
 	var unHappyCustomers = {};
 	var datesArray = reportHelper.getDatesArray("2016-06-27","2016-07-12");
+	$scope.locationName = "Nerang";
 
 	function getReportFeedbacks(){
 		for(var i=0; i <= datesArray.length-1; i++){
