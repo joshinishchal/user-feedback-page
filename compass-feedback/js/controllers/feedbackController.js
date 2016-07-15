@@ -415,10 +415,19 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	var happyCustomers = {};
 	var unHappyCustomers = {};
 	var datesArray = reportHelper.getDatesArray($scope.startDate,$scope.endDate);
+	var allFeedbacks = [];
 	$scope.locationName = "Nerang";
 
 	if(reportDates.startDate && reportDates.endDate){
 		getReportFeedbacks();
+	}
+
+	function getFeedbackTemplate(date,feedbackId,comment){
+		return {
+			"date" : date,
+			"feedbackId" : feedbackId,
+			"comment" : comment
+		};
 	}
 
 	function getReportFeedbacks(){
@@ -453,10 +462,11 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	function publishReport(){
 		var reportId = ++latestReportId;
 		var detailedReport = {
-			trends : trends,
-			happyCustomers : happyCustomers,
-			unHappyCustomers : unHappyCustomers,
-			uniqueUsers : uniqueUsers
+			"trends" : trends,
+			"happyCustomers" : happyCustomers,
+			"unHappyCustomers" : unHappyCustomers,
+			"uniqueUsers" : uniqueUsers,
+			"allFeedbacks" : allFeedbacks
 		};
 
 		var reportSummary = {
@@ -560,6 +570,9 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 
 				uniqueUsers[exerciserUUID]["ratings"].push(value.rating);
 				uniqueUsers[exerciserUUID]["feedbacks"].push(getFeedbackObj(date,feedbackId));
+				if(value["comment"] != ""){
+					allFeedbacks.push(getFeedbackTemplate(date,feedbackId,value["comment"]));
+				}
 			});
 		});
 

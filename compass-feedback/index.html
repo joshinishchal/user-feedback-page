@@ -76,6 +76,13 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <div data-ng-hide="rootNode[brandName][locationUUID]['detailedReports'][1]['allFeedbacks'].length == 0">Word on the street</div>
+                        <div class="card-block" data-ng-repeat="feedback in rootNode[brandName][locationUUID]['detailedReports'][1]['allFeedbacks']">
+                            <blockquote class="card-blockquote">
+                                <p data-ng-bind="feedback.comment"></p>
+                            </blockquote>
+                        </div>
                 </div>
             </div>
       </div>
