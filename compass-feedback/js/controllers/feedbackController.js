@@ -29,6 +29,16 @@ feedbackApp.factory("feedbackLocation", ["$route", "$routeParams", "$location", 
 
 }]);
 
+feedbackApp.factory("reportDates", ["$route", "$routeParams", "$location", function reportDates($route, $routeParams, $location){
+	var dates = $location.$$path;
+	var arr = dates.split("/");
+	return {
+		startDate : arr[3],
+		endDate : arr[4]
+	}
+
+}]);
+
 feedbackApp.service("gaDimensionSender",["feedbackLocation", function gaDimensionSender(feedbackLocation){
 	this.sendDimensions = function(){
 		if(ga){
@@ -390,12 +400,12 @@ feedbackApp.filter('tel', function(){
     };
 });
 
-feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "reportHelper", "OverViewKey", "gaDimensionSender", "feedbackLocation", function($scope, club, fbhelper, reportHelper, OverViewKey, gaDimensionSender, feedbackLocation){
+feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "reportHelper", "OverViewKey", "gaDimensionSender", "feedbackLocation", "reportDates", function($scope, club, fbhelper, reportHelper, OverViewKey, gaDimensionSender, feedbackLocation, reportDates){
 	$scope.rootNode = {};
 	$scope.brandName = feedbackLocation.ChainName;
 	$scope.locationUUID = feedbackLocation.ClubId;
-	$scope.startDate;
-	$scope.endDate;
+	$scope.startDate = reportDates.startDate;
+	$scope.endDate = reportDates.endDate;
 
 	var totalReviewsLoaded = 0;
 	var reportFeedbacks = {};
@@ -404,8 +414,12 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	var trends = [];
 	var happyCustomers = {};
 	var unHappyCustomers = {};
-	var datesArray = reportHelper.getDatesArray("2016-06-27","2016-07-12");
+	var datesArray = reportHelper.getDatesArray($scope.startDate,$scope.endDate);
 	$scope.locationName = "Nerang";
+
+	if(reportDates.startDate && reportDates.endDate){
+		getReportFeedbacks();
+	}
 
 	function getReportFeedbacks(){
 		for(var i=0; i <= datesArray.length-1; i++){
@@ -435,8 +449,6 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 													};
 		}
 	}
-
-	getReportFeedbacks();
 
 	function publishReport(){
 		var reportId = ++latestReportId;
