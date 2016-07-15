@@ -11,9 +11,6 @@ feedbackApp.value('cgBusyDefaults',{
 
 feedbackApp.constant("FirebaseUrl", "https://nischal-test.firebaseio.com");
 feedbackApp.constant("ReportUrl", "https://nischal-report-test.firebaseio.com");
-feedbackApp.constant("StartDate", "2016-07-02");
-feedbackApp.constant("EndDate", "2016-07-08");
-feedbackApp.constant("DatesArray",["2016-07-02","2016-07-03","2016-07-04","2016-07-05","2016-07-06","2016-07-07","2016-07-08"]);
 
 feedbackApp.constant("OverViewKey", "0000");
 
@@ -406,6 +403,7 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	$scope.locationUUID = feedbackLocation.ClubId;
 	$scope.startDate = reportDates.startDate;
 	$scope.endDate = reportDates.endDate;
+	$scope.reportId;
 
 	var totalReviewsLoaded = 0;
 	var reportFeedbacks = {};
@@ -460,7 +458,7 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	}
 
 	function publishReport(){
-		var reportId = ++latestReportId;
+		$scope.reportId = ++latestReportId;
 		var detailedReport = {
 			"trends" : trends,
 			"happyCustomers" : happyCustomers,
@@ -472,13 +470,13 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 		var reportSummary = {
 			"startDate" : datesArray[0],
 			"endDate" : datesArray[datesArray.length-1],
-			"reportId" : reportId
+			"reportId" : $scope.reportId
 		};
 
 		createRootNode($scope.brandName,$scope.locationUUID);
 
 		$scope.rootNode[$scope.brandName][$scope.locationUUID]["reports"].push(reportSummary);
-		$scope.rootNode[$scope.brandName][$scope.locationUUID]["detailedReports"][reportId] = detailedReport;
+		$scope.rootNode[$scope.brandName][$scope.locationUUID]["detailedReports"][$scope.reportId] = detailedReport;
 	}
 
 	function getUserTemplate(firstName, lastName, email, phone, gender){
