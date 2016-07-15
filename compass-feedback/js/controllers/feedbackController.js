@@ -499,6 +499,12 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 				}
 			}
 
+			// //Fake data. For Test only
+			// if(trend == 5){
+			// 	trend = -5;
+			// 	trendType = "negative";
+			// }
+
 			if(trendType == "positive"){
 				if(!happyCustomers[trend]){
 					happyCustomers[trend] = [];
