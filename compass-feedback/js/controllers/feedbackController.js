@@ -390,8 +390,13 @@ feedbackApp.filter('tel', function(){
     };
 });
 
-feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "reportHelper", "OverViewKey", "gaDimensionSender", function($scope, club, fbhelper, reportHelper, OverViewKey, gaDimensionSender){
+feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "reportHelper", "OverViewKey", "gaDimensionSender", "feedbackLocation", function($scope, club, fbhelper, reportHelper, OverViewKey, gaDimensionSender, feedbackLocation){
 	$scope.rootNode = {};
+	$scope.brandName = feedbackLocation.ChainName;
+	$scope.locationUUID = feedbackLocation.ClubId;
+	$scope.startDate;
+	$scope.endDate;
+
 	var totalReviewsLoaded = 0;
 	var reportFeedbacks = {};
 	var uniqueUsers = {};
@@ -448,10 +453,10 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 			"reportId" : reportId
 		};
 
-		createRootNode("Goodlife","32a55fb4-abb6-4dac-9cde-512c98f48245");
+		createRootNode($scope.brandName,$scope.locationUUID);
 
-		$scope.rootNode["Goodlife"]["32a55fb4-abb6-4dac-9cde-512c98f48245"]["reports"].push(reportSummary);
-		$scope.rootNode["Goodlife"]["32a55fb4-abb6-4dac-9cde-512c98f48245"]["detailedReports"][reportId] = detailedReport;
+		$scope.rootNode[$scope.brandName][$scope.locationUUID]["reports"].push(reportSummary);
+		$scope.rootNode[$scope.brandName][$scope.locationUUID]["detailedReports"][reportId] = detailedReport;
 	}
 
 	function getUserTemplate(firstName, lastName, email, phone, gender){
@@ -548,7 +553,7 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 
 		generateUserReport();
 	}
-
+	nishchal = $scope.rootNode;
 }]);
 
 
@@ -633,10 +638,10 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 			"reportId" : reportId
 		};
 
-		createRootNode("Goodlife","32a55fb4-abb6-4dac-9cde-512c98f48245");
+		createRootNode($scope.brandName,$scope.locationUUID);
 
-		$scope.rootNode["Goodlife"]["32a55fb4-abb6-4dac-9cde-512c98f48245"]["reports"].push(reportSummary);
-		$scope.rootNode["Goodlife"]["32a55fb4-abb6-4dac-9cde-512c98f48245"]["detailedReports"][reportId] = detailedReport;
+		$scope.rootNode[$scope.brandName][$scope.locationUUID]["reports"].push(reportSummary);
+		$scope.rootNode[$scope.brandName][$scope.locationUUID]["detailedReports"][reportId] = detailedReport;
 	}
 
 	function getUserTemplate(firstName, lastName, email, phone, gender){

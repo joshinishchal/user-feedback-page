@@ -49,12 +49,12 @@
                             <th>Email</th>
                             <th>Phone</th>
                         </tr>
-                        <tbody data-ng-repeat="(indexa,trend) in rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['trends']">
-                            <tr data-ng-repeat="(indexb,user) in rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['happyCustomers'][trend]">
-                                <td data-ng-bind="rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_last_name']"></td>
+                        <tbody data-ng-repeat="(indexa,trend) in rootNode[brandName][locationUUID]['detailedReports'][1]['trends']">
+                            <tr data-ng-repeat="(indexb,user) in rootNode[brandName][locationUUID]['detailedReports'][1]['happyCustomers'][trend]">
+                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][1]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][1]['uniqueUsers'][user]['user_last_name']"></td>
                                 <td data-ng-bind="trend"></td>
-                                <td data-ng-bind="rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_email']"></td>
-                                <td data-ng-bind="rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_phone']"></td>
+                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][1]['uniqueUsers'][user]['user_email']"></td>
+                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][1]['uniqueUsers'][user]['user_phone']"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -67,12 +67,12 @@
                             <th>Email</th>
                             <th>Phone</th>
                         </tr>
-                        <tbody data-ng-repeat="(indexa,trend) in rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['trends']">
-                            <tr data-ng-repeat="(indexb,user) in rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['unHappyCustomers'][trend]">
-                                <td data-ng-bind="rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_last_name']"></td>
+                        <tbody data-ng-repeat="(indexa,trend) in rootNode[brandName][locationUUID]['detailedReports'][1]['trends']">
+                            <tr data-ng-repeat="(indexb,user) in rootNode[brandName][locationUUID]['detailedReports'][1]['unHappyCustomers'][trend]">
+                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][1]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][1]['uniqueUsers'][user]['user_last_name']"></td>
                                 <td data-ng-bind="trend"></td>
-                                <td data-ng-bind="rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_email']"></td>
-                                <td data-ng-bind="rootNode['Goodlife']['32a55fb4-abb6-4dac-9cde-512c98f48245']['detailedReports'][1]['uniqueUsers'][user]['user_phone']"></td>
+                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][1]['uniqueUsers'][user]['user_email']"></td>
+                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][1]['uniqueUsers'][user]['user_phone']"></td>
                             </tr>
                         </tbody>
                     </table>
