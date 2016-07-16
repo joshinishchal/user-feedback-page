@@ -70,9 +70,18 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ov
 feedbackApp.service("reportHelper",["$filter", function reportHelper($filter){
 	function daysinMonth(month){
 		var mdmapper = {
+			"01" : 31,
+			"02" : 29,
+			"03" : 31,
+			"04" : 30,
 			"05" : 31,
 			"06" : 30,
-			"07" : 31
+			"07" : 31,
+			"08" : 31,
+			"09" : 30,
+			"10" : 31,
+			"11" : 30,
+			"12" : 31
 		};
 		return mdmapper[month];
 	}
@@ -91,10 +100,25 @@ feedbackApp.service("reportHelper",["$filter", function reportHelper($filter){
 			arr.push(date);
 		}
 
+		if(parseInt(endArray[1], 10) - parseInt(startArray[1], 10) > 1){
+			var newStartMonth = parseInt(startArray[1], 10) + 1;
+			var newEndMonth = parseInt(endArray[1], 10) - 1;
+			for(var a=newStartMonth; a <= newEndMonth; a++){
+				var readableMonth = $filter("readableDay")(a);
+				var tmpDaysInMonth = daysinMonth(readableMonth);
+				for(var j=1; j<=tmpDaysInMonth; j++){
+					date = endArray[0] + "-" + readableMonth + "-" + $filter("readableDay")(j);
+					arr.push(date);
+				}
+			}
+
+		}
+
 		for(var j=1; j<=endDay; j++){
 			date = endArray[0] + "-" + endArray[1] + "-" + $filter("readableDay")(j);
 			arr.push(date);
 		}
+		nj = arr;
 
 		return arr;
 	};
