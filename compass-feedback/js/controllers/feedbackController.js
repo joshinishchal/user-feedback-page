@@ -101,6 +101,33 @@ feedbackApp.service("reportHelper",["$filter", function reportHelper($filter){
 
 }]);
 
+feedbackApp.service("initFbHelper", ["$scope", "fbhelper", function initFbHelper($scope,fbhelper){
+	this.init = function(){
+		$scope.getTodaysScore = fbhelper.getTodaysScore;
+		$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;
+		$scope.getTotalTodaysReviews = fbhelper.getTotalTodaysReviews;
+		$scope.getTotalPrevScore = fbhelper.getTotalPrevScore;
+		$scope.hideShowPrevDayButton = fbhelper.hideShowPrevDayButton;
+
+		//Google Analytics
+		$scope.reportCallClick = fbhelper.reportCallClick;
+		$scope.reportEmailClick = fbhelper.reportEmailClick;
+
+		//All time score
+		$scope.getTotalAllTimeReview = fbhelper.getTotalAllTimeReview;
+		$scope.getAvgAllTimeScore = fbhelper.getAvgAllTimeScore;
+
+		$scope.getPhoneText = fbhelper.getPhoneText;
+		$scope.getEmailText = fbhelper.getEmailText;
+		$scope.isPhoneEmailAvailable = fbhelper.isPhoneEmailAvailable;
+		$scope.getReasons = fbhelper.getReasons;
+		$scope.isThereNoComment = fbhelper.isThereNoComment;
+		$scope.getVisitedDateObject = fbhelper.getVisitedDateObject;
+		$scope.getDateObject = fbhelper.getDateObject;
+		$scope.getStarBGClass = fbhelper.getStarBGClass;
+	}
+}]);
+
 feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", function fbhelper($filter, OverViewKey, gaDimensionSender){
 
 	var _totalTodaysScore = 0;
@@ -419,6 +446,34 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	var allFeedbacks = [];
 	$scope.locationName = "Nerang";
 
+	/*remove it*/
+		$scope.callText = "Call";
+		$scope.emailText = "Email";
+		$scope.getTodaysScore = fbhelper.getTodaysScore;
+		$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;
+		$scope.getTotalTodaysReviews = fbhelper.getTotalTodaysReviews;
+		$scope.getTotalPrevScore = fbhelper.getTotalPrevScore;
+		$scope.hideShowPrevDayButton = fbhelper.hideShowPrevDayButton;
+
+		//Google Analytics
+		$scope.reportCallClick = fbhelper.reportCallClick;
+		$scope.reportEmailClick = fbhelper.reportEmailClick;
+
+		//All time score
+		$scope.getTotalAllTimeReview = fbhelper.getTotalAllTimeReview;
+		$scope.getAvgAllTimeScore = fbhelper.getAvgAllTimeScore;
+
+		$scope.getPhoneText = fbhelper.getPhoneText;
+		$scope.getEmailText = fbhelper.getEmailText;
+		$scope.isPhoneEmailAvailable = fbhelper.isPhoneEmailAvailable;
+		$scope.getReasons = fbhelper.getReasons;
+		$scope.isThereNoComment = fbhelper.isThereNoComment;
+		$scope.getVisitedDateObject = fbhelper.getVisitedDateObject;
+		$scope.getDateObject = fbhelper.getDateObject;
+		$scope.getStarBGClass = fbhelper.getStarBGClass;
+
+	/*remove it*/
+
 	if(reportDates.startDate && reportDates.endDate){
 		getReportFeedbacks();
 	}
@@ -583,14 +638,13 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	rf = $scope.reportFeedbacks;
 }]);
 
-
-
-feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "OverViewKey", "gaDimensionSender", "DatesArray", function($scope, club, fbhelper, OverViewKey, gaDimensionSender, DatesArray){
+feedbackApp.controller("feedbackController", ["$scope", "club", "OverViewKey", "gaDimensionSender", "initFbHelper", function($scope, club, OverViewKey, gaDimensionSender, initFbHelper){
 	$scope.OverViewKey = OverViewKey;
 	$scope.daysTobeViewed = 1;
 	$scope.npFeedbacks = {};
-
-	$scope.reportFeedbacks = {};
+	$scope.callText = "Call";
+	$scope.emailText = "Email";
+	initFbHelper.init();
 
 	$scope.overView = club.getOverView();
 
@@ -600,181 +654,12 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 
 	gaDimensionSender.sendDimensions();
 
-	$scope.getFeedbackForReview = club.getFeedbackForReview;
-
 	$scope.getFeedbacks = function(date){
 		if(!$scope.npFeedbacks[date]){
 			$scope.npFeedbacks[date] = club.getFeedbacks(date);
 		}
 		return $scope.npFeedbacks[date];
 	};
-
-	var totalReviewsLoaded = 0;
-
-	function getReportFeedbacks(){
-		for(var i=0; i <= DatesArray.length-1; i++){
-			if(!$scope.reportFeedbacks[DatesArray[i]]){
-				$scope.reportFeedbacks[DatesArray[i]] = club.getFeedbacks(DatesArray[i]);
-				var date = DatesArray[i];
-				$scope.reportFeedbacks[DatesArray[i]].$loaded().then(function(){
-					totalReviewsLoaded++;
-					if(totalReviewsLoaded == DatesArray.length){
-						identifyUniqueUsers();
-					}
-				});
-			}
-		}
-	};
-
-	function createRootNode(brand, locationUUID){
-
-		if(!$scope.rootNode[brand]){
-			$scope.rootNode[brand] = {};
-		}
-
-		if(!$scope.rootNode[brand][locationUUID]){
-			$scope.rootNode[brand][locationUUID] = {
-														"reports" : [],
-														"detailedReports" : {}
-													};
-		}
-	}
-
-	getReportFeedbacks();
-
-	$scope.rootNode = {};
-
-	var uniqueUsers = {};
-
-	var latestReportId = 0;
-
-	var trends = [];
-	var happyCustomers = {};
-	var unHappyCustomers = {};
-
-	function publishReport(){
-		var reportId = ++latestReportId;
-		var detailedReport = {
-			trends : trends,
-			happyCustomers : happyCustomers,
-			unHappyCustomers : unHappyCustomers,
-			uniqueUsers : uniqueUsers
-		};
-
-		var reportSummary = {
-			"startDate" : DatesArray[0],
-			"endDate" : DatesArray[DatesArray.length-1],
-			"reportId" : reportId
-		};
-
-		createRootNode($scope.brandName,$scope.locationUUID);
-
-		$scope.rootNode[$scope.brandName][$scope.locationUUID]["reports"].push(reportSummary);
-		$scope.rootNode[$scope.brandName][$scope.locationUUID]["detailedReports"][reportId] = detailedReport;
-	}
-
-	function getUserTemplate(firstName, lastName, email, phone, gender){
-		return {
-			"user_first_name" : firstName,
-			"user_last_name" : lastName,
-			"user_email" : email,
-			"user_phone:" : phone,
-			"user_gender" : gender,
-			"ratings" : [],
-			"feedbacks" : []
-		};
-	};
-
-	function getFeedbackObj(date, feedbackId){
-		return {
-			"date" : date,
-			"feedbackId" : feedbackId
-		};
-	};
-
-	function generateUserReport(){
-		var trend, trendType, arrSize;
-
-		angular.forEach(uniqueUsers, function(ratingArray,uuid){
-			trend = 0;
-			trendType = null;
-			arrSize = ratingArray["ratings"].length;
-			for(var i = arrSize-1; i >=0; i--){
-				//console.log("Ratings: " + ratingArray["ratings"][i]);
-				if(trendType == null && ratingArray["ratings"][i] >= 4){
-					trendType = "positive";
-				}else if(trendType == null && ratingArray["ratings"][i] <= 3){
-					trendType = "negative";
-				}else if(trendType == "positive" && ratingArray["ratings"][i] <= 3){
-					break;
-				}else if(trendType == "negative" && ratingArray["ratings"][i] >= 4){
-					break;
-				}
-
-				if(trendType == "positive"){
-					trend++;
-				}else{
-					trend--;
-				}
-			}
-
-			if(trendType == "positive"){
-				if(!happyCustomers[trend]){
-					happyCustomers[trend] = [];
-					trends.push(trend);
-				}
-				happyCustomers[trend].push(uuid);
-			}else{
-				if(!unHappyCustomers[trend]){
-					unHappyCustomers[trend] = [];
-					trends.push(trend);
-				}
-				unHappyCustomers[trend].push(uuid);
-			}
-		});
-
-		trends.sort().reverse();
-		publishReport();
-	}
-
-
-	function identifyUniqueUsers(){
-		angular.forEach($scope.reportFeedbacks, function(value, key){
-			var date = key;
-			//console.log("key: " + key + " , length: " + value.length);
-
-			angular.forEach(value, function(value,key){
-				var feedbackId = value.$id;
-				//console.log("key: " + key);//index: 0, 1
-				//console.log("value : " + value.$id);
-				var exerciserUUID = value["netpulse_exerciser_UUID"];
-				//console.log("uuid: " + exerciserUUID);
-
-				if(!uniqueUsers[exerciserUUID]){
-					uniqueUsers[exerciserUUID] = getUserTemplate(value["user_first_name"],value["user_last_name"],value["user_email"],value["user_phone"],value["user_gender"]);
-				}
-
-				uniqueUsers[exerciserUUID]["ratings"].push(value.rating);
-				uniqueUsers[exerciserUUID]["feedbacks"].push(getFeedbackObj(date,feedbackId));
-			});
-		});
-
-		generateUserReport();
-	}
-
-	$scope.getTodaysScore = fbhelper.getTodaysScore;
-	$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;
-	$scope.getTotalTodaysReviews = fbhelper.getTotalTodaysReviews;
-	$scope.getTotalPrevScore = fbhelper.getTotalPrevScore;
-	$scope.hideShowPrevDayButton = fbhelper.hideShowPrevDayButton;
-
-	//Google Analytics
-	$scope.reportCallClick = fbhelper.reportCallClick;
-	$scope.reportEmailClick = fbhelper.reportEmailClick;
-
-	//All time score
-	$scope.getTotalAllTimeReview = fbhelper.getTotalAllTimeReview;
-	$scope.getAvgAllTimeScore = fbhelper.getAvgAllTimeScore;
 
 	$scope.getMoreData = function(){
 		ga('set','userId',ga.clientId);
@@ -783,18 +668,6 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 		$scope.daysTobeViewed++;
 		//$scope.allData = club.getAllData($scope.daysTobeViewed);
 	};
-
-	$scope.callText = "Call";
-	$scope.emailText = "Email";
-
-	$scope.getPhoneText = fbhelper.getPhoneText;
-	$scope.getEmailText = fbhelper.getEmailText;
-	$scope.isPhoneEmailAvailable = fbhelper.isPhoneEmailAvailable;
-	$scope.getReasons = fbhelper.getReasons;
-	$scope.isThereNoComment = fbhelper.isThereNoComment;
-	$scope.getVisitedDateObject = fbhelper.getVisitedDateObject;
-	$scope.getDateObject = fbhelper.getDateObject;
-	$scope.getStarBGClass = fbhelper.getStarBGClass;
 
 	$scope.allData.$loaded().then(function(){
 		$scope.getTotalPrevScore($scope.overView,$scope.allData);
