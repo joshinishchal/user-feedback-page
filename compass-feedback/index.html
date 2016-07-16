@@ -41,6 +41,14 @@
       <div data-ng-controller="reportController" data-ng-init="">
             <div cg-busy="cgBusyPromise" class="container">
                 <div id="container" class="container" data-ng-show="!$cgBusyIsActive()">
+
+                <div class="row locationName-row">
+                    <!--// name of the club-->
+                    <div class="col-xs-12 locationName-col">
+                        <h4 id="locationName" class="whiteText text-xs-center" data-ng-bind="overView.locationName"></h4>
+                    </div>
+                </div>
+
                     <div>Happy Customers</div>
                     <table class="table table-bordered table-hover table-condensed">
                         <tr>

@@ -473,6 +473,7 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	/*remove it*/
 		$scope.callText = "Call";
 		$scope.emailText = "Email";
+		$scope.overView = club.getOverView();
 		$scope.getTodaysScore = fbhelper.getTodaysScore;
 		$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;
 		$scope.getTotalTodaysReviews = fbhelper.getTotalTodaysReviews;
