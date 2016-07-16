@@ -60,7 +60,10 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ov
 		return $firebaseArray(clubId.limitToLast(index));
 	};
 	this.getFeedbacks = function(date){
-		return $firebaseArray(clubId.child(date));
+		return $firebaseObject(clubId.child(date));
+	};
+	this.getFeedbackForReview = function(date,feedbackId){
+		return $firebaseObject(clubId.child(date).child(feedbackId));
 	};
 }]);
 
@@ -399,6 +402,7 @@ feedbackApp.filter('tel', function(){
 
 feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "reportHelper", "OverViewKey", "gaDimensionSender", "feedbackLocation", "reportDates", function($scope, club, fbhelper, reportHelper, OverViewKey, gaDimensionSender, feedbackLocation, reportDates){
 	$scope.rootNode = {};
+	$scope.reportFeedbacks = {};
 	$scope.brandName = feedbackLocation.ChainName;
 	$scope.locationUUID = feedbackLocation.ClubId;
 	$scope.startDate = reportDates.startDate;
@@ -406,7 +410,6 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	$scope.reportId;
 
 	var totalReviewsLoaded = 0;
-	var reportFeedbacks = {};
 	var uniqueUsers = {};
 	var latestReportId = 0;
 	var trends = [];
@@ -430,10 +433,10 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 
 	function getReportFeedbacks(){
 		for(var i=0; i <= datesArray.length-1; i++){
-			if(!reportFeedbacks[datesArray[i]]){
-				reportFeedbacks[datesArray[i]] = club.getFeedbacks(datesArray[i]);
+			if(!$scope.reportFeedbacks[datesArray[i]]){
+				$scope.reportFeedbacks[datesArray[i]] = club.getFeedbacks(datesArray[i]);
 				var date = datesArray[i];
-				reportFeedbacks[datesArray[i]].$loaded().then(function(){
+				$scope.reportFeedbacks[datesArray[i]].$loaded().then(function(){
 					totalReviewsLoaded++;
 					if(totalReviewsLoaded == datesArray.length){
 						identifyUniqueUsers();
@@ -551,14 +554,14 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 
 
 	function identifyUniqueUsers(){
-		angular.forEach(reportFeedbacks, function(value, key){
+		angular.forEach($scope.reportFeedbacks, function(value, key){
 			var date = key;
 			//console.log("key: " + key + " , length: " + value.length);
 
 			angular.forEach(value, function(value,key){
-				var feedbackId = value.$id;
-				//console.log("key: " + key);//index: 0, 1
-				//console.log("value : " + value.$id);
+				var feedbackId = key;
+				// console.log("key: " + key);//index: 0, 1
+				// console.log("value : " + value.$id);
 				var exerciserUUID = value["netpulse_exerciser_UUID"];
 				//console.log("uuid: " + exerciserUUID);
 
@@ -577,6 +580,7 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 		generateUserReport();
 	}
 	nishchal = $scope.rootNode;
+	rf = $scope.reportFeedbacks;
 }]);
 
 
@@ -595,6 +599,8 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.cgBusyPromise = [$scope.overView.$loaded(), $scope.allData.$loaded()];
 
 	gaDimensionSender.sendDimensions();
+
+	$scope.getFeedbackForReview = club.getFeedbackForReview;
 
 	$scope.getFeedbacks = function(date){
 		if(!$scope.npFeedbacks[date]){
