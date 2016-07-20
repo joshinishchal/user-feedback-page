@@ -49,9 +49,9 @@
                     </div>
                 </div>
 
-                    <h4 class="whiteText">Happy Customers</h4>
+                    <h4 class="btn whiteText feedbackAppButton">Happy Customers</h4>
                     <table class="reportTable table table-bordered table-condensed">
-                        <tr class="reportTableHeader whiteText">
+                        <tr class="card-header">
                             <th>Name</th>
                             <th>Trend</th>
                             <th>Email</th>
@@ -67,9 +67,9 @@
                         </tbody>
                     </table>
 
-                    <h4 class="whiteText">Unhappy Customers</h4>
+                    <h4 class="btn whiteText feedbackAppButton">Unhappy Customers</h4>
                     <table class="reportTable table table-bordered table-condensed">
-                        <tr class="reportTableHeader whiteText">
+                        <tr class="card-header">
                             <th>Name</th>
                             <th>Trend</th>
                             <th>Email</th>
@@ -85,7 +85,7 @@
                         </tbody>
                     </table>
 
-                    <h4 data-ng-hide="rootNode[brandName][locationUUID]['detailedReports'][reportId]['allFeedbacks'].length == 0" data-ng-init="" class="whiteText">Word on the street</h4>
+                    <h4 data-ng-hide="rootNode[brandName][locationUUID]['detailedReports'][reportId]['allFeedbacks'].length == 0" data-ng-init="" class=" btn whiteText feedbackAppButton">Word on the street</h4>
                         <div class="row npComplainCard" data-ng-repeat="comment in rootNode[brandName][locationUUID]['detailedReports'][reportId]['allFeedbacks']">
                             <div class="card col-xs-12" data-ng-init="">
                                 <div class="card-header">
