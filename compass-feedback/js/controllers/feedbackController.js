@@ -9,7 +9,7 @@ feedbackApp.value('cgBusyDefaults',{
 	wrapperClass: 'centerAbsoluteEl'
 });
 
-feedbackApp.constant("FirebaseUrl", "https://nischal-test.firebaseio.com");
+feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 feedbackApp.constant("ReportUrl", "https://nischal-report-test.firebaseio.com");
 
 feedbackApp.constant("OverViewKey", "0000");
