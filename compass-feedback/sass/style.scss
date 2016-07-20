@@ -94,8 +94,15 @@
 }
 
 .reportTable{
-	background-color:$table-background-color;
 	border-color:$table-border-color;
+}
+
+.reportTableBody{
+	background-color:$table-background-color;
+}
+
+.reportTableHeader{
+	background-color:$table-header-color;
 }
 
 

@@ -51,13 +51,13 @@
 
                     <h4 class="whiteText">Happy Customers</h4>
                     <table class="reportTable table table-bordered table-condensed">
-                        <tr class="card-header">
+                        <tr class="reportTableHeader whiteText">
                             <th>Name</th>
                             <th>Trend</th>
                             <th>Email</th>
                             <th>Phone</th>
                         </tr>
-                        <tbody data-ng-repeat="(indexa,trend) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['trends']">
+                        <tbody data-ng-repeat="(indexa,trend) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['trends']" class="reportTableBody">
                             <tr data-ng-repeat="(indexb,user) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['happyCustomers'][trend]">
                                 <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_last_name']"></td>
                                 <td data-ng-bind="trend"></td>
@@ -69,13 +69,13 @@
 
                     <h4 class="whiteText">Unhappy Customers</h4>
                     <table class="reportTable table table-bordered table-condensed">
-                        <tr class="card-header">
+                        <tr class="reportTableHeader whiteText">
                             <th>Name</th>
                             <th>Trend</th>
                             <th>Email</th>
                             <th>Phone</th>
                         </tr>
-                        <tbody data-ng-repeat="(indexa,trend) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['trends']">
+                        <tbody data-ng-repeat="(indexa,trend) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['trends']" class="reportTableBody">
                             <tr data-ng-repeat="(indexb,user) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['unHappyCustomers'][trend]">
                                 <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_last_name']"></td>
                                 <td data-ng-bind="trend"></td>
