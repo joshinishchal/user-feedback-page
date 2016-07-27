@@ -62,6 +62,10 @@
 	@include border-radius(3px);
 }
 
+.singleHighlight{
+	width:100%;
+}
+
 .leftHighlight{
 	width:$leftHighlightWidth;
 	margin-left:$leftHighlightLeftMargin;
