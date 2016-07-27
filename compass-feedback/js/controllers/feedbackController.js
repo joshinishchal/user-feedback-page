@@ -94,6 +94,8 @@ feedbackApp.service("reportHelper",["$filter", function reportHelper($filter){
 
 		var startDay = parseInt(startArray[2],10);
 		var endDay = parseInt(endArray[2],10);
+		var _approvalRatingText = "";
+		var _totalReviewersText = "";
 
 		for(var i = startDay; i<=daysinMonth(startArray[1]); i++){
 			date = startArray[0] + "-" + startArray[1] + "-" + $filter("readableDay")(i);
@@ -121,6 +123,32 @@ feedbackApp.service("reportHelper",["$filter", function reportHelper($filter){
 		nj = arr;
 
 		return arr;
+	};
+
+	this.getApprovalRating = function(happyCustomers, unHappyCustomers){
+
+		var totalReviewers = happyCustomers + unHappyCustomers;
+
+		if(totalReviewers > 0){
+			_approvalRatingText = $filter("number")((happyCustomers/(happyCustomers+unHappyCustomers))*100,0) + " %";
+		}else{
+			_approvalRatingText = " - ";
+		}
+
+		_totalReviewersText = "out of " + totalReviewers + " Reviewers";
+		return _approvalRatingText;
+	}
+
+	this.getTotalCustomers = function(customerObj){
+		var totalCustomers = 0;
+		angular.forEach(customerObj,function(value){
+			totalCustomers = totalCustomers + value.length;
+		});
+		return totalCustomers;
+	}
+
+	this.getTotalReviewersText = function(){
+		return _totalReviewersText;
 	};
 
 }]);
@@ -460,6 +488,11 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	$scope.endDate = reportDates.endDate;
 	$scope.reportId;
 
+	$scope.getTotalCustomers = reportHelper.getTotalCustomers;
+	$scope.getApprovalRating = reportHelper.getApprovalRating;
+	$scope.getTotalReviewersText = reportHelper.getTotalReviewersText;
+
+
 	var totalReviewsLoaded = 0;
 	var uniqueUsers = {};
 	var latestReportId = 0;
@@ -468,7 +501,6 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	var unHappyCustomers = {};
 	var datesArray = reportHelper.getDatesArray($scope.startDate,$scope.endDate);
 	var allFeedbacks = [];
-	$scope.locationName = "Nerang";
 
 	/*remove it*/
 		$scope.callText = "Call";
@@ -661,6 +693,7 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	}
 	nishchal = $scope.rootNode;
 	rf = $scope.reportFeedbacks;
+
 }]);
 
 feedbackApp.controller("feedbackController", ["$scope", "club", "OverViewKey", "gaDimensionSender", "initFbHelper", function($scope, club, OverViewKey, gaDimensionSender, initFbHelper){
