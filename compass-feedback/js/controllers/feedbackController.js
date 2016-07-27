@@ -9,6 +9,14 @@ feedbackApp.value('cgBusyDefaults',{
 	wrapperClass: 'centerAbsoluteEl'
 });
 
+feedbackApp.config(function($routeProvider){
+	$routeProvider
+	.when("/",{templateUrl : "partials/feedback.html",
+				controller : "feedbackController",
+			})
+	.when("/report",{templateUrl : "partials/"})
+});
+
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 feedbackApp.constant("ReportUrl", "https://nischal-report-test.firebaseio.com");
 
