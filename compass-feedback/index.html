@@ -45,7 +45,7 @@
                 <div class="row locationName-row">
                     <!--// name of the club-->
                     <div class="col-xs-12 locationName-col">
-                        <h4 id="locationName" class="whiteText text-xs-center" data-ng-bind="overView.locationName"></h4>
+                        <h4 id="locationName" class="whiteText text-xs-center" data-ng-bind="overView.locationName + ' (' + (getDateObject(startDate) | date:'MMM dd') + ' - ' + (getDateObject(endDate) | date:'MMM dd') + ')'"></h4>
                     </div>
                 </div>
 
