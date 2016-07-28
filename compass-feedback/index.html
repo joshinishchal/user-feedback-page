@@ -87,8 +87,14 @@
                             <tr data-ng-repeat="(indexb,user) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['happyCustomers'][trend]">
                                 <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_last_name']"></td>
                                 <td data-ng-bind="trend"></td>
-                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email']"></td>
-                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone']"></td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="email = getEmailText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'],'');npDisplay='npDisplay';reportEmailClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'])" data-ng-bind="emailText"></button>
+                                    <p class="clear" data-ng-bind="email"></p>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="call = getPhoneText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'],'');npDisplay='npDisplay';reportCallClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'])" data-ng-bind="callText"></button>
+                                    <p class="clear" data-ng-bind="call"></p>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -107,8 +113,14 @@
                             <tr data-ng-repeat="(indexb,user) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['unHappyCustomers'][trend]">
                                 <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_last_name']"></td>
                                 <td data-ng-bind="trend"></td>
-                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email']"></td>
-                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone']"></td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="email = getEmailText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'],'');npDisplay='npDisplay';reportEmailClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'])" data-ng-bind="emailText"></button>
+                                    <p class="clear" data-ng-bind="email"></p>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="call = getPhoneText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'],'');npDisplay='npDisplay';reportCallClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'])" data-ng-bind="callText"></button>
+                                    <p class="clear" data-ng-bind="call"></p>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
