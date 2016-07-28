@@ -11,6 +11,7 @@ feedbackApp.value('cgBusyDefaults',{
 
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 feedbackApp.constant("ReportUrl", "https://nischal-report-test.firebaseio.com");
+feedbackApp.constant("FeedbackAppURL", "http://np2-feedback.s3-website-us-east-1.amazonaws.com");
 
 feedbackApp.constant("OverViewKey", "0000");
 
@@ -67,7 +68,7 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ov
 	};
 }]);
 
-feedbackApp.service("reportHelper",["$filter", function reportHelper($filter){
+feedbackApp.service("reportHelper",["$filter", "FeedbackAppURL", function reportHelper($filter, FeedbackAppURL){
 	function daysinMonth(month){
 		var mdmapper = {
 			"01" : 31,
@@ -150,6 +151,11 @@ feedbackApp.service("reportHelper",["$filter", function reportHelper($filter){
 	this.getTotalReviewersText = function(){
 		return _totalReviewersText;
 	};
+
+	this.getFeedbackAppURL = function(brandName,locationUUID){
+		var feedbackAppURL = FeedbackAppURL + "/#/" + brandName + "/" + locationUUID + "/";
+		return feedbackAppURL;
+	}
 
 }]);
 
@@ -491,6 +497,7 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 	$scope.getTotalCustomers = reportHelper.getTotalCustomers;
 	$scope.getApprovalRating = reportHelper.getApprovalRating;
 	$scope.getTotalReviewersText = reportHelper.getTotalReviewersText;
+	$scope.getFeedbackAppURL = reportHelper.getFeedbackAppURL;
 
 
 	var totalReviewsLoaded = 0;
