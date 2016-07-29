@@ -162,7 +162,7 @@ feedbackApp.service("reportHelper",["$filter", "FeedbackAppURL", "gaDimensionSen
 		gaDimensionSender.sendDimensions();
 		//Web Club 360 Report Response
 		//Web Club 360 View Report
-		ga('send','event','Web Club 360 Report Response', 'rep-viewed-latest-reviews-from-web',ga.clientId,1);
+		ga('send','event','Web Club 360 Report', 'opened-latest-reviews-from-web-report',ga.clientId,1);
 	};
 
 }]);
@@ -237,7 +237,7 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 		ga('set','userId',ga.clientId);
 		gaDimensionSender.sendDimensions();
 		ga('set', 'dimension3', userUUID);
-		ga('send','event','Web Club 360 Report Response', 'rep-called-customer-from-web',ga.clientId,getResponseTime(reviewTime));
+		ga('send','event','Web Club 360 Report Response', 'called-customer-from-web-report',ga.clientId,getResponseTime(reviewTime));
 	};
 
 	this.gaReportEmailClick = function(reviewTime, userUUID){
@@ -246,7 +246,7 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 		ga('set','userId',ga.clientId);
 		gaDimensionSender.sendDimensions();
 		ga('set', 'dimension3', userUUID);
-		ga('send','event','Web Club 360 Report Response', 'rep-emailed-customer-from-web',ga.clientId,getResponseTime(reviewTime));
+		ga('send','event','Web Club 360 Report Response', 'emailed-customer-from-web-report',ga.clientId,getResponseTime(reviewTime));
 	};
 
 	function getResponseTime(reviewTime){
