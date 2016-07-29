@@ -11,6 +11,8 @@ feedbackApp.value('cgBusyDefaults',{
 
 feedbackApp.constant("FirebaseUrl", "https://netpulse-feedback.firebaseio.com");
 
+feedbackApp.constant("ReportURL", "http://np-fbreport.s3-website-us-east-1.amazonaws.com");
+
 feedbackApp.constant("OverViewKey", "0000");
 
 feedbackApp.service("rootRef", ["FirebaseUrl", Firebase]);
@@ -53,7 +55,7 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ov
 	};
 }]);
 
-feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", function fbhelper($filter, OverViewKey, gaDimensionSender){
+feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", "ReportURL", "feedbackLocation", function fbhelper($filter, OverViewKey, gaDimensionSender, ReportURL, feedbackLocation){
 
 	var _totalTodaysScore = 0;
 	var _totalTodaysReviews = 0;
@@ -295,6 +297,15 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 
 	}
 
+	function getBaseReportURL(){
+		var thisWeekReportURL = ReportURL + "/#/" + feedbackLocation.ChainName + "/" + feedbackLocation.ClubId + "/";
+		return thisWeekReportURL;
+	}
+
+	this.getThisWeekReportURL = function(){//$$$
+		console.log("baseReportURL: " + getBaseReportURL());
+	}
+
 }]);
 
 feedbackApp.filter('tel', function(){
@@ -395,6 +406,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.getVisitedDateObject = fbhelper.getVisitedDateObject;
 	$scope.getDateObject = fbhelper.getDateObject;
 	$scope.getStarBGClass = fbhelper.getStarBGClass;
+	$scope.getThisWeekReportURL = fbhelper.getThisWeekReportURL;
 
 	$scope.allData.$loaded().then(function(){
 		$scope.getTotalPrevScore($scope.overView,$scope.allData);

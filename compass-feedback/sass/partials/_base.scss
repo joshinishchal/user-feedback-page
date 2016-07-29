@@ -49,6 +49,19 @@ body{
 	background-color: rgba($white, 0.25);
 }
 
+.goToReportButton{
+	width:100%;
+	border:1px solid white;
+}
+
+.noLeftMarginCol{
+	margin-left:0px;
+}
+
+.noRightMarginCol{
+	margin-right:0px;
+}
+
 @media(min-width:34em){
 		.container{
 			width:$containerWidth-xs;
