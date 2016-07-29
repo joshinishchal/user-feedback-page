@@ -32,7 +32,7 @@
         ga(function(tracker) {
             ga.clientId = tracker.get('clientId');
             ga('set','userId',ga.clientId);
-            ga('send','event','Web Club 360 View Tickets', 'opened-web',ga.clientId,1)
+            ga('send','event','Web Club 360 View Report', 'rep-opened-web',ga.clientId,1)
         });
     </script>
   </head>
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="row">
-                    <a href="{{getFeedbackAppURL(brandName,locationUUID)}}">
+                    <a href="{{getFeedbackAppURL(brandName,locationUUID)}}" data-ng-click="gaReportCheckLatestReviews()">
                         <div class="card reportFeedbackAppBtn btn btn-danger col-lg-12 col-sm-12 col-md-12 col-xs-12 text-xs-center">Check Latest Reviews</div>
                     </a>
                 </div>
@@ -78,21 +78,21 @@
                     <h4 class="btn whiteText feedbackAppButton">Happy Members</h4>
                     <table class="reportTable table table-bordered table-condensed">
                         <tr class="card-header">
-                            <th>Name</th>
-                            <th>Trend</th>
-                            <th>Email</th>
-                            <th>Phone</th>
+                            <th class="col-lg-4 col-sm-4 col-md-4 col-xs-4">Name</th>
+                            <th class="col-lg-2 col-sm-2 col-md-2 col-xs-2">Trend</th>
+                            <th class="col-lg-3 col-sm-3 col-md-3 col-xs-3">Email</th>
+                            <th class="col-lg-3 col-sm-3 col-md-3 col-xs-3">Phone</th>
                         </tr>
                         <tbody data-ng-repeat="(indexa,trend) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['trends']" class="reportTableBody">
                             <tr data-ng-repeat="(indexb,user) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['happyCustomers'][trend]">
-                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_last_name']"></td>
-                                <td data-ng-bind="trend"></td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="email = getEmailText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'],'');npDisplay='npDisplay';reportEmailClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'])" data-ng-bind="emailText"></button>
+                                <td class="col-lg-4 col-sm-4 col-md-4 col-xs-4" data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_last_name']"></td>
+                                <td class="col-lg-2 col-sm-2 col-md-2 col-xs-2" data-ng-bind="trend"></td>
+                                <td class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
+                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="email = getEmailText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'],'');npDisplay='npDisplay';gaReportEmailClick(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['reviewDates'][rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['reviewDates'].length - 1],user);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'])" data-ng-bind="emailText"></button>
                                     <p class="clear" data-ng-bind="email"></p>
                                 </td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="call = getPhoneText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'],'');npDisplay='npDisplay';reportCallClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'])" data-ng-bind="callText"></button>
+                                <td class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
+                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="call = getPhoneText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'],'');npDisplay='npDisplay';gaReportCallClick(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['reviewDates'][rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['reviewDates'].length - 1],user);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'])" data-ng-bind="callText"></button>
                                     <p class="clear" data-ng-bind="call"></p>
                                 </td>
                             </tr>
@@ -104,21 +104,21 @@
                     <h4 class="btn whiteText feedbackAppButton">Unhappy Members</h4>
                     <table class="reportTable table table-bordered table-condensed">
                         <tr class="card-header">
-                            <th>Name</th>
-                            <th>Trend</th>
-                            <th>Email</th>
-                            <th>Phone</th>
+                            <th class="col-lg-4 col-sm-4 col-md-4 col-xs-4">Name</th>
+                            <th class="col-lg-2 col-sm-2 col-md-2 col-xs-2">Trend</th>
+                            <th class="col-lg-3 col-sm-3 col-md-3 col-xs-3">Email</th>
+                            <th class="col-lg-3 col-sm-3 col-md-3 col-xs-3">Phone</th>
                         </tr>
                         <tbody data-ng-repeat="(indexa,trend) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['trends']" class="reportTableBody">
                             <tr data-ng-repeat="(indexb,user) in rootNode[brandName][locationUUID]['detailedReports'][reportId]['unHappyCustomers'][trend]">
-                                <td data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_last_name']"></td>
-                                <td data-ng-bind="trend"></td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="email = getEmailText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'],'');npDisplay='npDisplay';reportEmailClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'])" data-ng-bind="emailText"></button>
+                                <td class="col-lg-4 col-sm-4 col-md-4 col-xs-4" data-ng-bind="rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_first_name'] + ' ' + rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_last_name']"></td>
+                                <td class="col-lg-2 col-sm-2 col-md-2 col-xs-2" data-ng-bind="trend"></td>
+                                <td class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
+                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="email = getEmailText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'],'');npDisplay='npDisplay';gaReportEmailClick(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['reviewDates'][rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['reviewDates'].length - 1],user);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_email'])" data-ng-bind="emailText"></button>
                                     <p class="clear" data-ng-bind="email"></p>
                                 </td>
-                                <td>
-                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="call = getPhoneText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'],'');npDisplay='npDisplay';reportCallClick(feedback.review_date_mil_time_in_pst,feedback.netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'])" data-ng-bind="callText"></button>
+                                <td class="col-lg-3 col-sm-3 col-md-3 col-xs-3">
+                                    <button type="button" class="btn btn-secondary text-muted clear" data-ng-click="call = getPhoneText(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'],'');npDisplay='npDisplay';gaReportCallClick(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['reviewDates'][rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['reviewDates'].length - 1],user);" data-ng-hide="!isPhoneEmailAvailable(rootNode[brandName][locationUUID]['detailedReports'][reportId]['uniqueUsers'][user]['user_phone'])" data-ng-bind="callText"></button>
                                     <p class="clear" data-ng-bind="call"></p>
                                 </td>
                             </tr>
@@ -151,9 +151,9 @@
                                     <p class="ticketDuration text-xs-center" data-ng-hide="true">Open for 5h</p>
                                     <hr class="divider" data-ng-hide="isThereNoComment(reportFeedbacks[comment['date']][comment['feedbackId']].comment.length)">
 
-                                    <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getPhoneText(reportFeedbacks[comment['date']][comment['feedbackId']].user_phone,'');npDisplay='npDisplay';reportCallClick(reportFeedbacks[comment['date']][comment['feedbackId']].review_date_mil_time_in_pst,reportFeedbacks[comment['date']][comment['feedbackId']].netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(reportFeedbacks[comment['date']][comment['feedbackId']].user_phone)" data-ng-bind="callText"></button>
+                                    <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getPhoneText(reportFeedbacks[comment['date']][comment['feedbackId']].user_phone,'');npDisplay='npDisplay';gaReportCallClick(reportFeedbacks[comment['date']][comment['feedbackId']].review_date_mil_time_in_pst,reportFeedbacks[comment['date']][comment['feedbackId']].netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(reportFeedbacks[comment['date']][comment['feedbackId']].user_phone)" data-ng-bind="callText"></button>
 
-                                    <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getEmailText(reportFeedbacks[comment['date']][comment['feedbackId']].user_email,'');npDisplay='npDisplay';reportEmailClick(reportFeedbacks[comment['date']][comment['feedbackId']].review_date_mil_time_in_pst,reportFeedbacks[comment['date']][comment['feedbackId']].netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(reportFeedbacks[comment['date']][comment['feedbackId']].user_email)" data-ng-bind="emailText"></button>
+                                    <button type="button" class="btn btn-secondary pullLeft text-muted" data-ng-click="phoneEmailText = getEmailText(reportFeedbacks[comment['date']][comment['feedbackId']].user_email,'');npDisplay='npDisplay';gaReportEmailClick(reportFeedbacks[comment['date']][comment['feedbackId']].review_date_mil_time_in_pst,reportFeedbacks[comment['date']][comment['feedbackId']].netpulse_exerciser_UUID);" data-ng-hide="!isPhoneEmailAvailable(reportFeedbacks[comment['date']][comment['feedbackId']].user_email)" data-ng-bind="emailText"></button>
 
                                     <p class="clearBoth {{npDisplay}}"><a class="text-muted" data-ng-bind="phoneEmailText"></a></p>
                                 </div>

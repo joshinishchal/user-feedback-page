@@ -68,7 +68,7 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ov
 	};
 }]);
 
-feedbackApp.service("reportHelper",["$filter", "FeedbackAppURL", function reportHelper($filter, FeedbackAppURL){
+feedbackApp.service("reportHelper",["$filter", "FeedbackAppURL", "gaDimensionSender", function reportHelper($filter, FeedbackAppURL, gaDimensionSender){
 	function daysinMonth(month){
 		var mdmapper = {
 			"01" : 31,
@@ -157,6 +157,14 @@ feedbackApp.service("reportHelper",["$filter", "FeedbackAppURL", function report
 		return feedbackAppURL;
 	}
 
+	this.gaReportCheckLatestReviews = function(){
+		ga('set','userId',ga.clientId);
+		gaDimensionSender.sendDimensions();
+		//Web Club 360 Report Response
+		//Web Club 360 View Report
+		ga('send','event','Web Club 360 Report Response', 'rep-viewed-latest-reviews-from-web',ga.clientId,1);
+	};
+
 }]);
 
 feedbackApp.service("initFbHelper", ["$scope", "fbhelper", function initFbHelper($scope,fbhelper){
@@ -221,6 +229,24 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 		gaDimensionSender.sendDimensions();
 		ga('set', 'dimension3', userUUID);
 		ga('send','event','Web Club 360 Response', 'emailed-customer-from-web',ga.clientId,getResponseTime(reviewTime));
+	};
+
+	this.gaReportCallClick = function(reviewTime, userUUID){
+		// console.log("reviewTime: " + reviewTime);
+		// console.log("userUUID: " + userUUID);
+		ga('set','userId',ga.clientId);
+		gaDimensionSender.sendDimensions();
+		ga('set', 'dimension3', userUUID);
+		ga('send','event','Web Club 360 Report Response', 'rep-called-customer-from-web',ga.clientId,getResponseTime(reviewTime));
+	};
+
+	this.gaReportEmailClick = function(reviewTime, userUUID){
+		// console.log("reviewTime: " + reviewTime);
+		// console.log("userUUID: " + userUUID);
+		ga('set','userId',ga.clientId);
+		gaDimensionSender.sendDimensions();
+		ga('set', 'dimension3', userUUID);
+		ga('send','event','Web Club 360 Report Response', 'rep-emailed-customer-from-web',ga.clientId,getResponseTime(reviewTime));
 	};
 
 	function getResponseTime(reviewTime){
@@ -523,6 +549,10 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 		$scope.reportCallClick = fbhelper.reportCallClick;
 		$scope.reportEmailClick = fbhelper.reportEmailClick;
 
+		//Google Analytics for Report
+		$scope.gaReportEmailClick = fbhelper.gaReportEmailClick;
+		$scope.gaReportCallClick = fbhelper.gaReportCallClick;
+
 		//All time score
 		$scope.getTotalAllTimeReview = fbhelper.getTotalAllTimeReview;
 		$scope.getAvgAllTimeScore = fbhelper.getAvgAllTimeScore;
@@ -537,6 +567,10 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 		$scope.getStarBGClass = fbhelper.getStarBGClass;
 
 	/*remove it*/
+
+	gaDimensionSender.sendDimensions();
+
+	$scope.gaReportCheckLatestReviews = reportHelper.gaReportCheckLatestReviews;
 
 	if(reportDates.startDate && reportDates.endDate){
 		getReportFeedbacks();
@@ -609,7 +643,9 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 			"user_phone:" : phone,
 			"user_gender" : gender,
 			"ratings" : [],
-			"feedbacks" : []
+			"feedbacks" : [],
+			"reviewDates" : [],
+			"visitDates" : []
 		};
 	};
 
@@ -690,6 +726,8 @@ feedbackApp.controller("reportController", ["$scope", "club", "fbhelper", "repor
 
 				uniqueUsers[exerciserUUID]["ratings"].push(value.rating);
 				uniqueUsers[exerciserUUID]["feedbacks"].push(getFeedbackObj(date,feedbackId));
+				uniqueUsers[exerciserUUID]["reviewDates"].push(value["review_date_mil_time_in_pst"]);
+				uniqueUsers[exerciserUUID]["visitDates"].push(value["visit_date_mil_time_in_pst"]);
 				if(value["comment"] != ""){
 					allFeedbacks.push(getFeedbackTemplate(date,feedbackId,value["comment"]));
 				}
