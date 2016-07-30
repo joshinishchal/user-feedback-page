@@ -98,12 +98,13 @@ feedbackApp.service("reportHelper",["$filter", "FeedbackAppURL", "gaDimensionSen
 		var _approvalRatingText = "";
 		var _totalReviewersText = "";
 
-		for(var i = startDay; i<=daysinMonth(startArray[1]); i++){
-			date = startArray[0] + "-" + startArray[1] + "-" + $filter("readableDay")(i);
-			arr.push(date);
-		}
+		if(parseInt(endArray[1], 10) - parseInt(startArray[1], 10) >= 1){
 
-		if(parseInt(endArray[1], 10) - parseInt(startArray[1], 10) > 1){
+			for(var i = startDay; i<=daysinMonth(startArray[1]); i++){
+				date = startArray[0] + "-" + startArray[1] + "-" + $filter("readableDay")(i);
+				arr.push(date);
+			}
+
 			var newStartMonth = parseInt(startArray[1], 10) + 1;
 			var newEndMonth = parseInt(endArray[1], 10) - 1;
 			for(var a=newStartMonth; a <= newEndMonth; a++){
@@ -115,13 +116,17 @@ feedbackApp.service("reportHelper",["$filter", "FeedbackAppURL", "gaDimensionSen
 				}
 			}
 
-		}
+			for(var j=1; j<=endDay; j++){
+				date = endArray[0] + "-" + endArray[1] + "-" + $filter("readableDay")(j);
+				arr.push(date);
+			}
 
-		for(var j=1; j<=endDay; j++){
-			date = endArray[0] + "-" + endArray[1] + "-" + $filter("readableDay")(j);
-			arr.push(date);
+		}else if((parseInt(endArray[1], 10) - parseInt(startArray[1], 10) == 0)){
+			for(var i = startDay; i<=endDay; i++){
+				date = startArray[0] + "-" + startArray[1] + "-" + $filter("readableDay")(i);
+				arr.push(date);
+			}
 		}
-		nj = arr;
 
 		return arr;
 	};
