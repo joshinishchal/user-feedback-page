@@ -334,8 +334,14 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 		return thisWeekReportURL;
 	}
 
-	this.getThisWeekReportURL = function(){//$$$
-		console.log("baseReportURL: " + getBaseReportURL());
+	this.getThisWeekReportURL = function(){
+		//console.log("baseReportURL: " + getBaseReportURL() + _thisWeekReportStartDate + "/" + _thisWeekReportEndDate + "/");
+		return getBaseReportURL() + _thisWeekReportStartDate + "/" + _thisWeekReportEndDate + "/";
+	}
+
+	this.getLastWeekReportURL = function(){
+		//console.log("baseReportURL: " + getBaseReportURL() + _lastWeekReportStartDate + "/" + _lastWeekReportEndDate + "/");
+		return getBaseReportURL() + _lastWeekReportStartDate + "/" + _lastWeekReportEndDate + "/";
 	}
 
 	var _thisWeekReportStartDate,
@@ -378,20 +384,11 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 		return {"startDate" : reportStartDate, "endDate" : reportEndDate};
 	}
 
-	function findLastWeekDate(){
-		//move code here..
-	}
-
-	this.generateThisWeekDates = function(){
-		var reportDates = getReportDates(new Date());
-		_thisWeekReportStartDate = reportDates.startDate;
-		_thisWeekReportEndDate = reportDates.endDate;
-		console.log("ThisWeekStartDate: " + _thisWeekReportStartDate);
-		console.log("ThisWeekEndDate: " + _thisWeekReportEndDate);
+	function findLastWeekDate(thisWeekStartDate){
 		//"08/17/2016"
 		var lastWeekEndDate = null;
-		var tmpDate = parseInt(reportDates.startDate.split("-")[2],10);
-		var tmpMonth = parseInt(reportDates.startDate.split("-")[1],10);
+		var tmpDate = parseInt(thisWeekStartDate.split("-")[2],10);
+		var tmpMonth = parseInt(thisWeekStartDate.split("-")[1],10);
 		tmpDate  = tmpDate - 1;
 		if(tmpDate >= 1){
 			lastWeekEndDate = tmpDate;
@@ -399,14 +396,27 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 			tmpMonth = tmpMonth - 1;
 			tmpDate = daysinMonth.getDays($filter("readableDay")(tmpMonth));
 		}
-		lastWeekEndDate = tmpMonth + "/" + tmpDate + "/" + reportDates.startDate.split("-")[0];
+		lastWeekEndDate = tmpMonth + "/" + tmpDate + "/" + thisWeekStartDate.split("-")[0];
+		return lastWeekEndDate;
+	}
+	//generateThisWeekDates
+
+	this.generateReportDates = function(){
+		var reportDates = getReportDates(new Date());
+		var lastWeekEndDate = null;
+		_thisWeekReportStartDate = reportDates.startDate;
+		_thisWeekReportEndDate = reportDates.endDate;
+		//console.log("ThisWeekStartDate: " + _thisWeekReportStartDate);
+		//console.log("ThisWeekEndDate: " + _thisWeekReportEndDate);
+
+		lastWeekEndDate = findLastWeekDate(_thisWeekReportStartDate);
 		reportDates = getReportDates(new Date(lastWeekEndDate));
 
 
 		_lastWeekReportStartDate = reportDates.startDate;
 		_lastWeekReportEndDate = reportDates.endDate;
-		console.log("LastWeekStartDate: " + _lastWeekReportStartDate);
-		console.log("LastWeekEndDate: " + _lastWeekReportEndDate);
+		//console.log("LastWeekStartDate: " + _lastWeekReportStartDate);
+		//console.log("LastWeekEndDate: " + _lastWeekReportEndDate);
 	};
 
 }]);
@@ -476,6 +486,8 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 		return $scope.npFeedbacks[date];
 	};
 
+	fbhelper.generateReportDates();
+
 	$scope.getTodaysScore = fbhelper.getTodaysScore;
 	$scope.getTotalTodaysReviewsText = fbhelper.getTotalTodaysReviewsText;
 	$scope.getTotalTodaysReviews = fbhelper.getTotalTodaysReviews;
@@ -510,7 +522,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.getDateObject = fbhelper.getDateObject;
 	$scope.getStarBGClass = fbhelper.getStarBGClass;
 	$scope.getThisWeekReportURL = fbhelper.getThisWeekReportURL;
-	$scope.generateThisWeekDates = fbhelper.generateThisWeekDates;
+	$scope.getLastWeekReportURL = fbhelper.getLastWeekReportURL;
 
 	$scope.allData.$loaded().then(function(){
 		$scope.getTotalPrevScore($scope.overView,$scope.allData);
