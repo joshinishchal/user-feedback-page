@@ -74,7 +74,7 @@
                     </a>
                 </div>
 
-                <div class="row">
+                <div class="row" data-ng-hide="getTotalCustomers(rootNode[brandName][locationUUID]['detailedReports'][reportId]['happyCustomers'])==0">
                     <h4 class="btn whiteText feedbackAppButton">Happy Members</h4>
                     <table class="reportTable table">
                         <tr class="card-header">
@@ -100,7 +100,7 @@
                     </table>
                 </div>
 
-                <div class="row">
+                <div class="row" data-ng-hide="getTotalCustomers(rootNode[brandName][locationUUID]['detailedReports'][reportId]['unHappyCustomers'])==0">
                     <h4 class="btn whiteText feedbackAppButton">Unhappy Members</h4>
                     <table class="reportTable table">
                         <tr class="card-header">
