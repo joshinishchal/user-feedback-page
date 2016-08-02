@@ -73,12 +73,12 @@
 
             <div class="row dateButtons">
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 noLeftMarginCol">
-                    <a href="{{getThisWeekReportURL()}}" target="_blank">
+                    <a href="{{getThisWeekReportURL()}}" target="_blank" data-ng-click = "thisWeekReportClick()">
                         <button class="btn pullLeft whiteText feedbackAppButton goToReportButton">This week</button>
                     </a>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 noRightMarginCol">
-                    <a href="{{getLastWeekReportURL()}}" target="_blank">
+                    <a href="{{getLastWeekReportURL()}}" target="_blank" data-ng-click = "lastWeekReportClick()">
                         <button class="btn pullRight whiteText feedbackAppButton goToReportButton">Last week</button>
                     </a>
                 </div>

@@ -124,6 +124,18 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 		ga('send','event','Web Club 360 Response', 'emailed-customer-from-web',ga.clientId,getResponseTime(reviewTime));
 	};
 
+	this.thisWeekReportClick = function(){
+		ga('set','userId',ga.clientId);
+		gaDimensionSender.sendDimensions();
+		ga('send','event','Web Club 360 View Tickets', 'opened-web-this-week-report',ga.clientId,1);
+	}
+
+	this.lastWeekReportClick = function(){
+		ga('set','userId',ga.clientId);
+		gaDimensionSender.sendDimensions();
+		ga('send','event','Web Club 360 View Tickets', 'opened-web-this-week-report',ga.clientId,1);
+	}
+
 	function getResponseTime(reviewTime){
 		//Returns time in minutes.
 		var reviewDate = getDateObjectFromMT(reviewTime);
@@ -523,6 +535,8 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.getStarBGClass = fbhelper.getStarBGClass;
 	$scope.getThisWeekReportURL = fbhelper.getThisWeekReportURL;
 	$scope.getLastWeekReportURL = fbhelper.getLastWeekReportURL;
+	$scope.thisWeekReportClick = fbhelper.thisWeekReportClick;
+	$scope.lastWeekReportClick = fbhelper.lastWeekReportClick;
 
 	$scope.allData.$loaded().then(function(){
 		$scope.getTotalPrevScore($scope.overView,$scope.allData);
