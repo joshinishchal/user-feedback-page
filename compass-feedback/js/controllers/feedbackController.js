@@ -27,6 +27,28 @@ feedbackApp.factory("feedbackLocation", ["$route", "$routeParams", "$location", 
 
 }]);
 
+feedbackApp.factory("daysinMonth", [function daysinMonth(){
+	var mdmapper = {
+			"01" : 31,
+			"02" : 29,
+			"03" : 31,
+			"04" : 30,
+			"05" : 31,
+			"06" : 30,
+			"07" : 31,
+			"08" : 31,
+			"09" : 30,
+			"10" : 31,
+			"11" : 30,
+			"12" : 31
+	};
+
+	return {"getDays" : function(month){
+				return mdmapper[month];
+			}
+	}
+}]);
+
 feedbackApp.service("gaDimensionSender",["feedbackLocation", function gaDimensionSender(feedbackLocation){
 	this.sendDimensions = function(){
 		if(ga){
@@ -55,7 +77,17 @@ feedbackApp.service("club", ["rootRef", "$firebaseArray", "$firebaseObject", "Ov
 	};
 }]);
 
-feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", "ReportURL", "feedbackLocation", function fbhelper($filter, OverViewKey, gaDimensionSender, ReportURL, feedbackLocation){
+feedbackApp.filter("readableDay", function(){
+	return function(day){
+		if(day <= 9){
+			return "0" + day;
+		}else{
+			return day;
+		}
+	};
+});
+
+feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", "ReportURL", "feedbackLocation", "daysinMonth", function fbhelper($filter, OverViewKey, gaDimensionSender, ReportURL, feedbackLocation, daysinMonth){
 
 	var _totalTodaysScore = 0;
 	var _totalTodaysReviews = 0;
@@ -306,6 +338,77 @@ feedbackApp.service("fbhelper", ["$filter", "OverViewKey", "gaDimensionSender", 
 		console.log("baseReportURL: " + getBaseReportURL());
 	}
 
+	var _thisWeekReportStartDate,
+	_thisWeekReportEndDate,
+	_lastWeekReportStartDate,
+	_lastWeekReportEndDate;
+
+	function getReportDates(day){
+		//console.log("days: " + daysinMonth.getDays("07"));
+		var todayDay = day.getDay();
+		var endDate = null;
+		var totalDays = null;
+		var reportStartDate = null;
+		var reportEndDate = null;
+		reportEndDate = day.getFullYear() + "-" + $filter("readableDay")(day.getMonth() + 1) + "-" + $filter("readableDay")(day.getDate());
+		if(todayDay == 1){
+			reportStartDate = reportEndDate;
+			//start and end day is the same
+		}else{
+			if(todayDay == 0){
+				//day = 7
+				todayDay = 7;
+			}
+
+			if((day.getDate() - (todayDay - 1)) >= 1){
+				reportStartDate = day.getFullYear() + "-" + $filter("readableDay")(day.getMonth() + 1) + "-" + $filter("readableDay")(day.getDate() - (todayDay - 1));
+			}else{
+				//write a for loop here..
+				todayDay = todayDay - 1 - day.getDate();
+				totalDays = daysinMonth.getDays($filter("readableDay")(day.getMonth() + 1 - 1));// +1 is to convert it to right month, and -1 is to decrease it by a month
+				console.log("totalDays: " + totalDays);
+				endDate = totalDays - todayDay;
+				console.log("endDate: " + endDate);
+
+				reportStartDate = day.getFullYear() + "-" + $filter("readableDay")(day.getMonth() + 1 - 1) + "-" + $filter("readableDay")(endDate);
+			}
+
+		}
+
+		return {"startDate" : reportStartDate, "endDate" : reportEndDate};
+	}
+
+	function findLastWeekDate(){
+		//move code here..
+	}
+
+	this.generateThisWeekDates = function(){
+		var reportDates = getReportDates(new Date());
+		_thisWeekReportStartDate = reportDates.startDate;
+		_thisWeekReportEndDate = reportDates.endDate;
+		console.log("ThisWeekStartDate: " + _thisWeekReportStartDate);
+		console.log("ThisWeekEndDate: " + _thisWeekReportEndDate);
+		//"08/17/2016"
+		var lastWeekEndDate = null;
+		var tmpDate = parseInt(reportDates.startDate.split("-")[2],10);
+		var tmpMonth = parseInt(reportDates.startDate.split("-")[1],10);
+		tmpDate  = tmpDate - 1;
+		if(tmpDate >= 1){
+			lastWeekEndDate = tmpDate;
+		}else{
+			tmpMonth = tmpMonth - 1;
+			tmpDate = daysinMonth.getDays($filter("readableDay")(tmpMonth));
+		}
+		lastWeekEndDate = tmpMonth + "/" + tmpDate + "/" + reportDates.startDate.split("-")[0];
+		reportDates = getReportDates(new Date(lastWeekEndDate));
+
+
+		_lastWeekReportStartDate = reportDates.startDate;
+		_lastWeekReportEndDate = reportDates.endDate;
+		console.log("LastWeekStartDate: " + _lastWeekReportStartDate);
+		console.log("LastWeekEndDate: " + _lastWeekReportEndDate);
+	};
+
 }]);
 
 feedbackApp.filter('tel', function(){
@@ -407,6 +510,7 @@ feedbackApp.controller("feedbackController", ["$scope", "club", "fbhelper", "Ove
 	$scope.getDateObject = fbhelper.getDateObject;
 	$scope.getStarBGClass = fbhelper.getStarBGClass;
 	$scope.getThisWeekReportURL = fbhelper.getThisWeekReportURL;
+	$scope.generateThisWeekDates = fbhelper.generateThisWeekDates;
 
 	$scope.allData.$loaded().then(function(){
 		$scope.getTotalPrevScore($scope.overView,$scope.allData);
